@@ -146,7 +146,7 @@ function Home() {
         transition={{ duration: 0.5 }}
         viewport={{ once: true }}
       >
-        <div className="text-center px-4">
+        <div className="text-center mt-20 px-4">
           <h2 className="text-4xl md:text-5xl font-bold mb-16 bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent">
             PROJECTS 💻
           </h2>
