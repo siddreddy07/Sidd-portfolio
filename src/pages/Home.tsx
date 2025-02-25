@@ -131,8 +131,8 @@ function Home() {
           <h2 className="static-text">DEVELOPER</h2>
           <p className="mt-8 text-base md:text-lg intro-text mx-auto">
           <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent">N SIDDHARTH REDDY,</p>
-          <p className='md:block hidden'>I'm a developer with internship experience in MERN stack web development, where I contributed to creating scalable and user-friendly applications. I'm focused on applying my skills and contributing to dynamic teams.</p>
-          <p className='md:hidden block'>Developer with MERN stack internship experience, contributing to scalable web development. Seeking opportunities to grow and contribute</p>
+          <p className='md:block hidden'>MERN Stack Developer skilled in React.js, Node.js, Express.js, and MongoDB. Passionate about creating user-friendly web applications, solving problems, and learning new technologies. Looking for opportunities to grow and contribute in a dynamic team.</p>
+          <p className='md:hidden block'>MERN Stack Developer passionate about building user-friendly web applications, problem-solving, and learning new technologies.</p>
           </p>
         </div>
       </motion.section>

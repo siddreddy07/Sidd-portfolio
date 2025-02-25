@@ -16,7 +16,7 @@ const projects = [
       {
         title: 'Future Scope',
         content: 'Future enhancements include real-time code collaboration, allowing developers to work together seamlessly within the chat platform. A group chat feature will be introduced, incorporating AI-powered assistance for better communication. Additionally, advanced AI capabilities such as voice interactions and smart replies will be integrated to enhance user engagement and productivity.',
-        image: 'https://images.pexels.com/photos/6664884/pexels-photo-6664884.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+        image: 'https://images.unsplash.com/photo-1650735310415-392ab5378954?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
       }
     ]
   },
