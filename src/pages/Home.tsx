@@ -69,7 +69,7 @@ function Home() {
     const autoSlideInterval = setInterval(() => {
       nextProject();
     }, 5000);
-
+    setinfo(Works[0])
     return () => clearInterval(autoSlideInterval);
   }, [currentProject]);
 
