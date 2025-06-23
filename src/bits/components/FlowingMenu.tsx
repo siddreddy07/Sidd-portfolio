@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 function FlowingMenu({ items = [] }) {
   return (
-    <div className="w-[900px] h-full overflow-hidden">
+  <div className={`w-[900px] ${items.length>3 ? 'h-[600px]' : 'h-[600px]'} overflow-hidden`}>
+
       
       <nav className="flex flex-col h-full m-0 p-0">
         {items.map((item, idx) => (

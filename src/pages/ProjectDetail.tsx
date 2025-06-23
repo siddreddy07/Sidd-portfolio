@@ -182,6 +182,34 @@ console.log(projectContent[0]?.video)
                       
                     </div>
                     }
+                    {
+                      name == 'email-buddy' &&  section.title == 'Tech Stack (MERN)' &&
+                    <div className='flex mt-2 w-full items-center gap-4'>
+                      <span className='flex flex-col items-center'>
+                      <img className='w-10 h-10 bg-white p-0 rounded-full' src="https://www-assets.kolide.com/assets/inventory/device_properties/icons/chrome-extensions-4312d461.png" alt="" />
+                      <p className='text-sm'>Chrome Extension</p>
+                      </span>
+                      <span className='flex flex-col items-center'>
+                      <img className='w-10 h-10' src="https://pbs.twimg.com/profile_images/1682268668321726464/NEb6_n7n_400x400.jpg" alt="" />
+                      <p className='text-sm'>OpenRouter Api</p>
+                      </span>
+                      
+                    </div>
+                    }
+                    {
+                      name == 'AutoTwitterPost' &&  section.title == 'Tech Stack (MERN)' &&
+                    <div className='flex mt-2 w-full items-center gap-4'>
+                      <span className='flex flex-col items-center'>
+                      <img className='w-10 h-10 bg-white p-0 rounded-full' src="https://avatars.githubusercontent.com/u/182288589?s=200&v=4" alt="" />
+                      <p className='text-sm'>MCP Server</p>
+                      </span>
+                      <span className='flex flex-col items-center'>
+                      <img className='w-10 h-10 rounded-full' src="https://imgs.search.brave.com/nKd3NFbMdj8R87z1rQjwbeGkkfHxaNJhSGoBC4IWSso/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9wZW5q/aS5jby93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMy8wNy9YLWxv/Z28tdHdpdHRlci0x/MDI0eDU3NC5qcGc" alt="" />
+                      <p className='text-sm'>Twitter Api SDK</p>
+                      </span>
+                      
+                    </div>
+                    }
 
                     
                   </motion.p>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Github, Linkedin, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Github, Linkedin, ChevronLeft, ChevronRight, ChevronsRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
@@ -33,6 +33,20 @@ const projects = [
     text: 'Travelmate - Airbnb Clone',
     image: 'https://res.cloudinary.com/deiiozl5e/image/upload/v1740495640/Screenshot_2025-02-25_203003_qfjmgl.png',
     description: 'Travelmate : manage, book, pay securely.'
+  },
+  {
+    id: 'email-buddy',
+    link:'/project/email-buddy',
+    text: 'EmailBuddy',
+    image: 'https://res.cloudinary.com/deiiozl5e/image/upload/v1750671590/email_buddy_qxw6ag.jpg',
+    description: 'EmailBuddt : AI Email Summarization extension.'
+  },
+  {
+    id: 'AutoTwitterPost',
+    link:'/project/AutoTwitterPost',
+    text: 'AI Twitter Post - Post with AI',
+    image: 'https://res.cloudinary.com/deiiozl5e/image/upload/v1750671601/Screenshot_2025-06-23_150834_mcnaer.png',
+    description: 'AI Twitter Post : content, ok , AI Post.'
   }
 ];
 
@@ -46,6 +60,9 @@ function Home() {
   const [open, setOpen] = useState(true);
   const [direction, setDirection] = useState(0);
   const navigate = useNavigate();
+
+  const [isExpanded, setIsExpanded] = useState(false);
+
 
   const demoItems = [
     {text: 'DEVHUB', image: 'https://picsum.photos/600/400?random=3'},
@@ -137,89 +154,96 @@ function Home() {
         </div>
       </motion.section>
 
-      
       <motion.section 
-        id="projects" 
-        className="section projects"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        viewport={{ once: true }}
-      >
-        <div className="text-center mt-20 px-4">
-          <h2 className="text-4xl md:text-5xl font-bold mb-16 bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent">
-            PROJECTS 💻
-          </h2>
-          
-          <div className="relative md:hidden max-w-4xl mx-auto">
-            <div className="carousel-container overflow-hidden relative">
-              <AnimatePresence initial={false} custom={direction}>
-                <motion.div
-                  key={currentProject}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.2 }
-                  }}
-                  className="project-card w-full"
-                  onClick={() => handleProjectClick(projects[currentProject].id)}
-                >
-                  <div className="aspect-video relative overflow-hidden rounded-lg mb-6">
-                    <img 
-                      src={projects[currentProject]?.image}
-                      alt={projects[currentProject]?.title}
-                      className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
-                    />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4">{projects[currentProject].title}</h3>
-                  <p className="text-gray-300">{projects[currentProject].description}</p>
-                </motion.div>
-              </AnimatePresence>
+  id="projects" 
+  className="section projects"
+  initial={{ opacity: 0 }}
+  whileInView={{ opacity: 1 }}
+  transition={{ duration: 0.5 }}
+  viewport={{ once: true }}
+>
+  <div className="text-center max-h-screen mt-20 px-4">
+    <h2 className="text-4xl md:text-5xl font-bold mb-16 bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent">
+      PROJECTS 💻
+    </h2>
 
-              <div className="carousel-controls absolute top-1/3 left-0 right-0 -translate-y-1/2 flex justify-between gap-8 items-center pointer-events-none px-4">
-                <button
-                  className="pointer-events-auto p-2 bg-[#64ffda] rounded-full text-black hover:scale-110 transition-transform"
-                  onClick={previousProject}
-                >
-                  <ChevronLeft size={24} />
-                </button>
-                <button
-                  className="pointer-events-auto p-2 bg-[#64ffda] rounded-full text-black hover:scale-110 transition-transform"
-                  onClick={nextProject}
-                >
-                  <ChevronRight size={24} />
-                </button>
-              </div>
-            </div>
-
-            <div className="flex justify-center gap-2 -mt-16 md:-mt-12">
-              {projects.map((_, index) => (
-                <button
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-colors ${
-                    index === currentProject ? 'bg-[#64ffda]' : 'bg-gray-600'
-                  }`}
-                  onClick={() => {
-                    setDirection(index > currentProject ? 1 : -1);
-                    setCurrentProject(index);
-                  }}
-                />
-              ))}
-            </div>
-          </div>
-            
-
-
-          <div className='hidden md:block' style={{ height: '600px', position: 'relative' }}>
-  <FlowingMenu items={projects} />
+    <div className='flex items-center justify-center mt-[-48px] mb-12'>
+  <button
+    className='text-[24px] bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent font-semibold'
+    onClick={() => setIsExpanded(!isExpanded)}
+  >
+    {isExpanded ? 'Collapse' : 'Expand'}
+  </button>
 </div>
-          
-          </div>
-      </motion.section>
+
+
+    <div className="relative md:hidden mb-4 max-w-4xl mx-auto">
+      <div className="carousel-container overflow-hidden relative">
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.div
+            key={currentProject}
+            custom={direction}
+            variants={slideVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{
+              x: { type: "spring", stiffness: 300, damping: 30 },
+              opacity: { duration: 0.2 }
+            }}
+            className="project-card w-full"
+            onClick={() => handleProjectClick(projects[currentProject].id)}
+          >
+            <div className="aspect-video relative overflow-hidden rounded-lg mb-6">
+              <img 
+                src={projects[currentProject]?.image}
+                alt={projects[currentProject]?.title}
+                className="w-full h-full object-cover transform hover:scale-110 transition-transform duration-500"
+              />
+            </div>
+            <h3 className="text-2xl font-bold mb-4">{projects[currentProject].title}</h3>
+            <p className="text-gray-300">{projects[currentProject].description}</p>
+          </motion.div>
+        </AnimatePresence>
+
+        <div className="carousel-controls absolute top-1/3 left-0 right-0 -translate-y-1/2 flex justify-between gap-8 items-center pointer-events-none px-4">
+          <button
+            className="pointer-events-auto p-2 bg-[#64ffda] rounded-full text-black hover:scale-110 transition-transform"
+            onClick={previousProject}
+          >
+            <ChevronLeft size={24} />
+          </button>
+          <button
+            className="pointer-events-auto p-2 bg-[#64ffda] rounded-full text-black hover:scale-110 transition-transform"
+            onClick={nextProject}
+          >
+            <ChevronRight size={24} />
+          </button>
+        </div>
+      </div>
+
+      <div className="flex justify-center gap-2 -mt-16 md:-mt-12">
+        {projects.map((_, index) => (
+          <button
+            key={index}
+            className={`w-3 h-3 rounded-full transition-colors ${
+              index === currentProject ? 'bg-[#64ffda]' : 'bg-gray-600'
+            }`}
+            onClick={() => {
+              setDirection(index > currentProject ? 1 : -1);
+              setCurrentProject(index);
+            }}
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className='hidden md:block' style={{ height: isExpanded ? 'auto' : '600px', position: 'relative', overflow: isExpanded ? 'visible' : 'hidden' }}>
+      <FlowingMenu items={isExpanded ? projects : projects.slice(0, 3)} />
+    </div>
+  </div>
+</motion.section>
+
 
       <motion.section 
         id="work" 
@@ -240,7 +264,7 @@ function Home() {
             {
               Works.map((work,index)=>(
                 <div className={`w-24 h-24 rounded-full border-2 border-transparent hover:border-transparent ${work?.company == info?.company ? 'scale-125 z-50 hover:scale-125 bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-padding' : 'hover:z-0 border-zinc-200'} cursor-pointer hover:scale-125 hover:bg-gradient-to-r hover:from-[#64ffda] hover:to-[#00bcd4] hover:bg-clip-padding hover:z-50 duration-300 transition-all ease-in-out p-[2px]`} onClick={()=>{handleWorkClick(work)}}>
-                <div className="w-full h-full rounded-full overflow-hidden"><img src={work.profile} alt="" /></div>
+                <div className="w-full h-full rounded-full flex items-center overflow-hidden"><img className='' src={work.profile} alt="" /></div>
 </div>
               ))
             }

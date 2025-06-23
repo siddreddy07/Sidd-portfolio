@@ -5,7 +5,7 @@ export const Works = [
         jobtitle:'Nodejs Developer Intern',
         role:'Intern',
         company:'reaidy.io',
-        profile:'https://media.licdn.com/dms/image/v2/D560BAQE6319ym7r-VQ/company-logo_100_100/company-logo_100_100/0/1709364411648?e=1747872000&v=beta&t=CXvDoa6K8_pA66xUHyYqzOozZQnbNNVcw7BOLDmLdYU',
+        profile:'https://res.cloudinary.com/deiiozl5e/image/upload/v1750670872/logo_white-1i45AT8j_wwmgh2.png',
         url:'https://www.linkedin.com/company/reaidy/',
         duration:'AUG-2024 - OCT-2024'
     },
@@ -15,7 +15,7 @@ export const Works = [
         jobtitle:'Mern Stack Developer Intern',
         role:'Intern',
         company:'TEN - The Enterpenuireship Network',
-        profile:'https://media.licdn.com/dms/image/v2/C4D0BAQHlLmFmZOvi6A/company-logo_200_200/company-logo_200_200/0/1630577605411?e=1747872000&v=beta&t=MahcUm5SkcLesmTzgut7Kv97movOB0vQIQLA2BXNTn8',
+        profile:'https://res.cloudinary.com/deiiozl5e/image/upload/e_background_removal/f_png/v1750670872/the-entrepreneurship-network-cover_q2op54.jpg',
         url:'https://www.linkedin.com/company/the-entrepreneurship-network/',
         duration:'JAN-2025 - Present'
     }

@@ -61,6 +61,48 @@ const projects = [
         image: 'https://images.pexels.com/photos/3299/postit-scrabble-to-do.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
       }
     ]
+  },
+  {
+    id: 4,
+    name: 'email-buddy',
+    info: [
+      {
+        title: 'Project Overview',
+        content: 'The AI Email Buddy is a Chrome extension built to enhance the Gmail experience by summarizing email content using the OpenRouter API. It highlights 3–4 key points, turns plain URLs into clickable links, includes image URLs in the summary, and shows status using colored badges. Designed for efficiency, it auto-refreshes to summarize new emails and stores API keys securely within the extension.',
+        video: 'https://res.cloudinary.com/deiiozl5e/video/upload/v1746065900/gpcizflif4ekb3j4tkgu.mp4'
+      },
+      {
+        title: 'Tech Stack (MERN)',
+        content: 'The project is built using vanilla JavaScript for content scripts, React for the popup interface, and Tailwind CSS for styling. React Icons are used for visual elements in the UI, while the OpenRouter API handles email summarization. The extension uses Chrome Extension APIs for Gmail integration and is bundled using a modern build setup like Webpack or similar tooling.',
+        image: 'https://res.cloudinary.com/deiiozl5e/image/upload/v1750671590/email_buddy_qxw6ag.jpg'
+      },
+      {
+        title: 'Future Scope',
+        content: 'In the future, the extension could support attachment summarization (e.g., PDFs), work across other email providers like Outlook, and offer customizable summary lengths. Adding OAuth login to replace the manual API key step, providing a lightweight analytics dashboard for summaries, and eventually publishing it on the Chrome Web Store are also planned improvements.',
+        image: 'https://images.pexels.com/photos/3299/postit-scrabble-to-do.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+      }
+    ]
+  },
+  {
+    id: 5,
+    name: 'AutoTwitterPost',
+    info: [
+      {
+        title: 'Project Overview',
+        content: 'The MCP Twitter Post System is a real-time tweet-launching platform designed with a clean client-server architecture. The heart of the system is the MCP Server, a Node.js-powered backend that listens for tweet commands from the client, processes them using the Twitter API, and ensures seamless communication via Server-Sent Events (SSE). Users can send tweets directly from the command line, with instant feedback and secure handling of API credentials.',
+        video: 'https://player.cloudinary.com/embed/?cloud_name=deiiozl5e&public_id=cirbctw1ohdmoxk2ezbz&profile=cld-adaptive-stream'
+      },
+      {
+        title: 'Tech Stack (MERN)',
+        content: 'The system is built using Node.js, with the backend logic handled by the MCP Server using either native HTTP or Express. It utilizes Server-Sent Events (SSE) to enable real-time, one-way communication from server to client. The Twitter API, accessed via the twitter-api-v2 library, is used to post tweets programmatically. Secrets such as API keys are managed securely using Dotenv, and the project is cleanly organized into client/ and server/ directories for maintainability.',
+        image: 'https://res.cloudinary.com/deiiozl5e/image/upload/v1750671601/Screenshot_2025-06-23_150834_mcnaer.png'
+      },
+      {
+        title: 'Future Scope',
+        content: 'Planned enhancements include adding a web-based interface for composing and managing tweets, support for scheduling tweets, and managing multiple Twitter accounts. The MCP Server can be extended to include logging, rate-limit handling, and integration with other platforms such as Slack or Discord. Additionally, real-time tweet history, error feedback, and OAuth-based login are in the pipeline to improve usability and security.',
+        image: 'https://images.pexels.com/photos/3299/postit-scrabble-to-do.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+      }
+    ]
   }
 ];
 
