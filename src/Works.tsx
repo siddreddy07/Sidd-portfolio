@@ -17,7 +17,7 @@ export const Works = [
         company:'TEN - The Enterpenuireship Network',
         profile:'https://res.cloudinary.com/deiiozl5e/image/upload/e_background_removal/f_png/v1750670872/the-entrepreneurship-network-cover_q2op54.jpg',
         url:'https://www.linkedin.com/company/the-entrepreneurship-network/',
-        duration:'JAN-2025 - Present'
+        duration:'JAN-2025 - MAY-2025'
     }
     
 
