@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Github, Linkedin, ChevronLeft, ChevronRight, ChevronsRight } from 'lucide-react';
+import { Github, Linkedin, ChevronLeft, ChevronRight, ChevronsRight, ChevronDown, ChevronUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from '../components/Navbar';
@@ -19,6 +19,13 @@ const projects = [
     text: 'AI-Powered Chat WebApp',
     image: 'https://res.cloudinary.com/deiiozl5e/image/upload/v1740494078/Screenshot_2025-02-25_200414_c0hfen.png',
     description: 'AI Integrated Real-time chat application'
+  },
+  {
+    id: 'dbsmash',
+    link:'/project/dbsmash',
+    text: 'dbsmash - Schema gen & init via smart CLI',
+    image: 'https://dqy38fnwh4fqs.cloudfront.net/UHOK7B67QNDNR8D389NN7E88KDLM/projects/dbsmash8f1876e9-e387-4622-a18c-ef3e315b2a04',
+    description: 'dbsmash : Schema gen & init via smart CLI'
   },
   {
     id: 'devhub',
@@ -136,22 +143,33 @@ function Home() {
 
       <motion.section 
         id="home" 
-        className="section"
+        className="section flex flex-col items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="text-center px-4">
+        <div className="text-center md:mt-16 px-4">
           <h1 className={`scroll-text ${isVisible ? 'visible' : ''}`}>
             {words[currentWord]}
           </h1>
           <h2 className="static-text">DEVELOPER</h2>
           <p className="mt-8 text-base md:text-lg intro-text mx-auto">
           <p className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent">N SIDDHARTH REDDY,</p>
-          <p className='md:block hidden'>MERN Stack Developer skilled in React.js, Node.js, Express.js, and MongoDB. Passionate about creating user-friendly web applications, solving problems, and learning new technologies. Looking for opportunities to grow and contribute in a dynamic team.</p>
-          <p className='md:hidden block'>MERN Stack Developer passionate about building user-friendly web applications, problem-solving, and learning new technologies.</p>
+          <p className='md:block text-balance hidden'>Full Stack Developer who enjoys building simple, useful web apps with JavaScript, Node.js, React, MongoDB and MySQL. Comfortable working with Tailwind CSS, Shadcn UI, and creating APIs, CLI tools, and even custom AI agents — always focused on learning, improving, and building things that actually work.</p>
+          <p className='md:hidden block'>Full Stack Developer working with JavaScript, React, Node.js, and databases like MongoDB and MySQL. Builds UIs, APIs, CLI tools, and custom AI agents that just work.</p>
           </p>
         </div>
+        
+        
+          <motion.button 
+            className="mt-4 px-4 md:px-6 py-3 md:py-2 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => window.open("https://drive.google.com/file/d/1-SYX_i3xJ2H57uK770xR0nrXtNelvjVH/view?usp=drivesdk", "_blank")}
+          >
+            View Resume ↗
+          </motion.button>
+            
       </motion.section>
 
       <motion.section 
@@ -169,11 +187,13 @@ function Home() {
 
     <div className='flex items-center justify-center mt-[-48px] mb-12'>
   <button
-    className='text-[24px] bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent font-semibold'
-    onClick={() => setIsExpanded(!isExpanded)}
-  >
-    {isExpanded ? 'Collapse' : 'Expand'}
-  </button>
+  className='text-[24px] flex items-center gap-2 bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent font-semibold'
+  onClick={() => setIsExpanded(!isExpanded)}
+>
+  {isExpanded ? 'Collapse' : 'Expand'}
+  {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
+</button>
+
 </div>
 
 

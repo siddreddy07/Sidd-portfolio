@@ -115,7 +115,7 @@ console.log(projectContent[0]?.video)
                   margin: "-100px"
                 }}
               >
-                <div className="relative top-1 z-10">
+                <div className="relative -mt-12 sm:mt-0 top-1 z-10">
                   <motion.h2 
                     className="md:text-4xl text-2xl font-bold mb-8 bg-gradient-to-r from-[#64ffda] to-[#00bcd4] bg-clip-text text-transparent"
                     initial={{ opacity: 0, x: -50 }}
@@ -173,6 +173,24 @@ console.log(projectContent[0]?.video)
                     </div>
                     }
                     {
+                      name == 'dbsmash' &&  section.title == 'Tech Stack (MERN)' &&
+                    <div className='flex mt-2 w-full items-center gap-4'>
+                      <span className='flex flex-col items-center'>
+                      <img className='w-10 h-10 bg-transparent p-0 rounded-full' src="https://w7.pngwing.com/pngs/821/347/png-transparent-npm-original-wordmark-logo-icon-thumbnail.png" alt="" />
+                      <p className='text-sm'>npm package</p>
+                      </span>
+                      <span className='flex flex-col items-center'>
+                      <img className='w-10 h-10' src="https://reactflow.dev/favicon.ico" alt="" />
+                      <p className='text-sm'>react flow</p>
+                      </span>
+                      <span className='flex flex-col items-center'>
+                      <img className='w-10 rounded-full h-10' src="https://w7.pngwing.com/pngs/162/702/png-transparent-socket-io-node-js-express-js-npm-network-socket-github-angle-triangle-logo-thumbnail.png" alt="" />
+                      <p className='text-sm'>socket.io</p>
+                      </span>
+                      
+                    </div>
+                    }
+                    {
                       name == 'travelmate' &&  section.title == 'Tech Stack (MERN)' &&
                     <div className='flex mt-2 w-full items-center gap-4'>
                       <span className='flex flex-col items-start'>
@@ -214,10 +232,10 @@ console.log(projectContent[0]?.video)
                     
                   </motion.p>
                   {
-                      name ==  'devhub' && section.title == 'Future Scope' && (
+                      name ==  'devhub' && section.title == 'Project Overview' && (
 
                                   <motion.button 
-                                    className="mt-16 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
+                                    className="mt-8 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={()=>window.open('https://devhub-zics.onrender.com/login',"_blank")}
@@ -227,10 +245,49 @@ console.log(projectContent[0]?.video)
                       )
                     }
                   {
-                      name ==  'ai-chat' && section.title == 'Future Scope' && (
+                      name ==  'dbsmash' && section.title == 'Project Overview' && (
 
                                   <motion.button 
-                                    className="mt-16 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
+                                    className="mt-8 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={()=>window.open('https://dbsmash.netlify.app/',"_blank")}
+                                  >
+                                    Checkout Live ↗
+                                  </motion.button>
+                      )
+                    }
+                  {
+                      name ==  'email-buddy' && section.title == 'Project Overview' && (
+
+                                  <motion.button 
+                                    className="mt-8 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={()=>window.open('https://github.com/siddreddy07/Ai-Email-Buddy',"_blank")}
+                                  >
+                                    View on Github ↗
+                                  </motion.button>
+                      )
+                    }
+                  {
+                      name ==  'AutoTwitterPost' && section.title == 'Project Overview' && (
+
+                                  <motion.button 
+                                    className="mt-8 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    onClick={()=>window.open('https://github.com/siddreddy07/mcp-server-twitter-post',"_blank")}
+                                  >
+                                    View on Github ↗
+                                  </motion.button>
+                      )
+                    }
+                  {
+                      name ==  'ai-chat' && section.title == 'Project Overview' && (
+
+                                  <motion.button 
+                                    className="mt-8 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={()=>window.open('https://github.com/siddreddy07/AI-Chat-App',"_blank")}
@@ -240,10 +297,10 @@ console.log(projectContent[0]?.video)
                       )
                     }
                   {
-                      name ==  'travelmate' && section.title == 'Future Scope' && (
+                      name ==  'travelmate' && section.title == 'Project Overview' && (
 
                                   <motion.button 
-                                    className="mt-16 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
+                                    className="mt-8 ml-2 px-6 md:px-8 py-3 md:py-4 bg-transparent border-2 border-[#64ffda] text-[#64ffda] rounded-full font-bold hover:bg-[#64ffda] hover:text-black transition-all duration-300"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
                                     onClick={()=>window.open('https://github.com/siddreddy07/airbnd-clone',"_blank")}

@@ -22,6 +22,27 @@ const projects = [
   },
   {
     id: 2,
+    name: 'dbsmash',
+    info: [
+      {
+        title: 'Project Overview',
+        content: 'dbsmash is a CLI tool that helps developers quickly set up and connect to databases like Firestore, MongoDB Atlas, and Supabase (via Prisma ORM). It generates clean, ready-to-use code, reduces setup time, and ensures consistent document structure — making it easier to work with databases in any project or AI-driven workflow',
+        video: 'https://res.cloudinary.com/deiiozl5e/video/upload/v1752262039/Dbsmash_720p_-_Made_with_Clipchamp_iohn9s.mp4'
+      },
+      {
+        title: 'Tech Stack (MERN)',
+        content: 'dbsmash is built with Node.js and designed as a CLI tool using Commander.js and Inquirer.js. It integrates with Firebase, MongoDB, and Supabase (via Prisma) for backend setup and code generation.For convenience, a lightweight web UI is included — built with React, Socket.io, and Node.js — allowing users to quickly view generated data or schema tables without touching the terminal',
+        image: 'https://dqy38fnwh4fqs.cloudfront.net/UHOK7B67QNDNR8D389NN7E88KDLM/projects/dbsmash8f1876e9-e387-4622-a18c-ef3e315b2a04'
+      },
+      {
+        title: 'Future Scope',
+        content: 'Planned improvements include a web-based interface for visual configuration, support for more database platforms like Redis and PlanetScale, and one-click schema generation from existing collections or tables. Integration with AI coding agents is also on the roadmap — enabling automatic generation of database queries, models, and code snippets tailored to project structure and developer input.',
+        image: 'https://images.pexels.com/photos/7718755/pexels-photo-7718755.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2'
+      }
+    ]
+  },
+  {
+    id: 3,
     name: 'devhub',
     info: [
       {
@@ -42,7 +63,7 @@ const projects = [
     ]
   },
   {
-    id: 3,
+    id: 5,
     name: 'travelmate',
     info: [
       {
@@ -63,7 +84,7 @@ const projects = [
     ]
   },
   {
-    id: 4,
+    id: 6,
     name: 'email-buddy',
     info: [
       {
@@ -84,7 +105,7 @@ const projects = [
     ]
   },
   {
-    id: 5,
+    id: 7,
     name: 'AutoTwitterPost',
     info: [
       {
