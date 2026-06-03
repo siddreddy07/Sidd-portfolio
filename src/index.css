@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-void: #050505;
+  --color-surface-1: #0d0d0d;
+  --color-surface-2: #141414;
+  --color-surface-3: #1a1a1a;
+  
+  --color-text-primary: #e8e3dc;
+  --color-text-secondary: #888680;
+  --color-text-dim: #3a3936;
+  
+  --color-signal: #00d4a8;
+  --color-rule: #1e1e1e;
+}
+
+/* Custom base resets */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: #050505;
+    color: #e8e3dc;
+  }
+
+  body {
+    background-color: #050505;
+    color: #e8e3dc;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+    position: relative;
+    min-height: 100vh;
+  }
+}
+
+/* Authenticated Vintage Grain Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.038;
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  z-index: 9996;
+}
+
+/* High Contrast Minimal Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+  background: #050505;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 168, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 168, 0.45);
+}
+
+/* Dynamic Smooth Scroll Support */
+* {
+  box-sizing: border-box;
+}
+
+/* Pulse keyframes overlay utilities */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor-blink {
+  animation: cursor-blink 0.8s step-end infinite;
+}
