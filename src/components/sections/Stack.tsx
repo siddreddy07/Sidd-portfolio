@@ -128,7 +128,8 @@ function StackCategoryCard({ category, subs, idx, config, speedFactor, isOpen, o
 }
 
 export default function Stack() {
-  const [activeCategory, setActiveCategory] = useState<string | null>('runtime');
+  const allCategories = Object.keys(STACK_MANIFEST);
+  const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set(allCategories));
 
   // Map tech categories to icons, labels, and color guidelines
   const categoryHeaders: Record<string, { label: string; text: string; bg: string; border: string; icon: any }> = {
@@ -208,8 +209,12 @@ export default function Stack() {
               idx={idx}
               config={config}
               speedFactor={speedFactor}
-              isOpen={activeCategory === category}
-              onToggle={() => setActiveCategory(activeCategory === category ? null : category)}
+              isOpen={activeCategories.has(category)}
+              onToggle={() => {
+                const next = new Set(activeCategories);
+                next.has(category) ? next.delete(category) : next.add(category);
+                setActiveCategories(next);
+              }}
             />
           );
         })}

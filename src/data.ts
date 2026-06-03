@@ -101,6 +101,6 @@ export const STACK_MANIFEST: StackSection = {
   }
 };
 
-// CHANGE THIS TO YOUR ACTUAL GOOGLE DRIVE RESUME/CV LINK:
+// CHANGE THIS TO YOUR ACTUAL RESUME/CV LINK:
 export const RESUME_URL = 'https://drive.google.com/file/d/11ntGBLpD-yDpaFH12NJruytr0uE3PjbN/view?usp=drivesdk';
 

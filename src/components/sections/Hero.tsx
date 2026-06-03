@@ -7,12 +7,12 @@ export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [statusIndex, setStatusIndex] = useState(0);
 
-  const roles = [
-    'builds distributed backends that scale.',
-    'turns plain English into running APIs.',
-    'writes systems other engineers maintain.',
-    'ships. not just plans.',
-  ];
+const roles = [
+  'builds scalable backend systems and REST APIs using Node.js.',
+  'designs and ships full-stack MERN applications with clean architecture.',
+  'creates developer tools and npm CLIs that automate real workflows.',
+  'integrates distributed systems, databases, and AI services into production-ready products.',
+];
 
   const statuses = [
     'NODE v20.11',
@@ -43,7 +43,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative min-h-[100dvh] bg-[#050505] flex flex-col justify-between px-6 md:px-12 pt-32 pb-8 overflow-hidden select-none"
+      className="relative min-h-[50vh] md:min-h-[100dvh] bg-[#050505] flex flex-col md:justify-between px-6 md:px-12 pt-[28vh] md:pt-32 pb-4 md:pb-8 overflow-hidden select-none"
       id="hero"
     >
       {/* Structural Top Statement */}
@@ -53,7 +53,7 @@ export default function Hero() {
             initial={{ opacity: 0, x: -10 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.3 }}
-            className="font-mono text-[11px] font-bold tracking-[0.55em] text-[#3a3936] uppercase whitespace-nowrap"
+            className="font-mono text-[11px] md:text-xl font-bold tracking-[0.55em] text-[#3a3936] uppercase whitespace-nowrap"
             id="role-label"
           >
             FULL STACK / BACKEND ENGINEER
@@ -78,7 +78,7 @@ export default function Hero() {
                 className="font-display font-extrabold text-[54px] sm:text-[84px] md:text-[124px] lg:text-[144px] text-text-primary uppercase tracking-[-0.035em] leading-none select-text"
                 id="title-name-first"
               >
-                SIDDHARTH
+                N SIDDHARTH
               </motion.h1>
             </div>
 
@@ -97,7 +97,7 @@ export default function Hero() {
         </Parallax>
 
         {/* Dynamic cycling role descriptors */}
-        <div className="mt-12 h-8 flex items-center" id="cycling-words-area">
+        <div className="mt-6 md:mt-12 h-8 flex items-center" id="cycling-words-area">
           <AnimatePresence mode="wait">
             <motion.div
               key={roleIndex}

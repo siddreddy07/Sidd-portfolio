@@ -144,8 +144,8 @@ export default function Nav() {
               <div className="relative w-6 h-6 rounded-full bg-signal/10 border border-signal/30 flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:border-signal">
                 <span className="w-1.5 h-1.5 rounded-full bg-signal animate-pulse" />
               </div>
-              <span className="font-display font-black text-[13px] tracking-[0.1em] text-text-primary uppercase group-hover:text-signal transition-colors duration-200">
-                N Siddharth Reddy
+              <span className="font-display font-black text-[13px] tracking-[0.1em] text-text-primary group-hover:text-signal transition-colors duration-200">
+                siddharth_dev/
               </span>
             </a>
           </div>
@@ -203,7 +203,7 @@ export default function Nav() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-x-0 top-0 z-[99] bg-[#030303]/98 backdrop-blur-xl border-b border-[#141414] py-28 px-8 lg:hidden flex flex-col justify-between"
+            className="fixed inset-x-0 top-0 z-[99] bg-[#030303]/98 backdrop-blur-xl border-b border-[#141414] py-20 md:py-28 px-8 lg:hidden flex flex-col justify-between"
             id="mobile-fullscreen-menu"
           >
             <div className="flex flex-col gap-6" id="mobile-routing-list">

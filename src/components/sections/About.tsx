@@ -67,22 +67,22 @@ export default function About() {
             id="about-left-statement"
           >
             <div className="flex flex-col mb-10 select-none" id="headline-reveal-stack">
-              <RevealLine delay={0.0}>
-                <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[44px] text-text-primary leading-[1.12] tracking-tight">
-                  I write code that
-                </h2>
-              </RevealLine>
-              <RevealLine delay={0.12}>
-                <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[44px] text-text-primary leading-[1.12] tracking-tight">
-                  doesn't need
-                </h2>
-              </RevealLine>
-              <RevealLine delay={0.24}>
-                <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[44px] text-text-primary leading-[1.12] tracking-tight">
-                  explaining.
-                </h2>
-              </RevealLine>
-            </div>
+  <RevealLine delay={0.0}>
+    <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[44px] text-text-primary leading-[1.12] tracking-tight">
+      I’m a developer who
+    </h2>
+  </RevealLine>
+  <RevealLine delay={0.12}>
+    <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[44px] text-text-primary leading-[1.12] tracking-tight">
+      builds and learns by shipping
+    </h2>
+  </RevealLine>
+  <RevealLine delay={0.24}>
+    <h2 className="font-display font-semibold text-3xl sm:text-4xl md:text-5xl lg:text-[44px] text-text-primary leading-[1.12] tracking-tight">
+      real-world applications.
+    </h2>
+  </RevealLine>
+</div>
 
             {/* Academic or Location Tags */}
             <div className="flex flex-col gap-3 font-mono text-[13px] text-text-secondary select-all" id="academic-details">
