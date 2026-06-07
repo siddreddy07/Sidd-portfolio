@@ -1,6 +1,32 @@
 import React from "react";
 import { motion } from "motion/react";
 
+const headingParts = [
+  "Full-Stack Developer who enjoys",
+  "building backend systems,",
+  "AI-powered applications, and developer tools."
+];
+
+const bodyLines = [
+  "Built scalable APIs, authentication systems, AI agents, and automation workflows using Node.js, PostgreSQL, MongoDB, Redis, and modern LLM frameworks.",
+  "Passionate about turning ideas into practical products that improve user and developer experiences. Based in Visakhapatnam, India — B.Tech CSE, Andhra University (CGPA 7.99)."
+];
+
+function RevealText({ children, delay = 0 }: { children: React.ReactNode; delay?: number; key?: string | number }) {
+  return (
+    <div className="overflow-hidden">
+      <motion.div
+        initial={{ y: "100%" }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true, margin: "-10% 0px" }}
+        transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
+
 export default function AboutSection() {
   return (
     <section
@@ -11,9 +37,11 @@ export default function AboutSection() {
         
         {/* Section Header */}
         <div className="flex flex-col space-y-4">
-          <span className="font-mono text-[11px] text-[#6b6560] uppercase tracking-[0.15em] select-none">
-            About
-          </span>
+          <RevealText>
+            <span className="font-mono text-[11px] text-[#6b6560] uppercase tracking-[0.15em] select-none">
+              About
+            </span>
+          </RevealText>
           <div className="w-full h-[1px] bg-[#1a1a1a]" />
         </div>
 
@@ -21,31 +49,25 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 pt-4">
           
           {/* Left Column Statement */}
-          <div className="lg:col-span-7">
-            <motion.h3
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display italic text-[clamp(32px,5.5vw,64px)] text-[#f0ece4] leading-[1.1] tracking-tight"
-            >
-              Building resilient server structures with mathematical predictability and clean interface boundaries.
-            </motion.h3>
+          <div className="lg:col-span-7 flex flex-col gap-2">
+            {headingParts.map((part, i) => (
+              <RevealText key={i} delay={i * 0.12}>
+                <h3 className="font-display italic text-[clamp(32px,5.5vw,64px)] text-[#f0ece4] leading-[1.1] tracking-tight">
+                  {part}
+                </h3>
+              </RevealText>
+            ))}
           </div>
 
           {/* Right Column Supporting Description */}
           <div className="lg:col-span-5 flex flex-col justify-end">
-            <motion.p
-              initial={{ y: 15, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="font-satoshi font-normal text-[16px] text-[#6b6560] leading-relaxed"
-            >
-              Based in Visakhapatnam, India. Graduated in Computer Science & Engineering (B.Tech, CGPA 7.99) from Andhra University College of Engineering. 
-              <br /><br />
-              I operate at the intersection of robust backend orchestration, performant relational data stores, and event-driven concurrency. I build optimized, type-safe API gateways and CLI instruments that help developers ship software without friction.
-            </motion.p>
+            {bodyLines.map((line, i) => (
+              <RevealText key={i} delay={0.3 + i * 0.12}>
+                <p className="font-satoshi font-normal text-[16px] text-[#6b6560] leading-relaxed">
+                  {line}
+                </p>
+              </RevealText>
+            ))}
           </div>
 
         </div>

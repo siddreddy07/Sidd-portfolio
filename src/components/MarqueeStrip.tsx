@@ -7,7 +7,7 @@ export default function MarqueeStrip() {
   const speedRef = useRef(40); // starts at 40px/s
   const lastTimeRef = useRef<number | null>(null);
 
-  const textSegment = "AVAILABLE FOR HIRE · BACKEND ENGINEER · NODE.JS · APIS · AI INTEGRATIONS · OPEN TO FULL-TIME · ";
+  const textSegment = "AVAILABLE FOR HIRE · FULL STACK DEVELOPER · BACKEND DEVELOPER · AI AGENTS · GEN AI · AI INTEGRATIONS · OPEN TO FULL-TIME · ";
 
   useEffect(() => {
     const track = trackRef.current;

@@ -1,140 +1,118 @@
 import React from "react";
 import { motion } from "motion/react";
+import { FiMail, FiFileText } from "react-icons/fi";
+import { FaXTwitter, FaLinkedinIn, FaGithub } from "react-icons/fa6";
+
+function RevealLine({ children, delay = 0 }: { children: React.ReactNode; delay?: number; key?: string | number }) {
+  return (
+    <div className="overflow-hidden">
+      <motion.div
+        initial={{ y: "100%" }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true, margin: "-10% 0px" }}
+        transition={{ duration: 0.6, delay, ease: [0.16, 1, 0.3, 1] }}
+      >
+        {children}
+      </motion.div>
+    </div>
+  );
+}
 
 export default function ContactSection() {
   return (
     <section
       id="contact-section"
-      className="w-full bg-[#080808] text-[#f0ece4] py-24 select-none relative z-20 pointer-events-auto overflow-hidden px-6 md:px-12 lg:px-16"
+      className="w-full bg-[#080808] text-[#f0ece4] py-24 md:py-28 select-none relative z-20 pointer-events-auto overflow-hidden px-6 md:px-12 lg:px-16"
     >
-      <div className="max-w-7xl mx-auto flex flex-col space-y-16">
-        
+      <div className="max-w-7xl mx-auto flex flex-col space-y-14 md:space-y-20">
+
         {/* Section Header */}
         <div className="flex flex-col space-y-4">
-          <span className="font-mono text-[11px] text-[#6b6560] uppercase tracking-[0.15em] select-none">
-            Contact
-          </span>
+          <RevealLine>
+            <span className="font-mono text-[11px] text-[#6b6560] uppercase tracking-[0.15em] select-none">
+              Contact
+            </span>
+          </RevealLine>
           <div className="w-full h-[1px] bg-[#1a1a1a]" />
         </div>
 
-        {/* Dynamic Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pt-4">
-          
-          {/* Left Column Statement */}
-          <div className="lg:col-span-7 flex flex-col space-y-8">
-            <motion.h3
-              initial={{ y: 20, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-              className="font-display italic text-[clamp(32px,5.5vw,64px)] text-[#f0ece4] leading-[1.1] tracking-tight"
+        {/* Heading */}
+        <div className="flex flex-col space-y-2">
+          <RevealLine>
+            <h2 className="font-display italic text-[clamp(40px,7vw,96px)] text-[#f0ece4] leading-[1] tracking-tight">
+              Have a project
+            </h2>
+          </RevealLine>
+          <RevealLine delay={0.1}>
+            <h2 className="font-display italic text-[clamp(40px,7vw,96px)] text-[#f0ece4] leading-[1] tracking-tight">
+              in mind?
+            </h2>
+          </RevealLine>
+          <RevealLine delay={0.2}>
+            <h2 className="font-display italic text-[clamp(40px,7vw,96px)] text-[#C8FF00] leading-[1] tracking-tight">
+              Let's talk.
+            </h2>
+          </RevealLine>
+        </div>
+
+        {/* Email */}
+        <div className="flex justify-end">
+          <RevealLine delay={0.3}>
+            <a
+              href="mailto:siddharthreddy627@gmail.com"
+              data-cursor="link"
+              data-cursor-label="MAIL"
+              className="group inline-flex items-center gap-2.5 font-satoshi font-medium text-[16px] md:text-[18px] text-[#f0ece4] hover:text-[#C8FF00] transition-colors"
             >
-              Have a project in mind? Let's build systems that scale.
-            </motion.h3>
+              <span className="text-[#6b6560] group-hover:text-[#C8FF00] transition-colors"><FiMail size={15} /></span>
+              siddharthreddy627@gmail.com
+            </a>
+          </RevealLine>
+        </div>
 
-            {/* Pulsing Status indicator */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.25, duration: 0.5 }}
-              className="flex items-center gap-2.5"
-            >
-              <div className="w-2 h-2 rounded-full bg-[#C8FF00] animate-pulse" style={{ animationDuration: "2s" }} />
-              <span className="font-satoshi text-[14px] text-[#6b6560] tracking-wide">
-                Currently open for roles & architectural consulting globally
-              </span>
-            </motion.div>
-          </div>
+        {/* Divider */}
+        <div className="w-full h-[1px] bg-[#1a1a1a]" />
 
-          {/* Right Column Contact Links */}
-          <div className="lg:col-span-5 flex flex-col justify-end space-y-6 pt-4 lg:pt-0">
-            <motion.div
-              initial={{ y: 15, opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-10% 0px" }}
-              transition={{ duration: 0.7, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              className="flex flex-col space-y-4 select-text"
-            >
-              {/* Email Link */}
-              <div className="relative group self-start">
-                <a
-                  href="mailto:siddharthreddy627@gmail.com"
-                  data-cursor="link"
-                  className="block font-satoshi font-medium text-[16px] text-[#f0ece4] hover:text-[#C8FF00] transition-colors duration-200 py-1"
-                >
-                  siddharthreddy627@gmail.com
-                </a>
-                <div className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#C8FF00] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-250 ease-out pointer-events-none" />
-              </div>
-
-              {/* Phone Link */}
-              <div className="relative group self-start">
-                <a
-                  href="tel:8101421758"
-                  data-cursor="link"
-                  className="block font-satoshi font-medium text-[16px] text-[#f0ece4] hover:text-[#C8FF00] transition-colors duration-200 py-1"
-                >
-                  8101421758
-                </a>
-                <div className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#C8FF00] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-250 ease-out pointer-events-none" />
-              </div>
-
-              {/* LinkedIn Link */}
-              <div className="relative group self-start">
-                <a
-                  href="https://linkedin.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  data-cursor="link"
-                  className="block font-satoshi font-medium text-[16px] text-[#f0ece4] hover:text-[#C8FF00] transition-colors duration-200 py-1"
-                >
-                  LinkedIn ↗
-                </a>
-                <div className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#C8FF00] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-250 ease-out pointer-events-none" />
-              </div>
-
-              {/* Resume / CV Link */}
-              <div className="relative group self-start">
-                <a
-                  href="https://drive.google.com/file/d/14DLmQ6Ae6c3exodWqsWr-orEsfRbGid9/view?usp=drivesdk"
-                  target="_blank"
-                  rel="noreferrer"
-                  data-cursor="link"
-                  className="block font-satoshi font-medium text-[16px] text-[#f0ece4] hover:text-[#C8FF00] transition-colors duration-200 py-1"
-                >
-                  Resume / CV ↗
-                </a>
-                <div className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#C8FF00] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-250 ease-out pointer-events-none" />
-              </div>
-
-              {/* Location Detail */}
-              <div className="pt-2">
-                <span className="font-mono text-[10px] text-[#6b6560] uppercase tracking-[0.08em] select-none">
-                  Visakhapatnam, India → Remote Friendly
+        {/* Social Links Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-0">
+          {[
+            { label: "X (Twitter)", href: "https://x.com/siddreddy007", value: "@siddreddy007", cursor: "X", icon: FaXTwitter },
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/n-siddharth-reddy/", value: "n-siddharth-reddy", cursor: "IN", icon: FaLinkedinIn },
+            { label: "GitHub", href: "https://github.com/siddreddy07", value: "siddreddy07", cursor: "GH", icon: FaGithub },
+          ].map((link, i) => (
+            <RevealLine key={link.label} delay={0.4 + i * 0.08}>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noreferrer"
+                data-cursor="link"
+                data-cursor-label={link.cursor}
+                className="group flex items-center gap-3 py-4 md:py-0 border-b md:border-b-0 border-[#1a1a1a]"
+              >
+                <span className="text-[#6b6560] group-hover:text-[#C8FF00] transition-colors text-[16px] w-5 shrink-0">
+                  <link.icon />
                 </span>
-              </div>
-            </motion.div>
-          </div>
-
+                <span className="font-satoshi font-medium text-[15px] md:text-[14px] text-[#f0ece4] group-hover:text-[#C8FF00] transition-colors flex-1">
+                  {link.value}
+                </span>
+                <span className="font-mono text-[11px] text-[#6b6560] uppercase tracking-wider flex items-center gap-1.5 shrink-0">
+                  {link.label}
+                  <span className="group-hover:translate-x-0.5 transition-transform">↗</span>
+                </span>
+              </a>
+            </RevealLine>
+          ))}
         </div>
 
-        {/* Footer Bottom Strip */}
-        <div className="flex flex-col space-y-6 pt-16">
+        {/* Footer */}
+        <div className="flex flex-col space-y-2 pt-8">
           <div className="w-full h-[1px] bg-[#1a1a1a]" />
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 font-mono select-none text-[10px] text-[#6b6560]">
-            <div>
-              <span className="font-satoshi font-medium text-xs text-[#6b6560]">
-                N. Siddharth Reddy · Backend Engineer
-              </span>
+          <RevealLine delay={0.7}>
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[10px] text-[#6b6560]">
+              <span className="font-satoshi font-medium text-xs">N. Siddharth Reddy · Backend Engineer</span>
+              <span>© {new Date().getFullYear()}</span>
             </div>
-            <div>
-              <span>Built with React · Framer Motion · Lenis</span>
-            </div>
-            <div>
-              <span>© 2025</span>
-            </div>
-          </div>
+          </RevealLine>
         </div>
 
       </div>

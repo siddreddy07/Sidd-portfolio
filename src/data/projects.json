@@ -1,0 +1,121 @@
+{
+  "_comment": "Top 3 projects display on homepage (ProjectsSection). All 5 show on /projects page. Projects also show in archive with filtering and detail views.",
+  "projects": [
+    {
+      "num": "01",
+      "slug": "mew-claw",
+      "name": "Mew-Claw",
+      "desc": "AI Agent for Telegram",
+      "descriptor": "Telegram AI agent with dynamic tool routing and human-in-the-loop safety",
+      "tags": ["Node.js", "Express.js", "Telegram Bot API", "Groq", "Vercel AI SDK"],
+      "tagIcons": ["SiNodedotjs", "SiExpress", "SiTelegram", "FiCpu", "SiVercel"],
+      "typePill": "BACKEND",
+      "type": "Backend",
+      "year": "2025",
+      "specs": [
+        { "label": "Platform", "value": "Telegram Bot API" },
+        { "label": "AI Engine", "value": "Groq / Vercel AI SDK" },
+        { "label": "Tool Routing", "value": "Dynamic workflow orchestration" },
+        { "label": "Safety Layer", "value": "Human-in-the-loop approval" }
+      ],
+      "overview": "A Telegram-based AI agent capable of translating natural-language requests into executable actions through dynamic tool routing and workflow orchestration. Integrates file operations, code editing, terminal execution, web search, and social media publishing workflows into a unified tool-calling framework for autonomous task execution. Features a human-in-the-loop approval mechanism to safeguard sensitive operations, ensuring explicit user consent before executing terminal commands or external actions.",
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/mew-claw", "icon": "SiGithub" }
+      ],
+      "thumbnail": { "type": "image", "url": "" }
+    },
+    {
+      "num": "02",
+      "slug": "db-smash",
+      "name": "dbSmash",
+      "desc": "AI-Powered Schema Generator CLI",
+      "descriptor": "AI-Powered Schema Generator CLI",
+      "tags": ["Node.js", "Gemini", "OpenRouter", "MongoDB", "Supabase", "Firebase", "npm"],
+      "tagIcons": ["SiNodedotjs", "SiGooglegemini", "SiOpenai", "SiMongodb", "SiSupabase", "SiFirebase", "SiNpm"],
+      "typePill": "CLI TOOL",
+      "type": "CLI Tools",
+      "year": "2025",
+      "specs": [
+        { "label": "Target Ecosystem", "value": "NodeJS / npm registry" },
+        { "label": "AI Engine", "value": "Gemini / OpenRouter" },
+        { "label": "Database Drivers", "value": "MongoDB, Firestore, Supabase" },
+        { "label": "Execution", "value": "Automated code generation pipeline" }
+      ],
+      "overview": "Published an AI-powered CLI package on npm that transforms natural-language application requirements into visualized database schemas and production-ready backend scaffolding through conversational interactions. Built an automated code generation pipeline for MongoDB, Firestore, and Supabase, automating schema creation, model generation, seeding, and database setup.",
+      "links": [
+        { "label": "npm", "url": "https://www.npmjs.com/package/dbsmash", "icon": "SiNpm" },
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/dbsmash", "icon": "SiGithub" }
+      ],
+      "thumbnail": { "type": "image", "url": "" }
+    },
+    {
+      "num": "03",
+      "slug": "shraddha-media",
+      "name": "Shraddha Media",
+      "desc": "Production News CMS",
+      "descriptor": "Production news CMS with Redis sessions and RBAC",
+      "tags": ["Node.js", "React.js", "Redis", "Express.js", "RBAC"],
+      "tagIcons": ["SiNodedotjs", "SiReact", "SiRedis", "SiExpress", "FiDatabase"],
+      "typePill": "FULLSTACK",
+      "type": "Fullstack",
+      "year": "2024",
+      "specs": [
+        { "label": "Session Engine", "value": "Express Session + Redis" },
+        { "label": "Access Controls", "value": "Granular RBAC Policies" },
+        { "label": "Data Tiering", "value": "MySQL pooled read replicas" },
+        { "label": "Client Layer", "value": "React 18 + SPA Core" }
+      ],
+      "overview": "Shraddha Media is an enterprise content orchestration platform built for high-throughput editorial workloads. Features robust multi-tenant role-based access management, optimized template invalidation cache stores via Redis client triggers, and automatic relational clustering to prevent database locking during breaking updates.",
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/shraddha-media", "icon": "SiGithub" }
+      ],
+      "thumbnail": { "type": "image", "url": "" }
+    },
+    {
+      "num": "04",
+      "slug": "hook-lens",
+      "name": "HookLens",
+      "desc": "AI-powered webhook debugger",
+      "descriptor": "AI-powered webhook debugger with npm middleware",
+      "tags": ["Node.js", "Express", "OpenAI", "npm", "Vercel"],
+      "tagIcons": ["SiNodedotjs", "SiExpress", "SiOpenai", "SiNpm", "SiVercel"],
+      "typePill": "BACKEND",
+      "type": "Backend",
+      "year": "2025",
+      "specs": [
+        { "label": "Integrations", "value": "Express.js middle tier" },
+        { "label": "Telemetry Layer", "value": "Server-Sent Events (SSE)" },
+        { "label": "Rate Limiter", "value": "Redis-backed bucket" },
+        { "label": "Data Store", "value": "In-memory circular queues" }
+      ],
+      "overview": "HookLens simplifies asynchronous protocol debugging. It mounts directly as an Express middleware stack, captures inbound webhooks with precise packet headers, evaluates payloads via inline anomaly analysis pipelines, and provides real-time diagnostic reports inside local shell terminals to bypass dashboard fatigue.",
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/hook-lens", "icon": "SiGithub" }
+      ],
+      "thumbnail": { "type": "image", "url": "" }
+    },
+    {
+      "num": "05",
+      "slug": "smart-voter",
+      "name": "Smart Voter System",
+      "desc": "IoT-based voter verification",
+      "descriptor": "IoT-based voter verification with real-time dashboard",
+      "tags": ["ESP32", "Node.js", "MySQL", "React", "WebSocket"],
+      "tagIcons": ["FiCpu", "SiNodedotjs", "SiMysql", "SiReact", "SiSocketdotio"],
+      "typePill": "IOT",
+      "type": "IoT",
+      "year": "2024",
+      "specs": [
+        { "label": "MCU hardware", "value": "ESP-WROOM-32 Dev Kit" },
+        { "label": "Biometric Protocol", "value": "FPM10A optical signature" },
+        { "label": "Transport Stack", "value": "WebSockets + Node server" },
+        { "label": "Broker Node", "value": "Custom JSON Event Pipeline" }
+      ],
+      "overview": "A hardware-software convergence project addressing ballot validation security. Designed with low-power microcontrollers connected to physical biometric scanners, streaming direct cryptographic authentication tokens to safe Express registries via secure standard micro-web sockets.",
+      "links": [
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/smart-voter", "icon": "SiGithub" }
+      ],
+      "thumbnail": { "type": "image", "url": "" }
+    }
+  ]
+}

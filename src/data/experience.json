@@ -1,0 +1,39 @@
+{
+  "_comment": "Experience timeline entries. Displayed in ExperienceSection.",
+  "entries": [
+    {
+      "years": "2025",
+      "role": "MERN Stack Dev Intern",
+      "company": "TEN",
+      "companyUrl": "https://github.com/siddreddy07",
+      "type": "INTERNSHIP",
+      "bullets": [
+        "Designed and shipped 6+ HRMS API endpoints for employee onboarding, role assignment, and access control",
+        "Built shopping cart, wishlist, and product filter in React.js — extracted shared filter state into a single context to eliminate prop-drilling across 3 component levels",
+        "Built reusable request-validation middleware with standardized error handling, reducing duplicated validation logic and improving API consistency across multiple modules"
+      ]
+    },
+    {
+      "years": "2024",
+      "role": "Backend Dev Intern",
+      "company": "reaidy.io",
+      "companyUrl": "https://github.com/siddreddy07",
+      "type": "INTERNSHIP",
+      "bullets": [
+        "Engineered a leaderboard API using MongoDB aggregations, eliminating application-level sorting and improving the efficiency of ranking operations",
+        "Reduced database round trips by 50% in interview scheduling workflows by redesigning query patterns with aggregation joins and optimized data retrieval",
+        "Enhanced authentication security by migrating token handling to httpOnly cookies, adding CSRF validation, and implementing Redis-backed rate limiting for abuse prevention"
+      ]
+    },
+    {
+      "years": "2021—2025",
+      "role": "B.Tech Computer Science & Engineering",
+      "company": "Andhra University College of Engineering",
+      "type": "EDUCATION",
+      "bullets": [
+        "CGPA: 7.99 / 10.0",
+        "Dec 2021 — Apr 2025"
+      ]
+    }
+  ]
+}

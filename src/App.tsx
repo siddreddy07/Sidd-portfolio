@@ -12,24 +12,11 @@ import MarqueeStrip from "./components/MarqueeStrip";
 import ProjectsSection from "./components/ProjectsSection";
 import AboutSection from "./components/AboutSection";
 import ExperienceSection from "./components/ExperienceSection";
-import Loader from "./components/Loader";
 import ContactSection from "./components/ContactSection";
 import ProjectsPage from "./components/ProjectsPage";
 
 export default function App() {
-  const [loading, setLoading] = useState(() => {
-    if (typeof window !== "undefined") {
-      return !sessionStorage.getItem("sidd-portfolio-loaded");
-    }
-    return true;
-  });
-
-  const [showNav, setShowNav] = useState(() => {
-    if (typeof window !== "undefined") {
-      return !!sessionStorage.getItem("sidd-portfolio-loaded");
-    }
-    return false;
-  });
+  const [showNav, setShowNav] = useState(false);
 
   // Client-side state based routing
   const [currentPath, setCurrentPath] = useState(() => {
@@ -43,7 +30,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState<"WORK" | "ABOUT" | "CONTACT" | null>(null);
 
   // Curtain control state for dynamic page transitions
-  const [curtainPhase, setCurtainPhase] = useState<"idle" | "covering" | "revealing">("revealing");
+  const [curtainPhase, setCurtainPhase] = useState<"idle" | "covering" | "revealing">("idle");
 
   // Custom viewport height updater
   useEffect(() => {
@@ -122,8 +109,6 @@ export default function App() {
 
   // Lenis Smooth Scroll Configuration
   useEffect(() => {
-    if (loading) return;
-
     const lenisInstance = new Lenis({
       duration: 1.4,
       lerp: 0.08,
@@ -138,7 +123,7 @@ export default function App() {
 
     requestAnimationFrame(raf);
 
-    // Show navigation pill slightly after loading screen terminates
+    // Show navigation pill after site reveal
     const navTimeout = setTimeout(() => {
       setShowNav(true);
     }, 800);
@@ -147,11 +132,11 @@ export default function App() {
       lenisInstance.destroy();
       clearTimeout(navTimeout);
     };
-  }, [loading, currentPath]);
+  }, [currentPath]);
 
   // Scroll Intersection active detector (Only run on Home Page "/")
   useEffect(() => {
-    if (loading || currentPath !== "/") return;
+    if (currentPath !== "/") return;
 
     const navTargets = [
       { id: "hero-studio-section", tab: null },
@@ -202,7 +187,7 @@ export default function App() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, [loading, currentPath]);
+  }, [currentPath]);
 
   // Handle high-level menu clicks inside floating pill
   const handleNavClick = (tab: "WORK" | "ABOUT" | "CONTACT") => {
@@ -238,22 +223,6 @@ export default function App() {
     }
     return false;
   };
-
-  // Render Studio loading screen if loading is true
-  if (loading) {
-    return (
-      <Loader 
-        onComplete={() => {
-          sessionStorage.setItem("sidd-portfolio-loaded", "true");
-          setLoading(false);
-          setCurtainPhase("revealing");
-          setTimeout(() => {
-            setCurtainPhase("idle");
-          }, 600);
-        }} 
-      />
-    );
-  }
 
   // Segment current dynamic slugs
   const isProjectsRoute = currentPath.startsWith("/projects");

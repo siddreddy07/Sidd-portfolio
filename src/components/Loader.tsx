@@ -1,149 +1,201 @@
-import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useEffect, useRef, useState } from "react";
 
 interface LoaderProps {
   onComplete: () => void;
 }
 
 export default function Loader({ onComplete }: LoaderProps) {
-  const [t, setT] = useState(0);
-  const startTimeRef = useRef<number | null>(null);
-  const frameRef = useRef<number | null>(null);
+  const [count, setCount] = useState(0);
+  const [phase, setPhase] = useState<"counting" | "snap" | "splitting" | "done">("counting");
+  const [showMeta, setShowMeta] = useState(false);
+  const rafRef = useRef<number>(null);
+  const startRef = useRef<number>(null);
 
-  // Smooth, frame-accurate elapsed timer to sync typewriter and progress bar seamlessly
+  const prefersReducedMotion = useRef(false);
+  const isMobile = useRef(false);
+
   useEffect(() => {
-    const updateTime = (timestamp: number) => {
-      if (startTimeRef.current === null) {
-        startTimeRef.current = timestamp;
-      }
-      const elapsed = timestamp - startTimeRef.current;
-      setT(elapsed);
+    prefersReducedMotion.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    isMobile.current = window.innerWidth < 640;
 
-      if (elapsed < 3600) {
-        frameRef.current = requestAnimationFrame(updateTime);
-      } else {
-        // Safe exit trigger
+    if (prefersReducedMotion.current) {
+      setCount(100);
+      setPhase("snap");
+      const t1 = setTimeout(() => setPhase("splitting"), 300);
+      const t2 = setTimeout(() => {
+        setPhase("done");
         onComplete();
+        window.dispatchEvent(new CustomEvent("sidd:loaded"));
+      }, 700);
+      return () => { clearTimeout(t1); clearTimeout(t2); };
+    }
+
+    setShowMeta(true);
+    startRef.current = performance.now();
+
+    const animate = (now: number) => {
+      const elapsed = now - startRef.current!;
+      const totalCounterTime = 1750;
+
+      if (elapsed >= totalCounterTime) {
+        setCount(100);
+        setPhase("snap");
+
+        setTimeout(() => {
+          setPhase("splitting");
+          setShowMeta(false);
+
+          try {
+            if (!isMobile.current) {
+              const ctx = new AudioContext();
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = "sine";
+              osc.frequency.value = 60;
+              gain.gain.setValueAtTime(0, ctx.currentTime);
+              gain.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.01);
+              gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.08);
+              osc.connect(gain);
+              gain.connect(ctx.destination);
+              osc.start(ctx.currentTime);
+              osc.stop(ctx.currentTime + 0.08);
+            }
+          } catch {}
+
+          setTimeout(() => {
+            setPhase("done");
+            onComplete();
+            window.dispatchEvent(new CustomEvent("sidd:loaded"));
+          }, 1020);
+        }, 120);
+
+        return;
       }
+
+      const t = elapsed / totalCounterTime;
+      let value: number;
+
+      if (t < 0.343) {
+        const p = t / 0.343;
+        value = 60 * (1 - Math.pow(1 - p, 1.5));
+      } else if (t < 0.629) {
+        const p = (t - 0.343) / 0.286;
+        const ease = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+        value = 60 + 25 * ease;
+      } else if (t < 0.971) {
+        const p = (t - 0.629) / 0.343;
+        value = 85 + 14 * (p * p);
+      } else {
+        value = 99;
+      }
+
+      setCount(Math.round(value));
+      rafRef.current = requestAnimationFrame(animate);
     };
 
-    frameRef.current = requestAnimationFrame(updateTime);
+    rafRef.current = requestAnimationFrame(animate);
 
     return () => {
-      if (frameRef.current) {
-        cancelAnimationFrame(frameRef.current);
-      }
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, [onComplete]);
 
-  // 1. Text Typewriter: begins at 200ms, typing at 40ms intervals
-  const textToType = "initializing sidd.dev";
-  let displayedText = "";
-  if (t >= 200) {
-    const charIndex = Math.floor((t - 200) / 40);
-    displayedText = textToType.slice(0, Math.max(0, Math.min(textToType.length, charIndex)));
-  }
+  const counterSize = "clamp(120px, 28vw, 380px)";
+  const counterColor = "#f0ece4";
 
-  // 2. Progress Bar: begins at 1300ms, finishes at 2200ms (900ms duration)
-  let progressPercent = 0;
-  if (t >= 1300) {
-    const progressRatio = Math.min(1, (t - 1300) / 900);
-    // Ease-in-out formula (standard smooth-step cubic)
-    const easedRatio = progressRatio * progressRatio * (3 - 2 * progressRatio);
-    progressPercent = easedRatio * 100;
-  }
-
-  // 3. Clip upward states
-  const clipUp = t >= 2400;
-
-  // 4. Hero Names Slam state (starts at 2500ms)
-  const showSlamNames = t >= 2500;
-
-  // 5. Total Loader Wipe state (starts at 2800ms, duration 700ms)
-  const isWipingUp = t >= 2800;
+  if (phase === "done") return null;
 
   return (
-    <div 
-      className="fixed inset-0 z-[100] bg-[#080808] overflow-hidden select-none flex items-center justify-center transition-transform will-change bg-blend-normal"
-      style={{
-        transform: isWipingUp ? "translateY(-100%)" : "translateY(0%)",
-        transition: isWipingUp ? "transform 0.7s cubic-bezier(0.7, 0, 0.3, 1)" : "none",
-      }}
-    >
-      <div className="relative w-full h-full flex flex-col items-center justify-center">
-        
-        {/* Step 1: Typewriter & Progress Bar layout (with upward clipping) */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
-          <div className="h-[60px] overflow-hidden flex flex-col items-center justify-end">
-            <div
-              className="flex flex-col items-center justify-end"
-              style={{
-                transform: clipUp ? "translateY(-100%)" : "translateY(0%)",
-                transition: clipUp ? "transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)" : "none",
-                opacity: clipUp ? 0 : 1,
-              }}
-            >
-              {/* Mono initializing code text */}
-              <div className="font-mono text-[12px] text-[#6b6560] tracking-[0.15em] uppercase h-[18px]">
-                {displayedText}
-              </div>
+    <div className="fixed inset-0 z-[9999] overflow-hidden select-none" style={{ background: "transparent" }}>
+      <style>{`
+        @keyframes loaderFadeMeta {
+          from { opacity: 0; }
+          to { opacity: 0.6; }
+        }
+      `}</style>
 
-              {/* Space gap between text and progress bar */}
-              <div className="h-6" />
-
-              {/* Progress bar structure */}
-              <div 
-                className="w-[160px] h-[1px] bg-[#1a1a1a] relative overflow-hidden transition-opacity duration-300"
-                style={{
-                  opacity: t >= 1300 ? 1 : 0
-                }}
-              >
-                <div 
-                  className="absolute left-0 top-0 h-full bg-[#C8FF00]"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
-            </div>
-          </div>
+      {/* TOP PANEL */}
+      <div
+        className="absolute top-0 left-0 w-full overflow-hidden"
+        style={{
+          height: "50vh",
+          background: "#080808",
+          transform: phase === "splitting" ? "translateY(-100%)" : "translateY(0%)",
+          transition: phase === "splitting" ? "transform 0.9s cubic-bezier(0.7, 0, 0.3, 1)" : "none",
+        }}
+      >
+        <div
+          className="absolute font-display italic select-none leading-none"
+          style={{
+            fontSize: counterSize,
+            letterSpacing: "-0.04em",
+            color: counterColor,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          {count}
         </div>
 
-        {/* Step 2: "SIDD" & "REDDY" Slam animation words (starts at 2500ms) */}
-        {showSlamNames && (
-          <div className="flex flex-col md:flex-row items-center justify-center text-center gap-x-8 md:gap-x-12 select-none tracking-[-0.04em] font-display italic leading-none whitespace-nowrap overflow-hidden">
-            {/* Left word: SIDD */}
-            <div className="overflow-hidden py-4 px-2">
-              <motion.span
-                initial={{ x: "-100vw", opacity: 0 }}
-                animate={{ x: [ "-100vw", "5px", "0px" ], opacity: 1 }}
-                transition={{
-                  duration: 0.5,
-                  times: [0, 0.8, 1],
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="block text-text-primary text-[clamp(72px,14vw,180px)] select-none font-display uppercase italic text-[#f0ece4] leading-none"
-              >
-                SIDD
-              </motion.span>
-            </div>
-
-            {/* Right word: REDDY */}
-            <div className="overflow-hidden py-4 px-2">
-              <motion.span
-                initial={{ x: "100vw", opacity: 0 }}
-                animate={{ x: [ "100vw", "-5px", "0px" ], opacity: 1 }}
-                transition={{
-                  duration: 0.5,
-                  times: [0, 0.8, 1],
-                  ease: [0.16, 1, 0.3, 1],
-                }}
-                className="block text-text-primary text-[clamp(72px,14vw,180px)] select-none font-display uppercase italic text-[#f0ece4] leading-none"
-              >
-                REDDY
-              </motion.span>
-            </div>
+        {showMeta && !isMobile.current && !prefersReducedMotion.current && (
+          <div
+            className="absolute font-mono"
+            style={{
+              right: "40px",
+              top: "40px",
+              fontSize: "11px",
+              color: "#6b6560",
+              opacity: 0.6,
+              animation: "loaderFadeMeta 0.4s ease-out 0.3s forwards",
+              transition: phase === "splitting" ? "opacity 0.2s ease-out" : "none",
+            }}
+          >
+            Backend Engineer
           </div>
         )}
+      </div>
 
+      {/* BOTTOM PANEL */}
+      <div
+        className="absolute bottom-0 left-0 w-full overflow-hidden"
+        style={{
+          height: "50vh",
+          background: "#080808",
+          transform: phase === "splitting" ? "translateY(100%)" : "translateY(0%)",
+          transition: phase === "splitting" ? "transform 0.9s cubic-bezier(0.7, 0, 0.3, 1)" : "none",
+        }}
+      >
+        <div
+          className="absolute font-display italic select-none leading-none"
+          style={{
+            fontSize: counterSize,
+            letterSpacing: "-0.04em",
+            color: counterColor,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          {count}
+        </div>
+
+        {showMeta && !isMobile.current && !prefersReducedMotion.current && (
+          <div
+            className="absolute font-mono"
+            style={{
+              left: "40px",
+              bottom: "40px",
+              fontSize: "11px",
+              color: "#6b6560",
+              opacity: 0.6,
+              animation: "loaderFadeMeta 0.4s ease-out 0.3s forwards",
+              transition: phase === "splitting" ? "opacity 0.2s ease-out" : "none",
+            }}
+          >
+            sidd.dev · 2025
+          </div>
+        )}
       </div>
     </div>
   );

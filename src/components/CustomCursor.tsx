@@ -1,9 +1,15 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { useEffect, useState, useRef } from "react";
+import { FiMail, FiFileText } from "react-icons/fi";
+import { FaGithub, FaLinkedinIn, FaXTwitter } from "react-icons/fa6";
+import type { IconType } from "react-icons";
+
+const iconMap: Record<string, IconType> = {
+  MAIL: FiMail,
+  X: FaXTwitter,
+  IN: FaLinkedinIn,
+  GH: FaGithub,
+  CV: FiFileText,
+};
 
 export default function CustomCursor() {
   const [position, setPosition] = useState({ x: -100, y: -100 });
@@ -15,7 +21,6 @@ export default function CustomCursor() {
   const requestRef = useRef<number | null>(null);
 
   useEffect(() => {
-    // Only enable custom cursor if it's a device with a hover-capable pointer
     const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
     if (isTouchDevice) return;
 
@@ -28,12 +33,10 @@ export default function CustomCursor() {
     const handleMouseDown = () => setClicked(true);
     const handleMouseUp = () => setClicked(false);
 
-    // Dynamic delegate listening for any element with design hover instructions
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      // Triggers for any link, button, or custom data-cursor elements
       const interactiveEl = target.closest("a, button, [data-cursor]");
-      
+
       if (interactiveEl) {
         setHovered(true);
         const label = interactiveEl.getAttribute("data-cursor-label") || "";
@@ -49,13 +52,11 @@ export default function CustomCursor() {
     window.addEventListener("mouseup", handleMouseUp);
     document.addEventListener("mouseover", handleMouseOver);
 
-    // Buttery-smooth lerp loop for the cursor follow-effect with exactly 0.12 lag
-    // Matches the required premium motion feel with absolute precision
     const renderCursor = () => {
       setPosition((prev) => {
         const dx = cursorRef.current.x - prev.x;
         const dy = cursorRef.current.y - prev.y;
-        
+
         return {
           x: prev.x + dx * 0.12,
           y: prev.y + dy * 0.12,
@@ -75,14 +76,16 @@ export default function CustomCursor() {
     };
   }, []);
 
+  const showIcon = cursorText ? iconMap[cursorText] : undefined;
+  const isIconLabel = !!showIcon;
+
   if (!isVisible) return null;
 
   return (
     <>
-      {/* Central kinetic cursor */}
       <div
         id="custom-dot-cursor"
-        className="fixed top-0 left-0 pointer-events-none z-50 rounded-full transform -translate-x-1/2 -translate-y-1/2 will-change-transform"
+        className="fixed top-0 left-0 pointer-events-none z-50 rounded-full transform -translate-x-1/2 -translate-y-1/2 will-change-transform flex items-center justify-center"
         style={{
           left: `${position.x}px`,
           top: `${position.y}px`,
@@ -94,21 +97,34 @@ export default function CustomCursor() {
           transform: `translate3d(-50%, -50%, 0) scale(${clicked ? 0.85 : 1})`,
         }}
       >
-        {hovered && cursorText && (
+        {hovered && cursorText && isIconLabel && (
           <div
-            id="cursor-text-indicator"
-            className="absolute inset-0 flex items-center justify-center font-mono text-[9px] tracking-widest text-[#C8FF00] font-medium"
+            id="cursor-icon-indicator"
+            className="text-[#C8FF00] flex items-center justify-center"
             style={{
               opacity: hovered ? 1 : 0,
               transition: "opacity 0.2s ease 0.1s",
+              fontSize: "15px",
             }}
           >
-            {cursorText}
+            {showIcon ? <showIcon /> : null}
           </div>
         )}
       </div>
 
-      {/* Subtle background ambient trail dot */}
+      {hovered && cursorText && !isIconLabel && (
+        <div
+          className="fixed pointer-events-none z-50 font-mono text-[11px] text-[#C8FF00] tracking-[0.15em] uppercase whitespace-nowrap"
+          style={{
+            left: `${position.x + 22}px`,
+            top: `${position.y}px`,
+            transform: "translateY(-50%)",
+          }}
+        >
+          {cursorText}
+        </div>
+      )}
+
       <div
         id="cursor-ambient-trail"
         className="fixed top-0 left-0 pointer-events-none z-45 rounded-full bg-accent-lime/10 transform -translate-x-1/2 -translate-y-1/2 mix-blend-screen"
@@ -117,7 +133,7 @@ export default function CustomCursor() {
           top: `${cursorRef.current.y}px`,
           width: "24px",
           height: "24px",
-          opacity: hovered ? 0 : 0.4,
+          opacity: hovered && !isIconLabel ? 0 : hovered ? 0.4 : 0.4,
           transition: "opacity 0.2s ease, width 0.2s ease, height 0.2s ease",
           transform: "translate3d(-50%, -50%, 0)",
         }}

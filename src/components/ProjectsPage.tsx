@@ -1,163 +1,43 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import projectsData from "../data/projects.json";
+import { getIcon } from "../data/iconMap";
 
-interface ProjectItem {
-  num: string;
-  slug: string;
-  name: string;
-  descriptor: string;
-  tags: string[];
-  type: string;
-  typePill: "CLI TOOL" | "BACKEND" | "FULLSTACK" | "IOT";
-  year: string;
-  renderThumbnail: () => React.ReactNode;
-  specs: { label: string; value: string }[];
-  overview: string;
+/* Edit src/data/projects.json to add/remove projects.
+   The JSON tags are display names. tagIcons reference iconMap strings.
+   thumbnail.type can be "image" or "video" — fill the url to show media. */
+
+function renderThumbnail(project: typeof projectsData.projects[number]) {
+  const t = project.thumbnail;
+  if (!t?.url) {
+    return (
+      <div className="absolute inset-0 bg-[#0c0c0c] border border-[#f0ece4]/10 flex items-center justify-center select-none">
+        <span className="font-mono text-[10px] text-zinc-600">{project.name}</span>
+      </div>
+    );
+  }
+  if (t.type === "video") {
+    return (
+      <video
+        className="absolute inset-0 w-full h-full object-cover"
+        src={t.url}
+        autoPlay
+        muted
+        loop
+        playsInline
+      />
+    );
+  }
+  return (
+    <img
+      className="absolute inset-0 w-full h-full object-cover"
+      src={t.url}
+      alt={project.name}
+    />
+  );
 }
 
-const projectsArchive: ProjectItem[] = [
-  {
-    num: "01",
-    slug: "db-smash",
-    name: "dbSmash",
-    descriptor: "CLI that scaffolds multi-DB schemas via natural language",
-    tags: ["Node.js", "npm", "Gemini AI", "MongoDB", "PostgreSQL", "MySQL"],
-    typePill: "CLI TOOL",
-    type: "CLI Tools",
-    year: "2025",
-    specs: [
-      { label: "Target Ecosystem", value: "NodeJS / npm registry" },
-      { label: "Database Drivers", value: "pg, mongodb, mysql2" },
-      { label: "Core LLM Engines", value: "Gemini 2.5 Flash / SDK" },
-      { label: "Execution Environment", value: "POSIX compliant shells" }
-    ],
-    overview: "dbSmash is a developer ergonomics tool designed to accelerate bootstrapping in multi-database environments. By leveraging Google's Gemini SDK in an inline CLI execution cycle, it translates pure natural language requirements into optimized relational schemas or document structures, complete with seed scripts, connection pools, and environmental configuration.",
-    renderThumbnail: () => (
-      <div className="absolute inset-0 bg-[#0c0d12] border border-[#f0ece4]/10 flex flex-col justify-between p-4 overflow-hidden select-none">
-        <div className="flex justify-between items-start">
-          <span className="font-mono text-[9px] text-[#6b6560]">PROJ_SEC_01</span>
-          <span className="font-mono text-[9px] text-[#C8FF00] tracking-wider font-bold">READY</span>
-        </div>
-        <div className="my-auto text-center font-mono space-y-1">
-          <div className="text-[12px] font-bold text-[#f0ece4]">$ npx dbsmash init</div>
-          <div className="text-[9px] text-zinc-500">generating postgresql tables... [OK]</div>
-        </div>
-        <div className="flex justify-between font-mono text-[8px] text-zinc-600">
-          <span>STUTTGART // REDDY</span>
-          <span>COMPILER: V1.2</span>
-        </div>
-      </div>
-    )
-  },
-  {
-    num: "02",
-    slug: "hook-lens",
-    name: "HookLens",
-    descriptor: "AI-powered webhook debugger with npm middleware",
-    tags: ["Node.js", "Express", "OpenAI", "Webhooks", "npm"],
-    typePill: "BACKEND",
-    type: "Backend",
-    year: "2025",
-    specs: [
-      { label: "Integrations", value: "Express.js middle tier" },
-      { label: "Telemetry Layer", value: "Server-Sent Events (SSE)" },
-      { label: "Rate Limiter", value: "Redis-backed bucket" },
-      { label: "Data Store", value: "In-memory circular queues" }
-    ],
-    overview: "HookLens simplifies asynchronous protocol debugging. It mounts directly as an Express middleware stack, captures inbound webhooks with precise packet headers, evaluates payloads via inline anomaly analysis pipelines, and provides real-time diagnostic reports inside local shell terminals to bypass dashboard fatigue.",
-    renderThumbnail: () => (
-      <div className="absolute inset-0 bg-[#120e0a] border border-[#f0ece4]/10 flex flex-col justify-between p-4 overflow-hidden select-none">
-        <div className="flex justify-between items-start">
-          <span className="font-mono text-[9px] text-[#6b6560]">PROJ_SEC_02</span>
-          <span className="font-mono text-[9px] text-amber-500/80 tracking-wider">LISTENING</span>
-        </div>
-        <div className="my-auto flex flex-col items-center justify-center space-y-1">
-          <span className="font-mono text-[14px] text-zinc-400 font-bold">HOOKS_RCV</span>
-          <div className="flex gap-1 h-3 items-end">
-            <span className="w-[3px] h-3 bg-[#C8FF00] animate-bounce" />
-            <span className="w-[3px] h-2 bg-[#C8FF00] animate-bounce delay-75" />
-            <span className="w-[3px] h-1 bg-zinc-700" />
-            <span className="w-[3px] h-2.5 bg-[#C8FF00] animate-bounce delay-150" />
-          </div>
-        </div>
-        <div className="flex justify-between font-mono text-[8px] text-zinc-600">
-          <span>PORT: 8080 // REDIRECTED</span>
-          <span>SSL CHECK: ENFORCED</span>
-        </div>
-      </div>
-    )
-  },
-  {
-    num: "03",
-    slug: "shraddha-media",
-    name: "Shraddha Media",
-    descriptor: "Production news CMS with Redis sessions and RBAC",
-    tags: ["Node.js", "Redis", "MySQL", "React", "RBAC"],
-    typePill: "FULLSTACK",
-    type: "Backend",
-    year: "2024",
-    specs: [
-      { label: "Session Engine", value: "Express Session + Redis" },
-      { label: "Access Controls", value: "Granular RBAC Policies" },
-      { label: "Data Tiering", value: "MySQL pooled read replicas" },
-      { label: "Client Layer", value: "React 18 + SPA Core" }
-    ],
-    overview: "Shraddha Media is an enterprise content orchestration platform built for high-throughput editorial workloads. Features robust multi-tenant role-based access management, optimized template invalidation cache stores via Redis client triggers, and automatic relational clustering to prevent database locking during breaking updates.",
-    renderThumbnail: () => (
-      <div className="absolute inset-0 bg-[#080d1a] border border-[#f0ece4]/10 flex flex-col justify-between p-4 overflow-hidden select-none">
-        <div className="flex justify-between items-start">
-          <span className="font-mono text-[9px] text-[#6b6560]">PROJ_SEC_03</span>
-          <span className="font-mono text-[9px] text-blue-400">SESSION_LIVE</span>
-        </div>
-        <div className="my-auto flex flex-col space-y-1.5">
-          <div className="w-[85%] h-[1.5px] bg-[#1a1a1a] relative">
-            <div className="absolute left-1/3 top-1/2 -translate-y-1/2 w-1.5 h-1.5 bg-blue-400 rounded-full" />
-          </div>
-          <p className="font-satoshi text-[11px] text-zinc-400 leading-tight">Cached: Content Node 48</p>
-        </div>
-        <div className="flex justify-between font-mono text-[8px] text-zinc-600">
-          <span>RBAC POLICIES ACTIVATED</span>
-          <span>PING: 14ms</span>
-        </div>
-      </div>
-    )
-  },
-  {
-    num: "04",
-    slug: "smart-voter",
-    name: "Smart Voter System",
-    descriptor: "IoT-based voter verification with real-time dashboard",
-    tags: ["ESP32", "Node.js", "MySQL", "React", "WebSocket"],
-    typePill: "IOT",
-    type: "IoT",
-    year: "2024",
-    specs: [
-      { label: "MCU hardware", value: "ESP-WROOM-32 Dev Kit" },
-      { label: "Biometric Protocol", value: "FPM10A optical signature" },
-      { label: "Transport Stack", value: "WebSockets + Node server" },
-      { label: "Broker Node", value: "Custom JSON Event Pipeline" }
-    ],
-    overview: "A hardware-software convergence project addressing ballot validation security. Designed with low-power microcontrollers connected to physical biometric scanners, streaming direct cryptographic authentication tokens to safe Express registries via secure standard micro-web sockets.",
-    renderThumbnail: () => (
-      <div className="absolute inset-0 bg-[#08120a] border border-[#f0ece4]/10 flex flex-col justify-between p-4 overflow-hidden select-none">
-        <div className="flex justify-between items-start">
-          <span className="font-mono text-[9px] text-[#6b6560]">PROJ_SEC_04</span>
-          <span className="font-mono text-[9px] text-[#C8FF00]">MCU_CONNECTED</span>
-        </div>
-        <div className="my-auto flex flex-col items-center">
-          <div className="w-8 h-8 rounded-full border border-[#C8FF00]/40 flex items-center justify-center relative">
-            <div className="w-2 h-2 rounded-full bg-[#C8FF00]" />
-            <div className="absolute inset-0 rounded-full border border-[#C8FF00] animate-ping opacity-30" />
-          </div>
-        </div>
-        <div className="flex justify-between font-mono text-[8px] text-zinc-600">
-          <span>BAUD_RATE: 115200</span>
-          <span>HARDWARE STACK ON</span>
-        </div>
-      </div>
-    )
-  }
-];
+const projectsArchive = projectsData.projects;
 
 const filterCategories = ["All", "CLI Tools", "Backend", "AI-Integrated", "IoT"] as const;
 
@@ -172,6 +52,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const headerSentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -194,9 +75,30 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
     return () => window.removeEventListener("scroll", handleScroll);
   }, [currentSlug]);
 
+  // Use IntersectionObserver for reliable scroll detection with Lenis
+  useEffect(() => {
+    if (currentSlug) return;
+
+    const sentinel = headerSentinelRef.current;
+    if (!sentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsScrolled(!entry.isIntersecting);
+      },
+      { threshold: 0, rootMargin: "300px 0px 0px 0px" }
+    );
+
+    observer.observe(sentinel);
+    return () => observer.disconnect();
+  }, [currentSlug]);
+
   // Handle back to home / back to project index with smooth scrolling & transitions
   const handleBackToWork = () => {
     onTransitionTrigger("/projects");
+  };
+  const handleBackToHome = () => {
+    onTransitionTrigger("/");
   };
 
   const handleHomeContact = (e: React.MouseEvent) => {
@@ -206,12 +108,12 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
 
   // Filter project archive items:
   // Categorization mapping
-  const isMatch = (item: ProjectItem, filter: string) => {
+  const isMatch = (item: typeof projectsArchive[number], filter: string) => {
     if (filter === "All") return true;
     if (filter === "CLI Tools" && item.type === "CLI Tools") return true;
     if (filter === "Backend" && item.type === "Backend") return true;
     if (filter === "IoT" && item.type === "IoT") return true;
-    if (filter === "AI-Integrated" && (item.tags.includes("OpenAI") || item.tags.includes("Gemini AI"))) return true;
+    if (filter === "AI-Integrated" && (item.tags.includes("OpenAI") || item.tags.includes("Gemini") || item.tags.includes("Groq"))) return true;
     return false;
   };
 
@@ -248,10 +150,10 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               onClick={handleBackToWork}
               data-cursor="link"
-              className="fixed bottom-8 left-4 md:bottom-auto md:top-8 md:left-8 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-3.5 py-3.5 md:px-5 md:py-2.5 flex items-center justify-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[13px] tracking-[0.08em] uppercase select-none pointer-events-auto text-[#f0ece4] hover:text-[#C8FF00] hover:border-[#C8FF00]/50 transition-colors"
+              className="fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-3.5 py-1.5 md:px-5 md:py-2.5 flex items-center justify-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[13px] tracking-[0.08em] uppercase select-none pointer-events-auto text-[#f0ece4] hover:text-[#C8FF00] hover:border-[#C8FF00]/50 transition-colors"
             >
               <span className="font-mono text-base md:text-sm">←</span>
-              <span className="hidden md:inline font-medium leading-none">Back to Work</span>
+              <span className="inline font-small text-xs md:text-l md:font-medium leading-none">Back to Work</span>
             </motion.button>
           )}
         </AnimatePresence>
@@ -324,7 +226,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
               
               {/* Massive scale 16:9 visualization frame */}
               <div className="w-full aspect-[16/10] relative bg-[#0c0c0c] border border-zinc-800 shadow-2xl overflow-hidden flex items-center justify-center">
-                {project.renderThumbnail()}
+                {renderThumbnail(project)}
               </div>
 
               {/* Core descriptive text narrative block */}
@@ -335,16 +237,23 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
                 <p className="font-satoshi text-base text-zinc-400 leading-relaxed font-light">
                   {project.overview}
                 </p>
-                <div className="pt-4 flex items-center gap-4">
-                  <a
-                    href="https://github.com/hrxsiddharth"
-                    target="_blank"
-                    rel="noreferrer"
-                    data-cursor="link"
-                    className="font-mono text-[12px] bg-[#C8FF00] hover:bg-[#b0df00] text-[#080808] font-bold uppercase py-3 px-6 tracking-wide transition-colors"
-                  >
-                    EXPLORE CODEBASE ↗
-                  </a>
+                <div className="pt-4 flex flex-wrap items-center gap-3">
+                  {(project as any).links?.map((link: { label: string; url: string; icon?: string }) => {
+                    const LinkIcon = link.icon ? getIcon(link.icon) : null;
+                    return (
+                      <a
+                        key={link.label}
+                        href={link.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        data-cursor="link"
+                        className="font-mono text-[12px] bg-[#C8FF00] hover:bg-[#b0df00] text-[#080808] font-bold uppercase py-3 px-5 tracking-wide transition-all duration-200 inline-flex items-center gap-2 hover:-translate-y-[2px] hover:shadow-[0_6px_20px_-4px_rgba(200,255,0,0.25)] active:translate-y-0"
+                      >
+                        {LinkIcon && <LinkIcon size={14} />}
+                        {link.label} ↗
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -357,15 +266,12 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
           
           <div className="pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 pointer-events-auto">
             <button
-              onClick={handleBackToWork}
+              onClick={handleBackToHome}
               data-cursor="link"
               className="font-mono text-[12px] text-[#6b6560] hover:text-[#C8FF00] tracking-wider uppercase transition-colors"
             >
-              ← BACK TO ALL WORK
+              ← BACK TO HOME
             </button>
-            <span className="font-mono text-[11px] text-[#6b6560]">
-              BUILT BY N. SIDDHARTH REDDY // 2025
-            </span>
           </div>
 
         </div>
@@ -377,19 +283,23 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
   return (
     <div className="w-full bg-[#080808] text-[#f0ece4] min-h-screen pb-32 pt-28 px-6 md:px-12 lg:px-16 overflow-x-hidden relative select-none">
       
-      {/* Floating glassmorphic Return to Home Pill */}
-      <motion.button
-        initial={{ opacity: 0, y: 15, scale: 0.9 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-        onClick={() => onTransitionTrigger("/")}
-        data-cursor="link"
-        className="fixed bottom-8 left-4 md:bottom-auto md:top-8 md:left-8 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-3.5 py-3 md:px-5 md:py-2.5 flex items-center justify-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[13px] tracking-[0.08em] uppercase select-none pointer-events-auto text-[#f0ece4] hover:text-[#C8FF00] hover:border-[#C8FF00]/50 transition-colors"
-      >
-        <span className="font-mono text-base md:text-sm">←</span>
-        <span className="hidden md:inline font-medium leading-none">Return to Home</span>
-        <span className="inline md:hidden font-medium leading-none">Home</span>
-      </motion.button>
+      {/* Floating glassmorphic Return to Home Pill — appears only when scrolled past the header */}
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.button
+            initial={{ opacity: 0, y: 15, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 15, scale: 0.9 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            onClick={() => onTransitionTrigger("/")}
+            data-cursor="link"
+            className="fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-2.5 py-2 md:px-5 md:py-2.5 flex items-center justify-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi tracking-[0.08em] uppercase select-none pointer-events-auto text-[#f0ece4] hover:text-[#C8FF00] hover:border-[#C8FF00]/50 transition-colors"
+          >
+            <span className="font-mono text-xs md:text-sm">←</span>
+            <span className="inline text-xs font-medium leading-none">Return to Home</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
 
       {/* Subtle Horizontal scroll position progress indicator */}
       <div className="fixed top-0 left-0 w-full h-[3px] bg-transparent z-55 pointer-events-none">
@@ -399,12 +309,15 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
         />
       </div>
 
+      {/* Sentinel for IntersectionObserver — when this leaves viewport, show floating pill */}
+      <div ref={headerSentinelRef} className="absolute top-0 left-0 w-full h-[1px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto flex flex-col space-y-12">
         
         {/* PAGE HEADER BLOCK */}
         <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-6">
           {/* Header Left: "Work" custom mask clip text */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden flex items-baseline gap-4 md:gap-6">
             <motion.h1
               initial={{ y: "105%" }}
               animate={{ y: 0 }}
@@ -413,6 +326,16 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
             >
               Work
             </motion.h1>
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              onClick={() => onTransitionTrigger("/#projects-section")}
+              data-cursor="link"
+              className="font-mono text-[11px] md:text-[21px] text-[#6b6560] hover:text-[#C8FF00] tracking-wider uppercase transition-colors shrink-0 mt-2"
+            >
+              ← Back to Home
+            </motion.button>
           </div>
 
           {/* Header Right: Project Counts aligned to baseline, delayed fade-in */}
@@ -422,7 +345,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-col md:text-right font-mono text-[12px] text-[#6b6560] uppercase tracking-[0.12em] space-y-0.5 shrink-0"
           >
-            <span>04 projects</span>
+            <span>05 projects</span>
             <span className="normal-case">2024—2025</span>
           </motion.div>
         </div>
@@ -492,6 +415,8 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
                     onClick={() => onTransitionTrigger(`/projects/${project.slug}`)}
                     onMouseEnter={() => setHoveredSlug(project.slug)}
                     onMouseLeave={() => setHoveredSlug(null)}
+                    data-cursor="true"
+                    data-cursor-label={`VIEW ${project.name}`}
                     className="relative w-full overflow-hidden"
                   >
                     <div className="w-full block">
@@ -559,7 +484,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
                                 transform: isHovered ? "scale(1.04)" : "scale(1.0)",
                               }}
                             >
-                              {project.renderThumbnail()}
+                              {renderThumbnail(project)}
                             </div>
                           </div>
                         </div>
