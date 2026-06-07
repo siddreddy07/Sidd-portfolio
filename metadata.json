@@ -1,0 +1,6 @@
+{
+  "name": "Editorial Design Studio",
+  "description": "An interactive editorial dark portfolio sandbox and design bible celebrating meticulous layout asymmetry, kinetic type pairing, and fluid custom motion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
