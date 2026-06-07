@@ -8,7 +8,7 @@ import {
   SiNpm, SiGit, SiGithub, SiTelegram,
 } from "react-icons/si";
 import {
-  FiCloud, FiCpu, FiDatabase,
+  FiCloud, FiCpu, FiDatabase, FiCreditCard, FiShield,
 } from "react-icons/fi";
 
 const iconMap: Record<string, IconType> = {
@@ -40,6 +40,8 @@ const iconMap: Record<string, IconType> = {
   FiCloud,
   FiCpu,
   FiDatabase,
+  FiCreditCard,
+  FiShield,
 };
 
 export function getIcon(name: string): IconType | null {

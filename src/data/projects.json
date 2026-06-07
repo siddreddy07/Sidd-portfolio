@@ -9,7 +9,7 @@
       "descriptor": "Telegram AI agent with dynamic tool routing and human-in-the-loop safety",
       "tags": ["Node.js", "Express.js", "Telegram Bot API", "Groq", "Vercel AI SDK"],
       "tagIcons": ["SiNodedotjs", "SiExpress", "SiTelegram", "FiCpu", "SiVercel"],
-      "typePill": "BACKEND",
+      "typePill": "BACKEND AI",
       "type": "Backend",
       "year": "2025",
       "specs": [
@@ -28,8 +28,8 @@
       "num": "02",
       "slug": "db-smash",
       "name": "dbSmash",
-      "desc": "AI-Powered Schema Generator CLI",
-      "descriptor": "AI-Powered Schema Generator CLI",
+      "desc": "Conversational AI Schema Designer CLI",
+      "descriptor": "Conversational AI Schema Designer CLI",
       "tags": ["Node.js", "Gemini", "OpenRouter", "MongoDB", "Supabase", "Firebase", "npm"],
       "tagIcons": ["SiNodedotjs", "SiGooglegemini", "SiOpenai", "SiMongodb", "SiSupabase", "SiFirebase", "SiNpm"],
       "typePill": "CLI TOOL",
@@ -39,10 +39,11 @@
         { "label": "Target Ecosystem", "value": "NodeJS / npm registry" },
         { "label": "AI Engine", "value": "Gemini / OpenRouter" },
         { "label": "Database Drivers", "value": "MongoDB, Firestore, Supabase" },
-        { "label": "Execution", "value": "Automated code generation pipeline" }
+        { "label": "Execution", "value": "Conversational schema design pipeline" }
       ],
-      "overview": "Published an AI-powered CLI package on npm that transforms natural-language application requirements into visualized database schemas and production-ready backend scaffolding through conversational interactions. Built an automated code generation pipeline for MongoDB, Firestore, and Supabase, automating schema creation, model generation, seeding, and database setup.",
+      "overview": "An AI-powered CLI package on npm that lets you describe your app idea in plain English and iteratively design production-ready database schemas through a conversational interface. Visualize schemas as Mermaid diagrams, critique and suggest changes to the AI, and lock in your design before being prompted to choose your database engine (MongoDB, Firestore, or Supabase). Finally generates model definitions, seeding scripts, and initializes the database — all from a single conversation.",
       "links": [
+        { "label": "Live Site", "url": "https://dbsmash.netlify.app/", "icon": "SiNetlify" },
         { "label": "npm", "url": "https://www.npmjs.com/package/dbsmash", "icon": "SiNpm" },
         { "label": "GitHub", "url": "https://github.com/siddreddy07/dbsmash", "icon": "SiGithub" }
       ],
@@ -52,21 +53,22 @@
       "num": "03",
       "slug": "shraddha-media",
       "name": "Shraddha Media",
-      "desc": "Production News CMS",
-      "descriptor": "Production news CMS with Redis sessions and RBAC",
-      "tags": ["Node.js", "React.js", "Redis", "Express.js", "RBAC"],
-      "tagIcons": ["SiNodedotjs", "SiReact", "SiRedis", "SiExpress", "FiDatabase"],
+      "desc": "Production-Ready News CMS",
+      "descriptor": "News CMS with JWT auth, Redis OTP, RBAC & SEO management",
+      "tags": ["Node.js", "React.js", "MongoDB", "Redis", "JWT"],
+      "tagIcons": ["SiNodedotjs", "SiReact", "SiMongodb", "SiRedis", "SiJsonwebtokens"],
       "typePill": "FULLSTACK",
       "type": "Fullstack",
       "year": "2024",
       "specs": [
-        { "label": "Session Engine", "value": "Express Session + Redis" },
-        { "label": "Access Controls", "value": "Granular RBAC Policies" },
-        { "label": "Data Tiering", "value": "MySQL pooled read replicas" },
-        { "label": "Client Layer", "value": "React 18 + SPA Core" }
+        { "label": "Auth Engine", "value": "JWT + Redis-backed OTP" },
+        { "label": "Access Controls", "value": "Role-Based Access Control (RBAC)" },
+        { "label": "Database", "value": "MongoDB" },
+        { "label": "Email OTP", "value": "Nodemailer" }
       ],
-      "overview": "Shraddha Media is an enterprise content orchestration platform built for high-throughput editorial workloads. Features robust multi-tenant role-based access management, optimized template invalidation cache stores via Redis client triggers, and automatic relational clustering to prevent database locking during breaking updates.",
+      "overview": "Developed a production-ready news CMS with role-based access control, secure authentication, and content management workflows. Built JWT-based authentication with Redis-backed OTP verification delivered via Nodemailer, enabling secure account access and time-bound email verification. Automated sitemap generation and SEO metadata management, improving discoverability of 100+ published news articles.",
       "links": [
+        { "label": "Live Site", "url": "https://shraddhamedia.com/", "icon": "FiExternalLink" },
         { "label": "GitHub", "url": "https://github.com/siddreddy07/shraddha-media", "icon": "SiGithub" }
       ],
       "thumbnail": { "type": "image", "url": "" }
@@ -75,21 +77,23 @@
       "num": "04",
       "slug": "hook-lens",
       "name": "HookLens",
-      "desc": "AI-powered webhook debugger",
-      "descriptor": "AI-powered webhook debugger with npm middleware",
-      "tags": ["Node.js", "Express", "OpenAI", "npm", "Vercel"],
-      "tagIcons": ["SiNodedotjs", "SiExpress", "SiOpenai", "SiNpm", "SiVercel"],
-      "typePill": "BACKEND",
+      "desc": "Webhook capture & mimic engine",
+      "descriptor": "Webhook capture & mimic engine with npm middleware",
+      "tags": ["Node.js", "Express", "Groq", "Supabase", "npm", "Vercel"],
+      "tagIcons": ["SiNodedotjs", "SiExpress", "SiOpenai", "SiSupabase", "SiNpm", "SiVercel"],
+      "typePill": "BACKEND AI",
       "type": "Backend",
       "year": "2025",
       "specs": [
-        { "label": "Integrations", "value": "Express.js middle tier" },
-        { "label": "Telemetry Layer", "value": "Server-Sent Events (SSE)" },
-        { "label": "Rate Limiter", "value": "Redis-backed bucket" },
-        { "label": "Data Store", "value": "In-memory circular queues" }
+        { "label": "Integrations", "value": "Express.js middleware" },
+        { "label": "AI Engine", "value": "Groq for webhook understanding" },
+        { "label": "Data Store", "value": "Supabase" },
+        { "label": "Core Feature", "value": "Auto-mimic webhooks to your backend" }
       ],
-      "overview": "HookLens simplifies asynchronous protocol debugging. It mounts directly as an Express middleware stack, captures inbound webhooks with precise packet headers, evaluates payloads via inline anomaly analysis pipelines, and provides real-time diagnostic reports inside local shell terminals to bypass dashboard fatigue.",
+      "overview": "HookLens captures incoming webhooks via an npm middleware attached to your route, stores them in Supabase, and lets you auto-mimic them to your backend from a dashboard — no need to manually recreate events, payments, or messages. Uses Groq API to understand any webhook type and answer questions about the payload. From the dashboard, add your backend webhook URL and HookLens automatically forwards the exact same webhook to your endpoint.",
       "links": [
+        { "label": "Live Site", "url": "https://hooklens-eta.vercel.app/", "icon": "SiVercel" },
+        { "label": "npm", "url": "https://www.npmjs.com/package/hooklens-node", "icon": "SiNpm" },
         { "label": "GitHub", "url": "https://github.com/siddreddy07/hook-lens", "icon": "SiGithub" }
       ],
       "thumbnail": { "type": "image", "url": "" }
@@ -98,22 +102,22 @@
       "num": "05",
       "slug": "smart-voter",
       "name": "Smart Voter System",
-      "desc": "IoT-based voter verification",
-      "descriptor": "IoT-based voter verification with real-time dashboard",
-      "tags": ["ESP32", "Node.js", "MySQL", "React", "WebSocket"],
-      "tagIcons": ["FiCpu", "SiNodedotjs", "SiMysql", "SiReact", "SiSocketdotio"],
-      "typePill": "IOT",
-      "type": "IoT",
+      "desc": "IoT biometric voting system (Web Lead)",
+      "descriptor": "Group project — owned the full-stack web portal: React + Node.js + MySQL",
+      "tags": ["React", "Node.js", "MySQL", "ESP32", "RFID", "Fingerprint"],
+      "tagIcons": ["SiReact", "SiNodedotjs", "SiMysql", "FiCpu", "FiCreditCard", "FiShield"],
+      "typePill": "FULLSTACK",
+      "type": "Fullstack",
       "year": "2024",
       "specs": [
-        { "label": "MCU hardware", "value": "ESP-WROOM-32 Dev Kit" },
-        { "label": "Biometric Protocol", "value": "FPM10A optical signature" },
-        { "label": "Transport Stack", "value": "WebSockets + Node server" },
-        { "label": "Broker Node", "value": "Custom JSON Event Pipeline" }
+        { "label": "Role", "value": "Web Lead (full-stack)" },
+        { "label": "Frontend", "value": "React + real-time dashboard" },
+        { "label": "Backend", "value": "Node.js + MySQL" },
+        { "label": "Hardware", "value": "ESP32, R305 fingerprint, RFID" }
       ],
-      "overview": "A hardware-software convergence project addressing ballot validation security. Designed with low-power microcontrollers connected to physical biometric scanners, streaming direct cryptographic authentication tokens to safe Express registries via secure standard micro-web sockets.",
+      "overview": "A group project that eliminates manual labour inside polling booths by replacing long verification queues with RFID cards and fingerprint 2FA. Each voter receives an RFID card (instead of a voter card), taps it at the booth for identity verification, validates via the R305 fingerprint scanner for 2FA, and casts their vote — removing all in-between manual checking. I owned the complete web portal (React frontend + Node.js/MySQL backend) with real-time dashboard integration to the ESP32 hardware via long polling.",
       "links": [
-        { "label": "GitHub", "url": "https://github.com/siddreddy07/smart-voter", "icon": "SiGithub" }
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/Smart-Ballot-Voting-System", "icon": "SiGithub" }
       ],
       "thumbnail": { "type": "image", "url": "" }
     }

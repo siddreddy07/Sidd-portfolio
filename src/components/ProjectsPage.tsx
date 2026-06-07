@@ -50,23 +50,12 @@ interface ProjectsPageProps {
 export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrigger }: ProjectsPageProps) {
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const headerSentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (currentSlug) {
-        setIsScrolled(window.scrollY > 100);
-      } else {
-        const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-        if (totalHeight > 0) {
-          const progress = (window.scrollY / totalHeight) * 100;
-          setScrollProgress(progress);
-        } else {
-          setScrollProgress(0);
-        }
-      }
+      setIsScrolled(window.scrollY > 100);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -98,7 +87,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
     onTransitionTrigger("/projects");
   };
   const handleBackToHome = () => {
-    onTransitionTrigger("/");
+    onTransitionTrigger("/#projects-section");
   };
 
   const handleHomeContact = (e: React.MouseEvent) => {
@@ -148,12 +137,12 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 15, scale: 0.9 }}
               transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-              onClick={handleBackToWork}
+              onClick={handleBackToHome}
               data-cursor="link"
               className="fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-3.5 py-1.5 md:px-5 md:py-2.5 flex items-center justify-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[13px] tracking-[0.08em] uppercase select-none pointer-events-auto text-[#f0ece4] hover:text-[#C8FF00] hover:border-[#C8FF00]/50 transition-colors"
             >
               <span className="font-mono text-base md:text-sm">←</span>
-              <span className="inline font-small text-xs md:text-l md:font-medium leading-none">Back to Work</span>
+              <span className="inline font-small text-xs md:text-l md:font-medium leading-none">Back to Home</span>
             </motion.button>
           )}
         </AnimatePresence>
@@ -263,16 +252,6 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
 
           {/* Unified project bottom divider sheet & simple exit nudge */}
           <div className="w-full h-[1px] bg-[#1a1a1a] mt-24" />
-          
-          <div className="pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6 pointer-events-auto">
-            <button
-              onClick={handleBackToHome}
-              data-cursor="link"
-              className="font-mono text-[12px] text-[#6b6560] hover:text-[#C8FF00] tracking-wider uppercase transition-colors"
-            >
-              ← BACK TO HOME
-            </button>
-          </div>
 
         </div>
       </div>
@@ -291,7 +270,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 15, scale: 0.9 }}
             transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-            onClick={() => onTransitionTrigger("/")}
+            onClick={() => onTransitionTrigger("/#projects-section")}
             data-cursor="link"
             className="fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-2.5 py-2 md:px-5 md:py-2.5 flex items-center justify-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi tracking-[0.08em] uppercase select-none pointer-events-auto text-[#f0ece4] hover:text-[#C8FF00] hover:border-[#C8FF00]/50 transition-colors"
           >
@@ -301,13 +280,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
         )}
       </AnimatePresence>
 
-      {/* Subtle Horizontal scroll position progress indicator */}
-      <div className="fixed top-0 left-0 w-full h-[3px] bg-transparent z-55 pointer-events-none">
-        <div 
-          className="h-full bg-[#C8FF00] transition-all duration-75"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
+
 
       {/* Sentinel for IntersectionObserver — when this leaves viewport, show floating pill */}
       <div ref={headerSentinelRef} className="absolute top-0 left-0 w-full h-[1px] pointer-events-none" />
@@ -346,7 +319,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
             className="flex flex-col md:text-right font-mono text-[12px] text-[#6b6560] uppercase tracking-[0.12em] space-y-0.5 shrink-0"
           >
             <span>05 projects</span>
-            <span className="normal-case">2024—2025</span>
+            <span className="normal-case">2024 — 2026<span className="text-accent-lime relative -top-1">*</span></span>
           </motion.div>
         </div>
 
@@ -365,7 +338,8 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 pointer-events-auto select-none"
+          className="flex items-center gap-2 overflow-x-auto no-scrollbar py-2 pointer-events-auto select-none touch-pan-x"
+          style={{ WebkitOverflowScrolling: "touch" }}
         >
           {filterCategories.map((cat) => {
             const isFilterActive = selectedFilter === cat;

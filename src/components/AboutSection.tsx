@@ -52,7 +52,7 @@ export default function AboutSection() {
           <div className="lg:col-span-7 flex flex-col gap-2">
             {headingParts.map((part, i) => (
               <RevealText key={i} delay={i * 0.12}>
-                <h3 className="font-display italic text-[clamp(32px,5.5vw,64px)] text-[#f0ece4] leading-[1.1] tracking-tight">
+                <h3 className={`font-display italic text-[clamp(32px,5.5vw,64px)] leading-[1.1] tracking-tight ${i === 2 ? "text-[#C8FF00]" : "text-[#f0ece4]"}`}>
                   {part}
                 </h3>
               </RevealText>

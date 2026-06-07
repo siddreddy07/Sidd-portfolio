@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { motion } from "motion/react";
 import Lenis from "lenis";
 import CustomCursor from "./components/CustomCursor";
@@ -17,6 +17,15 @@ import ProjectsPage from "./components/ProjectsPage";
 
 export default function App() {
   const [showNav, setShowNav] = useState(false);
+  const isScrollingToSection = useRef(false);
+  const lenisRef = useRef<Lenis | null>(null);
+
+  // Prevent browser scroll restoration from interfering with transitions
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      window.history.scrollRestoration = "manual";
+    }
+  }, []);
 
   // Client-side state based routing
   const [currentPath, setCurrentPath] = useState(() => {
@@ -27,7 +36,7 @@ export default function App() {
   });
 
   // Active navigation tab
-  const [activeTab, setActiveTab] = useState<"WORK" | "ABOUT" | "CONTACT" | null>(null);
+  const [activeTab, setActiveTab] = useState<"WORK" | "ABOUT" | "EXPERIENCE" | "CONTACT" | null>(null);
 
   // Curtain control state for dynamic page transitions
   const [curtainPhase, setCurtainPhase] = useState<"idle" | "covering" | "revealing">("idle");
@@ -72,17 +81,23 @@ export default function App() {
       return;
     }
 
+    // Stop Lenis before transition to prevent scroll interference
+    if (lenisRef.current) {
+      lenisRef.current.destroy();
+      lenisRef.current = null;
+    }
+
     // Phase 1: Slide UP the curtain (covering) from bottom (translateY: 100% -> 0)
     setCurtainPhase("covering");
 
     // After 0.5s curtain covers the interface completely
     setTimeout(() => {
-      // Phase 2: Swap the view state, scroll to top 0
+      // Phase 2: Swap the view state
       setCurrentPath(pathOnly);
       if (!isPopState) {
         window.history.pushState({}, "", targetPath);
+        window.scrollTo(0, 0);
       }
-      window.scrollTo(0, 0);
 
       // Scroll to the hash section!
       if (hash) {
@@ -107,30 +122,37 @@ export default function App() {
     }, 500);
   };
 
-  // Lenis Smooth Scroll Configuration
+  // Show nav pill after initial load on any page
   useEffect(() => {
+    const navTimeout = setTimeout(() => {
+      setShowNav(true);
+    }, 800);
+    return () => clearTimeout(navTimeout);
+  }, []);
+
+  // Lenis Smooth Scroll Configuration (home page only)
+  useEffect(() => {
+    if (currentPath !== "/") return;
+
     const lenisInstance = new Lenis({
       duration: 1.4,
       lerp: 0.08,
       infinite: false,
       syncTouch: true
     });
+    lenisRef.current = lenisInstance;
 
     const raf = (time: number) => {
       lenisInstance.raf(time);
       requestAnimationFrame(raf);
     };
 
-    requestAnimationFrame(raf);
-
-    // Show navigation pill after site reveal
-    const navTimeout = setTimeout(() => {
-      setShowNav(true);
-    }, 800);
+    const rafId = requestAnimationFrame(raf);
 
     return () => {
       lenisInstance.destroy();
-      clearTimeout(navTimeout);
+      lenisRef.current = null;
+      cancelAnimationFrame(rafId);
     };
   }, [currentPath]);
 
@@ -142,42 +164,34 @@ export default function App() {
       { id: "hero-studio-section", tab: null },
       { id: "projects-section", tab: "WORK" as const },
       { id: "about-section", tab: "ABOUT" as const },
-      { id: "experience-section", tab: "ABOUT" as const },
+      { id: "experience-section", tab: "EXPERIENCE" as const },
       { id: "contact-section", tab: "CONTACT" as const }
     ];
 
     const handleScroll = () => {
+      if (isScrollingToSection.current) return;
       if (window.scrollY < 200) {
         setActiveTab(null);
         return;
       }
 
       const viewportMiddle = window.innerHeight / 2;
-      let currentActiveTab: "WORK" | "ABOUT" | "CONTACT" | null = null;
-      let closestTab: "WORK" | "ABOUT" | "CONTACT" | null = null;
-      let minDistance = Infinity;
+      let bestTab: "WORK" | "ABOUT" | "EXPERIENCE" | "CONTACT" | null = null;
+      let bestScore = -Infinity;
 
       for (const target of navTargets) {
         const el = document.getElementById(target.id);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          // Check if viewport center is within the element boundaries
-          if (rect.top <= viewportMiddle && rect.bottom >= viewportMiddle) {
-            currentActiveTab = target.tab;
-            break;
-          }
-          // Fallback to the closest element to the viewport middle
-          const distToTop = Math.abs(rect.top - viewportMiddle);
-          const distToBottom = Math.abs(rect.bottom - viewportMiddle);
-          const distance = Math.min(distToTop, distToBottom);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestTab = target.tab;
-          }
+        if (!el) continue;
+        const rect = el.getBoundingClientRect();
+        const sectionMiddle = (rect.top + rect.bottom) / 2;
+        const score = -Math.abs(sectionMiddle - viewportMiddle);
+        if (score > bestScore) {
+          bestScore = score;
+          bestTab = target.tab;
         }
       }
 
-      setActiveTab(currentActiveTab !== null ? currentActiveTab : closestTab);
+      setActiveTab(bestTab);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -190,12 +204,15 @@ export default function App() {
   }, [currentPath]);
 
   // Handle high-level menu clicks inside floating pill
-  const handleNavClick = (tab: "WORK" | "ABOUT" | "CONTACT") => {
+  const handleNavClick = (tab: "WORK" | "ABOUT" | "EXPERIENCE" | "CONTACT") => {
+    isScrollingToSection.current = true;
+    setActiveTab(tab);
     if (currentPath === "/") {
-      setActiveTab(tab);
       if (tab === "WORK") scrollToSection("projects-section");
       if (tab === "ABOUT") scrollToSection("about-section");
+      if (tab === "EXPERIENCE") scrollToSection("experience-section");
       if (tab === "CONTACT") scrollToSection("contact-section");
+      setTimeout(() => { isScrollingToSection.current = false; }, 800);
     } else {
       // Dynamic page transition back into homepage "/"
       triggerPageTransition("/", () => {
@@ -203,9 +220,11 @@ export default function App() {
         setTimeout(() => {
           if (tab === "WORK") scrollToSection("projects-section");
           if (tab === "ABOUT") scrollToSection("about-section");
+          if (tab === "EXPERIENCE") scrollToSection("experience-section");
           if (tab === "CONTACT") scrollToSection("contact-section");
         }, 120);
       });
+      setTimeout(() => { isScrollingToSection.current = false; }, 1200);
     }
   };
 
@@ -259,7 +278,7 @@ export default function App() {
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-8 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:right-8 md:left-auto md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-5 py-2.5 flex items-center gap-5 md:gap-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[13.5px] tracking-[0.08em] uppercase select-none pointer-events-auto"
+          className="fixed bottom-8 left-1/2 -translate-x-1/2 md:bottom-auto md:top-11 md:right-8 md:left-auto md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-3 md:px-5 py-2.5 flex items-center gap-1.5 md:gap-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[10px] md:text-[13.5px] tracking-[0.08em] uppercase select-none pointer-events-auto"
         >
           <button 
             onClick={() => handleNavClick("WORK")}
@@ -267,7 +286,7 @@ export default function App() {
             data-cursor-label="GO"
             className={`hover:text-text-primary tracking-[0.08em] transition-colors uppercase font-medium ${activeTab === "WORK" ? "text-accent-lime" : "text-text-secondary"}`}
           >
-            Work
+            Work·
           </button>
           <button 
             onClick={() => handleNavClick("ABOUT")}
@@ -275,7 +294,15 @@ export default function App() {
             data-cursor-label="GO"
             className={`hover:text-text-primary tracking-[0.08em] transition-colors uppercase font-medium ${activeTab === "ABOUT" ? "text-accent-lime" : "text-text-secondary"}`}
           >
-            About
+            About·
+          </button>
+          <button 
+            onClick={() => handleNavClick("EXPERIENCE")}
+            data-cursor="true"
+            data-cursor-label="GO"
+            className={`hover:text-text-primary tracking-[0.08em] transition-colors uppercase font-medium ${activeTab === "EXPERIENCE" ? "text-accent-lime" : "text-text-secondary"}`}
+          >
+            Experience·
           </button>
           <button 
             onClick={() => handleNavClick("CONTACT")}
@@ -302,7 +329,7 @@ export default function App() {
 
       {/* 3.5. Left-side Floating projects pill visible only during the WORK tab */}
       {showNav && currentPath === "/" && (
-        <motion.div
+        <motion.button
           initial={{ opacity: 0, x: -25, scale: 0.95 }}
           animate={{
             opacity: activeTab === "WORK" ? 1 : 0,
@@ -313,18 +340,14 @@ export default function App() {
             pointerEvents: activeTab === "WORK" ? "auto" : "none"
           }}
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed bottom-24 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-5 py-2.5 flex items-center shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[13.5px] tracking-[0.08em] uppercase select-none"
+          onClick={() => triggerPageTransition("/projects")}
+          data-cursor="true"
+          data-cursor-label="VIEW"
+          className="fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-4 py-1.5 flex items-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[10.5px] tracking-[0.08em] uppercase select-none text-text-primary hover:text-accent-lime transition-colors cursor-none"
         >
-          <button
-            onClick={() => triggerPageTransition("/projects")}
-            data-cursor="true"
-            data-cursor-label="VIEW"
-            className="text-text-primary hover:text-accent-lime tracking-[0.08em] transition-colors uppercase font-medium flex items-center gap-1.5 cursor-none"
-          >
-            <span>All Projects</span>
-            <span className="text-accent-lime font-normal text-xs font-mono">↗</span>
-          </button>
-        </motion.div>
+          <span>All Projects</span>
+          <span className="text-accent-lime font-normal text-xs font-mono">↗</span>
+        </motion.button>
       )}
 
       {/* 4. Film grain noise texture overlay for raw editorial look */}

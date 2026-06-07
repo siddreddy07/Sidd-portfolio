@@ -117,8 +117,8 @@ export default function HeroSection({}: HeroSectionProps) {
   return (
     <section
       id="hero-studio-section"
-      className="relative w-full overflow-hidden select-none bg-[#080808] text-[#f0ece4] px-6 md:px-12 lg:px-16 flex flex-col md:flex-row items-center justify-between"
-      style={{ minHeight: "100vh", height: "calc(var(--vh, 1vh) * 100)" }}
+      className="relative w-full bg-[#080808] text-[#f0ece4] px-6 md:px-12 lg:px-16 flex flex-col md:flex-row items-center justify-between"
+      style={{ height: "calc(var(--vh, 1vh) * 100)", minHeight: "calc(var(--vh, 1vh) * 100)" }}
     >
       <style>{`
         @keyframes marqueeUp {
@@ -134,10 +134,10 @@ export default function HeroSection({}: HeroSectionProps) {
       `}</style>
 
       {/* LEFT ZONE: 55% width on desktop */}
-      <div className="w-full md:w-[55%] h-full flex flex-col justify-between py-4 sm:py-12 md:pt-8 md:pb-20 relative z-10">
+      <div className="w-full md:w-[55%] h-full flex flex-col relative z-10">
         
-        {/* Top-left: Name tag */}
-        <div className="text-center md:text-left">
+        {/* Top-left: Name tag - absolute so it doesn't affect centering */}
+        <div className="absolute top-4 sm:top-12 md:top-8 left-0 right-0 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -150,8 +150,8 @@ export default function HeroSection({}: HeroSectionProps) {
           </motion.div>
         </div>
 
-        {/* Center-left: Main headline */}
-        <div className="my-auto text-center md:text-left py-2 sm:py-8">
+        {/* Center-left: Main headline - centered in remaining space */}
+        <div className="flex-1 flex flex-col items-center md:items-start justify-center text-center md:text-left">
           <div className="flex flex-col space-y-2 sm:space-y-3">
             {headlineLines.map((line, index) => (
               <div className="overflow-hidden" key={index}>

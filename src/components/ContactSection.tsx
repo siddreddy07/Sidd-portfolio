@@ -76,9 +76,9 @@ export default function ContactSection() {
         {/* Social Links Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-0">
           {[
-            { label: "X (Twitter)", href: "https://x.com/siddreddy007", value: "@siddreddy007", cursor: "X", icon: FaXTwitter },
-            { label: "LinkedIn", href: "https://www.linkedin.com/in/n-siddharth-reddy/", value: "n-siddharth-reddy", cursor: "IN", icon: FaLinkedinIn },
             { label: "GitHub", href: "https://github.com/siddreddy07", value: "siddreddy07", cursor: "GH", icon: FaGithub },
+            { label: "LinkedIn", href: "https://www.linkedin.com/in/n-siddharth-reddy/", value: "n-siddharth-reddy", cursor: "IN", icon: FaLinkedinIn },
+            { label: "X (Twitter)", href: "https://x.com/siddreddy007", value: "@siddreddy007", cursor: "X", icon: FaXTwitter },
           ].map((link, i) => (
             <RevealLine key={link.label} delay={0.4 + i * 0.08}>
               <a
@@ -104,16 +104,6 @@ export default function ContactSection() {
           ))}
         </div>
 
-        {/* Footer */}
-        <div className="flex flex-col space-y-2 pt-8">
-          <div className="w-full h-[1px] bg-[#1a1a1a]" />
-          <RevealLine delay={0.7}>
-            <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 font-mono text-[10px] text-[#6b6560]">
-              <span className="font-satoshi font-medium text-xs">N. Siddharth Reddy · Backend Engineer</span>
-              <span>© {new Date().getFullYear()}</span>
-            </div>
-          </RevealLine>
-        </div>
 
       </div>
     </section>
