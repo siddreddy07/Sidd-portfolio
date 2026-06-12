@@ -7,6 +7,8 @@ import { useEffect, useState, useRef } from "react";
 import { motion } from "motion/react";
 import Lenis from "lenis";
 import CustomCursor from "./components/CustomCursor";
+import Onboarding from "./components/Onboarding";
+import DiscoBall from "./components/DiscoBall";
 import HeroSection from "./components/HeroSection";
 import MarqueeStrip from "./components/MarqueeStrip";
 import ProjectsSection from "./components/ProjectsSection";
@@ -250,6 +252,9 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-bg-studio selection:bg-accent-lime selection:text-bg-studio">
       
+      {/* 0. ONBOARDING MOOD SELECTOR — appears on first visit / weekly */}
+      <Onboarding />
+
       {/* 1. CURTAIN WIPE OVERLAY SYSTEM
           Phase covering (transition down/up to center): translateY(100% -> 0%) over 0.5s
           Phase revealing (transition from center to top): translateY(0% -> -100%) over 0.6s
@@ -280,6 +285,7 @@ export default function App() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="fixed bottom-8 left-1/2 -translate-x-1/2 md:bottom-auto md:top-11 md:right-8 md:left-auto md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-3 md:px-5 py-2.5 flex items-center gap-1.5 md:gap-6 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[10px] md:text-[13.5px] tracking-[0.08em] uppercase select-none pointer-events-auto"
         >
+          <DiscoBall />
           <button 
             onClick={() => handleNavClick("WORK")}
             data-cursor="true"

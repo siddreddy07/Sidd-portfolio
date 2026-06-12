@@ -73,7 +73,7 @@ export default function CustomCursor() {
       <div
         id="custom-dot-cursor"
         data-cursor-element="true"
-        className="fixed top-0 left-0 pointer-events-none z-50 transform -translate-x-1/2 -translate-y-1/2 will-change-transform flex items-center justify-center"
+        className="fixed top-0 left-0 pointer-events-none z-[99999] transform -translate-x-1/2 -translate-y-1/2 will-change-transform flex items-center justify-center"
         style={{
           left: `${position.x}px`,
           top: `${position.y + CURSOR_OFFSET_Y}px`,
@@ -99,7 +99,7 @@ export default function CustomCursor() {
 
       {hovered && cursorText && (
         <div
-          className="fixed pointer-events-none z-50 font-mono text-[11px] text-[#C8FF00] tracking-[0.15em] uppercase whitespace-nowrap"
+          className="fixed pointer-events-none z-[99999] font-mono text-[11px] text-[#C8FF00] tracking-[0.15em] uppercase whitespace-nowrap"
           data-cursor-element="true"
           style={{
             left: `${position.x + 26}px`,
@@ -114,7 +114,7 @@ export default function CustomCursor() {
       <div
         id="cursor-ambient-trail"
         data-cursor-element="true"
-        className="fixed top-0 left-0 pointer-events-none z-45 rounded-full bg-accent-lime/10 transform -translate-x-1/2 -translate-y-1/2"
+        className="fixed top-0 left-0 pointer-events-none z-[99998] rounded-full bg-accent-lime/10 transform -translate-x-1/2 -translate-y-1/2"
         style={{
           left: `${cursorRef.current.x}px`,
           top: `${cursorRef.current.y + CURSOR_OFFSET_Y}px`,
