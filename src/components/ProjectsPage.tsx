@@ -7,9 +7,21 @@ import { getIcon } from "../data/iconMap";
    The JSON tags are display names. tagIcons reference iconMap strings.
    thumbnail.type can be "image" or "video" — fill the url to show media. */
 
-function renderThumbnail(project: typeof projectsData.projects[number]) {
+function renderThumbnail(project: typeof projectsData.projects[number], onClickVideo?: () => void) {
   const t = project.thumbnail;
   if (!t?.url) {
+    const liveSiteLink = project.links.find(l => l.label === "Live Site");
+    if (liveSiteLink) {
+      return (
+        <iframe
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          src={liveSiteLink.url}
+          title={project.name}
+          loading="lazy"
+          sandbox="allow-scripts allow-same-origin"
+        />
+      );
+    }
     return (
       <div className="absolute inset-0 bg-[#0c0c0c] border border-[#f0ece4]/10 flex items-center justify-center select-none">
         <span className="font-mono text-[10px] text-zinc-600">{project.name}</span>
@@ -18,14 +30,23 @@ function renderThumbnail(project: typeof projectsData.projects[number]) {
   }
   if (t.type === "video") {
     return (
-      <video
-        className="absolute inset-0 w-full h-full object-cover"
-        src={t.url}
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
+      <div className="absolute inset-0" onClick={onClickVideo}>
+        <video
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          src={t.url}
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div className="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+            <svg className="w-7 h-7 text-black ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
     );
   }
   return (
@@ -51,6 +72,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
   const [selectedFilter, setSelectedFilter] = useState<string>("All");
   const [hoveredSlug, setHoveredSlug] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [videoModalUrl, setVideoModalUrl] = useState<string | null>(null);
   const headerSentinelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -127,6 +149,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
     }
 
     return (
+      <>
       <div className="w-full bg-[#080808] text-[#f0ece4] min-h-screen pb-32 pt-28 px-6 md:px-12 lg:px-16 overflow-x-hidden relative select-none">
         
         {/* Floating responsive Back to Work Pill (appears on scroll, displays back icon on mobile) */}
@@ -214,8 +237,15 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
             <div className="lg:col-span-5 flex flex-col space-y-8 justify-between">
               
               {/* Massive scale 16:9 visualization frame */}
-              <div className="w-full aspect-[16/10] relative bg-[#0c0c0c] border border-zinc-800 shadow-2xl overflow-hidden flex items-center justify-center">
-                {renderThumbnail(project)}
+              <div
+                className="w-full aspect-[16/10] relative bg-[#0c0c0c] border border-zinc-800 shadow-2xl overflow-hidden flex items-center justify-center group cursor-pointer"
+                onClick={() => {
+                  if (project.thumbnail.type === "video" && project.thumbnail.url) {
+                    setVideoModalUrl(project.thumbnail.url);
+                  }
+                }}
+              >
+                {renderThumbnail(project, () => setVideoModalUrl(project.thumbnail.url!))}
               </div>
 
               {/* Core descriptive text narrative block */}
@@ -255,6 +285,38 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
 
         </div>
       </div>
+
+      {/* Video Modal */}
+      <AnimatePresence>
+        {videoModalUrl && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4 md:p-8"
+            onClick={() => setVideoModalUrl(null)}
+          >
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.92, opacity: 0 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="relative max-w-5xl w-full aspect-video"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <video
+                className="w-full h-full rounded-lg shadow-2xl bg-black"
+                src={videoModalUrl}
+                controls
+                autoPlay
+                playsInline
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      </>
     );
   }
 

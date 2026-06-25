@@ -5,7 +5,7 @@
       "num": "01",
       "slug": "mew-claw",
       "name": "Mew-Claw",
-      "desc": "AI Agent for Telegram",
+      "desc": "AI Agent Controlled from Telegram directly",
       "descriptor": "Telegram AI agent with dynamic tool routing and human-in-the-loop safety",
       "tags": ["Node.js", "Express.js", "Telegram Bot API", "Groq", "Vercel AI SDK"],
       "tagIcons": ["SiNodedotjs", "SiExpress", "SiTelegram", "FiCpu", "SiVercel"],
@@ -22,14 +22,14 @@
       "links": [
         { "label": "GitHub", "url": "https://github.com/siddreddy07/mew-claw", "icon": "SiGithub" }
       ],
-      "thumbnail": { "type": "image", "url": "" }
+      "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1781678537/WhatsApp_Video_2026-06-15_at_6.42.07_PM_dkwruy.mp4" }
     },
     {
       "num": "02",
       "slug": "db-smash",
       "name": "dbSmash",
-      "desc": "Conversational AI Schema Designer CLI",
-      "descriptor": "Conversational AI Schema Designer CLI",
+      "desc": "Conversational AI CLI npm to generate and initialise db schmeas and spin up Db",
+      "descriptor": "Conversational AI CLI npm to generate and initialise db schmeas and spin up Db",
       "tags": ["Node.js", "Gemini", "OpenRouter", "MongoDB", "Supabase", "Firebase", "npm"],
       "tagIcons": ["SiNodedotjs", "SiGooglegemini", "SiOpenai", "SiMongodb", "SiSupabase", "SiFirebase", "SiNpm"],
       "typePill": "CLI TOOL",
@@ -47,7 +47,7 @@
         { "label": "npm", "url": "https://www.npmjs.com/package/dbsmash", "icon": "SiNpm" },
         { "label": "GitHub", "url": "https://github.com/siddreddy07/dbsmash", "icon": "SiGithub" }
       ],
-      "thumbnail": { "type": "image", "url": "" }
+      "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1782310923/dbsmash_lzxpi4.mp4" }
     },
     {
       "num": "03",
