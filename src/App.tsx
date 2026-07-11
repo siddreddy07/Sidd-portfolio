@@ -349,7 +349,7 @@ export default function App() {
           onClick={() => triggerPageTransition("/projects")}
           data-cursor="true"
           data-cursor-label="VIEW"
-          className="fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-auto md:top-8 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-4 py-1.5 flex items-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[10.5px] tracking-[0.08em] uppercase select-none text-text-primary hover:text-accent-lime transition-colors cursor-none"
+          className="fixed bottom-20 left-1/2 -translate-x-1/2 md:bottom-auto md:top-11 md:left-8 md:translate-x-0 z-45 bg-white/[0.04] backdrop-blur-xl md:backdrop-blur-2xl border border-white/10 rounded-[100px] px-4 py-1.5 flex items-center gap-1.5 shadow-[0_8px_32px_0_rgba(0,0,0,0.4)] font-satoshi text-[10.5px] tracking-[0.08em] uppercase select-none text-text-primary hover:text-accent-lime transition-colors cursor-none"
         >
           <span>All Projects</span>
           <span className="text-accent-lime font-normal text-xs font-mono">↗</span>

@@ -4,12 +4,24 @@ import {
   SiPostgresql, SiMongodb, SiMysql, SiPrisma, SiDrizzle,
   SiReact, SiNextdotjs, SiTailwindcss, SiShadcnui, SiHtml5,
   SiLangchain, SiGooglegemini, SiOpenai, SiHuggingface,
-  SiVercel, SiSupabase, SiFirebase,
-  SiNpm, SiGit, SiGithub, SiTelegram,
+  SiSupabase, SiFirebase,
+  SiNpm, SiGit, SiGithub, SiTelegram, SiNetlify,
 } from "react-icons/si";
 import {
-  FiCloud, FiCpu, FiDatabase, FiCreditCard, FiShield,
+  FiCloud, FiCpu, FiDatabase, FiCreditCard, FiShield, FiExternalLink,
 } from "react-icons/fi";
+
+const VercelIcon: IconType = ({ size = 24, color = "currentColor", ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 -17 256 256"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <polygon fill={color} points="128 0 256 221.705007 0 221.705007" />
+  </svg>
+);
 
 const iconMap: Record<string, IconType> = {
   SiNodedotjs,
@@ -30,7 +42,7 @@ const iconMap: Record<string, IconType> = {
   SiGooglegemini,
   SiOpenai,
   SiHuggingface,
-  SiVercel,
+  SiVercel: VercelIcon,
   SiSupabase,
   SiFirebase,
   SiNpm,
@@ -42,6 +54,8 @@ const iconMap: Record<string, IconType> = {
   FiDatabase,
   FiCreditCard,
   FiShield,
+  FiExternalLink,
+  SiNetlify,
 };
 
 export function getIcon(name: string): IconType | null {

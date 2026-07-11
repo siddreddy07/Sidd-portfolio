@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import projectsData from "../data/projects.json";
 import { getIcon } from "../data/iconMap";
+import vercelSvg from "../../assets/vercel-icon-svgrepo-com.svg";
 
 /* Edit src/data/projects.json to add/remove projects.
    The JSON tags are display names. tagIcons reference iconMap strings.
@@ -259,6 +260,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
                 <div className="pt-4 flex flex-wrap items-center gap-3">
                   {(project as any).links?.map((link: { label: string; url: string; icon?: string }) => {
                     const LinkIcon = link.icon ? getIcon(link.icon) : null;
+                    const isLiveSite = link.label === "Live Site";
                     return (
                       <a
                         key={link.label}
@@ -268,7 +270,11 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
                         data-cursor="link"
                         className="font-mono text-[12px] bg-[#C8FF00] hover:bg-[#b0df00] text-[#080808] font-bold uppercase py-3 px-5 tracking-wide transition-all duration-200 inline-flex items-center gap-2 hover:-translate-y-[2px] hover:shadow-[0_6px_20px_-4px_rgba(200,255,0,0.25)] active:translate-y-0"
                       >
-                        {LinkIcon && <LinkIcon size={14} />}
+                        {isLiveSite ? (
+                          <img src={vercelSvg} alt="Vercel" className="w-[14px] h-[14px]" />
+                        ) : (
+                          LinkIcon && <LinkIcon size={14} />
+                        )}
                         {link.label} ↗
                       </a>
                     );

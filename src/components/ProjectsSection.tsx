@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "motion/react";
+import { SiNpm } from "react-icons/si";
 import projectsData from "../data/projects.json";
 
 /* Only the first 3 projects display here on the homepage.
@@ -56,21 +57,19 @@ export default function ProjectsSection({ onNavigateProject }: ProjectsSectionPr
             >
               {/* Dot Indicator */}
               <div 
-                className="w-[5px] h-[5px] rounded-full bg-[#C8FF00] transition-all duration-300 shrink-0"
+                className="absolute left-0 w-[5px] h-[5px] rounded-full bg-[#C8FF00] transition-all duration-300"
                 style={{
                   opacity: isHovered ? 1 : 0,
                   transform: isHovered ? "scale(1)" : "scale(0.5)"
                 }}
               />
 
-              {/* Project Number */}
-              <span className="font-mono text-[11px] text-[#6b6560] w-6 shrink-0">
-                {project.num}
-              </span>
-
               {/* Project Info */}
               <div className="flex-1 min-w-0">
                 <div className="flex items-baseline gap-3 flex-wrap">
+                  <span className="font-mono text-[11px] text-[#6b6560] shrink-0">
+                    {project.num}
+                  </span>
                   <h3 
                     className="font-satoshi font-bold text-[clamp(18px,2.5vw,32px)] text-[#f0ece4] leading-tight transition-transform duration-300 ease-out"
                     style={{
@@ -79,21 +78,26 @@ export default function ProjectsSection({ onNavigateProject }: ProjectsSectionPr
                   >
                     {project.name}
                   </h3>
-                  <span className="font-satoshi text-sm text-[#6b6560] hidden sm:inline">
-                    {project.desc}
-                  </span>
                 </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-1.5 mt-2">
-                  {project.tags.map((tag) => (
-                    <span 
-                      key={tag}
-                      className="font-mono text-[10px] text-[#6b6560] px-2 py-0.5 border border-[#222222] rounded-sm"
+                {/* Enhanced Description */}
+                <div className="flex items-center gap-2 mt-2">
+                  <p className="font-satoshi text-[13px] text-[#6b6560] leading-relaxed max-w-[580px] transition-colors duration-300 group-hover:text-[#8a847f]">
+                    {project.desc}
+                  </p>
+                  {"npmPackage" in project && (project as any).npmPackage && (
+                    <a
+                      href={`https://www.npmjs.com/package/${(project as any).npmPackage}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={(e) => e.stopPropagation()}
+                      onMouseEnter={() => setIsHovered(null)}
+                      className="hidden md:inline-flex items-center gap-1 px-2 py-0.5 border border-[#CB3837]/30 rounded-sm shrink-0 hover:bg-[#CB3837]/10 transition-colors"
                     >
-                      {tag}
-                    </span>
-                  ))}
+                      <SiNpm className="text-[10px] text-[#CB3837]" />
+                      <span className="font-mono text-[10px] text-[#CB3837]">Try my npm package →</span>
+                    </a>
+                  )}
                 </div>
               </div>
 

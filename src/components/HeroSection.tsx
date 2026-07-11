@@ -137,7 +137,7 @@ export default function HeroSection({}: HeroSectionProps) {
       <div className="w-full md:w-[55%] h-full flex flex-col relative z-10">
         
         {/* Top-left: Name tag - absolute so it doesn't affect centering */}
-        <div className="absolute top-4 sm:top-12 md:top-8 left-0 right-0 text-center md:text-left">
+        <div className="absolute top-4 sm:top-12 md:top-11 left-0 right-0 text-center md:text-left">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -151,8 +151,31 @@ export default function HeroSection({}: HeroSectionProps) {
         </div>
 
         {/* Center-left: Main headline - centered in remaining space */}
-        <div className="flex-1 flex flex-col items-center md:items-start justify-center text-center md:text-left">
-          <div className="flex flex-col space-y-2 sm:space-y-3">
+        <div className="flex-1 flex flex-col items-center md:items-start justify-center text-center md:text-left relative">
+          {/* Mobile/tablet: Tech logos scrolling horizontally behind headline */}
+          <div className="md:hidden absolute inset-0 flex flex-col items-center justify-center gap-6 overflow-hidden pointer-events-none z-0">
+            <style>{`
+              @keyframes marqueeLeft {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+              }
+              @keyframes marqueeRight {
+                0% { transform: translateX(-50%); }
+                100% { transform: translateX(0); }
+              }
+            `}</style>
+            <div className="flex gap-6 whitespace-nowrap" style={{ animation: "marqueeLeft 20s linear infinite" }}>
+              {[...col1Logos, ...col1Logos, ...col1Logos, ...col1Logos].map((logo, i) => (
+                <logo.icon key={i} size={32} color="#1a1a1a" className="shrink-0" />
+              ))}
+            </div>
+            <div className="flex gap-6 whitespace-nowrap" style={{ animation: "marqueeRight 25s linear infinite" }}>
+              {[...col2Logos, ...col2Logos, ...col2Logos, ...col2Logos].map((logo, i) => (
+                <logo.icon key={i} size={32} color="#1a1a1a" className="shrink-0" />
+              ))}
+            </div>
+          </div>
+          <div className="flex flex-col space-y-2 sm:space-y-3 relative z-10">
             {headlineLines.map((line, index) => (
               <div className="overflow-hidden" key={index}>
                 <motion.span
@@ -176,7 +199,7 @@ export default function HeroSection({}: HeroSectionProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
-            className="font-satoshi font-normal text-[13px] sm:text-[15px] text-[#6b6560] mt-4 sm:mt-5 max-w-xl mx-auto md:mx-0"
+            className="font-satoshi font-normal text-[13px] sm:text-[15px] text-[#6b6560] mt-4 sm:mt-5 max-w-xl mx-auto md:mx-0 relative z-10"
           >
             Building backend systems, AI-powered applications, and developer tools
           </motion.p>
@@ -186,7 +209,7 @@ export default function HeroSection({}: HeroSectionProps) {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.1, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col sm:flex-row sm:items-center justify-center md:justify-start gap-3 sm:gap-5 mt-6"
+            className="flex flex-col sm:flex-row sm:items-center justify-center md:justify-start gap-3 sm:gap-5 mt-6 relative z-10"
           >
             <span className="flex items-center gap-1.5 font-satoshi text-[13px] sm:text-[14px] text-[#6b6560]">
               <span className="w-2 h-2 rounded-full bg-[#C8FF00] animate-pulse font-bold shrink-0" style={{ animationDuration: "2s" }} />
