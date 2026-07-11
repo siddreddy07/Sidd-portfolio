@@ -152,29 +152,6 @@ export default function HeroSection({}: HeroSectionProps) {
 
         {/* Center-left: Main headline - centered in remaining space */}
         <div className="flex-1 flex flex-col items-center md:items-start justify-center text-center md:text-left relative">
-          {/* Mobile/tablet: Tech logos scrolling horizontally behind headline */}
-          <div className="md:hidden absolute inset-0 flex flex-col items-center justify-center gap-6 overflow-hidden pointer-events-none z-0">
-            <style>{`
-              @keyframes marqueeLeft {
-                0% { transform: translateX(0); }
-                100% { transform: translateX(-50%); }
-              }
-              @keyframes marqueeRight {
-                0% { transform: translateX(-50%); }
-                100% { transform: translateX(0); }
-              }
-            `}</style>
-            <div className="flex gap-6 whitespace-nowrap" style={{ animation: "marqueeLeft 20s linear infinite" }}>
-              {[...col1Logos, ...col1Logos, ...col1Logos, ...col1Logos].map((logo, i) => (
-                <logo.icon key={i} size={32} color="#1a1a1a" className="shrink-0" />
-              ))}
-            </div>
-            <div className="flex gap-6 whitespace-nowrap" style={{ animation: "marqueeRight 25s linear infinite" }}>
-              {[...col2Logos, ...col2Logos, ...col2Logos, ...col2Logos].map((logo, i) => (
-                <logo.icon key={i} size={32} color="#1a1a1a" className="shrink-0" />
-              ))}
-            </div>
-          </div>
           <div className="flex flex-col space-y-2 sm:space-y-3 relative z-10">
             {headlineLines.map((line, index) => (
               <div className="overflow-hidden" key={index}>
@@ -217,6 +194,30 @@ export default function HeroSection({}: HeroSectionProps) {
             </span>
             
           </motion.div>
+
+          {/* Mobile/tablet: Tech logos scrolling horizontally */}
+          <div className="md:hidden w-full mt-8 overflow-hidden pointer-events-none">
+            <style>{`
+              @keyframes marqueeLeft {
+                0% { transform: translateX(0); }
+                100% { transform: translateX(-50%); }
+              }
+              @keyframes marqueeRight {
+                0% { transform: translateX(-50%); }
+                100% { transform: translateX(0); }
+              }
+            `}</style>
+            <div className="flex gap-6 whitespace-nowrap" style={{ animation: "marqueeLeft 20s linear infinite" }}>
+              {[...col1Logos, ...col1Logos, ...col1Logos, ...col1Logos].map((logo, i) => (
+                <logo.icon key={i} size={32} color="#2a2a2a" className="shrink-0" />
+              ))}
+            </div>
+            <div className="flex gap-6 whitespace-nowrap mt-4" style={{ animation: "marqueeRight 25s linear infinite" }}>
+              {[...col2Logos, ...col2Logos, ...col2Logos, ...col2Logos].map((logo, i) => (
+                <logo.icon key={i} size={32} color="#2a2a2a" className="shrink-0" />
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Space reserving block for alignment */}
