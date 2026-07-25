@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#080808"/>
+  <text x="600" y="260" text-anchor="middle" font-family="serif" font-style="italic" font-size="72" fill="#f0ece4">N. Siddharth Reddy</text>
+  <text x="600" y="340" text-anchor="middle" font-family="sans-serif" font-size="28" fill="#6b6560">Full Stack Developer</text>
+  <line x1="540" y1="370" x2="660" y2="370" stroke="#C8FF00" stroke-width="2"/>
+  <text x="600" y="420" text-anchor="middle" font-family="monospace" font-size="18" fill="#6b656066">Node.js · React · MySQL · OpenAI · Gemini · Groq · LangChain</text>
+  <text x="600" y="460" text-anchor="middle" font-family="monospace" font-size="18" fill="#6b656066">Gen AI · AI Agents · LLM Integrations</text>
+</svg>

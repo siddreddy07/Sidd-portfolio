@@ -61,7 +61,7 @@ function renderThumbnail(project: typeof projectsData.projects[number], onClickV
 
 const projectsArchive = projectsData.projects;
 
-const filterCategories = ["All", "CLI Tools", "Backend", "AI-Integrated", "IoT"] as const;
+const filterCategories = ["All", "Full Stack", "CLI Tools", "Backend", "AI-Integrated", "IoT"] as const;
 
 interface ProjectsPageProps {
   currentSlug?: string | null;
@@ -124,6 +124,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
     if (filter === "All") return true;
     if (filter === "CLI Tools" && item.type === "CLI Tools") return true;
     if (filter === "Backend" && item.type === "Backend") return true;
+    if (filter === "Full Stack" && item.type === "Fullstack") return true;
     if (filter === "IoT" && item.type === "IoT") return true;
     if (filter === "AI-Integrated" && (item.tags.includes("OpenAI") || item.tags.includes("Gemini") || item.tags.includes("Groq"))) return true;
     return false;

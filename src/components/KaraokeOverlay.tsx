@@ -72,7 +72,7 @@ function CharGlow({ char, index, total, duration }: { char: string; index: numbe
         duration: 0.1,
         ease: "easeOut",
       }}
-      className="inline-block"
+      className="inline"
     >
       {char === " " ? "\u00A0" : char}
     </motion.span>
@@ -220,7 +220,7 @@ export default function KaraokeOverlay({ active }: { active: boolean }) {
           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="fixed inset-x-0 bottom-[6vh] lg:bottom-auto lg:top-[100px] z-40 pointer-events-none select-none flex flex-col items-center px-6"
         >
-          <div className="text-center">
+          <div className="text-center max-w-[90vw] lg:max-w-[60vw]">
             <span className="block font-display italic text-[clamp(24px,5vw,48px)] leading-snug tracking-tight text-text-secondary/10">
               {visibleEntry.text.split("").map((char, ci) => {
                 const nextTextLine = lyrics.find((l, j) => j > currentIdx && l.text);
@@ -228,7 +228,7 @@ export default function KaraokeOverlay({ active }: { active: boolean }) {
                 const lineDuration = (nextTime - visibleEntry.time) * 1000;
                 return (
                   <span key={`${currentIdx}-${ci}`}>
-                    <CharGlow char={char} index={ci} total={visibleEntry.text.length} duration={Math.max(400, Math.min(lineDuration, 2000))} />
+                    <CharGlow char={char} index={ci} total={visibleEntry.text.length} duration={Math.max(400, lineDuration)} />
                   </span>
                 );
               })}
