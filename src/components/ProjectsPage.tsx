@@ -59,7 +59,18 @@ function renderThumbnail(project: typeof projectsData.projects[number], onClickV
   );
 }
 
-const projectsArchive = projectsData.projects;
+/* /projects lists projects date-wise, latest first (by year, stable tie-break).
+   nums are re-derived from the sorted order so the archive reads 01, 02, 03... */
+const projectsArchive = projectsData.projects
+  .map((project, index) => ({ project, index }))
+  .sort((a, b) => {
+    const yearDiff = Number(b.project.year) - Number(a.project.year);
+    return yearDiff !== 0 ? yearDiff : a.index - b.index;
+  })
+  .map(({ project }, position) => ({
+    ...project,
+    num: String(position + 1).padStart(2, "0"),
+  }));
 
 const filterCategories = ["All", "Full Stack", "CLI Tools", "Backend", "AI-Integrated", "IoT"] as const;
 
@@ -387,7 +398,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-col md:text-right font-mono text-[12px] text-[#6b6560] uppercase tracking-[0.12em] space-y-0.5 shrink-0"
           >
-            <span>05 projects</span>
+            <span>06 projects</span>
             <span className="normal-case">2024 — 2026<span className="text-accent-lime relative -top-1">*</span></span>
           </motion.div>
         </div>

@@ -1,5 +1,5 @@
 {
-  "_comment": "Top 3 projects display on homepage (ProjectsSection). All 5 show on /projects page. Projects also show in archive with filtering and detail views.",
+  "_comment": "Top 3 projects display on homepage (ProjectsSection). All 6 show on /projects page. Projects also show in archive with filtering and detail views.",
   "projects": [
     {
       "num": "01",
@@ -26,29 +26,27 @@
     },
     {
       "num": "02",
-      "slug": "db-smash",
-      "name": "dbSmash",
-      "desc": "Tired of setting up databases by hand? Just tell this CLI what your app does, it'll design the schema, visualize it & spin everything up for you. Available on npm.",
-      "npmPackage": "dbsmash",
-      "descriptor": "Conversational AI CLI npm to generate and initialise db schmeas and spin up Db",
-      "tags": ["Node.js", "Gemini", "OpenRouter", "MongoDB", "Supabase", "Firebase", "npm"],
-      "tagIcons": ["SiNodedotjs", "SiGooglegemini", "SiOpenai", "SiMongodb", "SiSupabase", "SiFirebase", "SiNpm"],
-      "typePill": "CLI TOOL",
-      "type": "CLI Tools",
-      "year": "2025",
+      "slug": "auto-browse",
+      "name": "Auto Browse",
+      "desc": "AI-powered browser automation platform that executes real browser tasks from natural language using autonomous agents, visual workflows & cloud browser sessions.",
+      "descriptor": "AI browser automation platform — natural language to real browser actions, visual workflows & cloud sessions",
+      "tags": ["Next.js", "React Flow", "Stagehand", "Browserbase", "Trigger.dev", "Neon", "Drizzle", "Clerk", "Liveblocks"],
+      "tagIcons": ["SiNextdotjs", "FiGitBranch", "FiMousePointer", "FiGlobe", "FiZap", "SiPostgresql", "SiDrizzle", "FiKey", "FiUsers"],
+      "typePill": "AI PLATFORM",
+      "type": "Fullstack",
+      "year": "2026",
       "specs": [
-        { "label": "Target Ecosystem", "value": "NodeJS / npm registry" },
-        { "label": "AI Engine", "value": "Gemini / OpenRouter" },
-        { "label": "Database Drivers", "value": "MongoDB, Firestore, Supabase" },
-        { "label": "Execution", "value": "Conversational schema design pipeline" }
+        { "label": "Automation", "value": "Natural language → real browser tasks" },
+        { "label": "Agent Stack", "value": "Stagehand + Browserbase cloud sessions" },
+        { "label": "Orchestration", "value": "Trigger.dev background job execution" },
+        { "label": "Collaboration", "value": "Liveblocks real-time workflow canvas" }
       ],
-      "overview": "An AI-powered CLI package on npm that lets you describe your app idea in plain English and iteratively design production-ready database schemas through a conversational interface. Visualize schemas as Mermaid diagrams, critique and suggest changes to the AI, and lock in your design before being prompted to choose your database engine (MongoDB, Firestore, or Supabase). Finally generates model definitions, seeding scripts, and initializes the database — all from a single conversation.",
+      "overview": "Built an AI-powered browser automation platform that executes real browser tasks from natural language using autonomous agents, visual workflows, and cloud browser sessions. Developed a collaborative workflow canvas with real-time editing using Liveblocks, browser automation, authentication, background job execution, and persistent workflow management, enabling teams to build and automate complex web tasks together.",
       "links": [
-        { "label": "Live Site", "url": "https://dbsmash.netlify.app/", "icon": "SiNetlify" },
-        { "label": "npm", "url": "https://www.npmjs.com/package/dbsmash", "icon": "SiNpm" },
-        { "label": "GitHub", "url": "https://github.com/siddreddy07/dbsmash", "icon": "SiGithub" }
+        { "label": "Live Site", "url": "https://auto-browse-seven.vercel.app/", "icon": "SiVercel" },
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/auto-browse", "icon": "SiGithub" }
       ],
-      "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1782310923/dbsmash_lzxpi4.mp4" }
+      "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1786080445/Auto_browse_myxiwa.mp4" }
     },
     {
       "num": "03",
@@ -76,6 +74,32 @@
     },
     {
       "num": "04",
+      "slug": "db-smash",
+      "name": "dbSmash",
+      "desc": "Tired of setting up databases by hand? Just tell this CLI what your app does, it'll design the schema, visualize it & spin everything up for you. Available on npm.",
+      "npmPackage": "dbsmash",
+      "descriptor": "Conversational AI CLI npm to generate and initialise db schmeas and spin up Db",
+      "tags": ["Node.js", "Gemini", "OpenRouter", "MongoDB", "Supabase", "Firebase", "npm"],
+      "tagIcons": ["SiNodedotjs", "SiGooglegemini", "SiOpenai", "SiMongodb", "SiSupabase", "SiFirebase", "SiNpm"],
+      "typePill": "CLI TOOL",
+      "type": "CLI Tools",
+      "year": "2025",
+      "specs": [
+        { "label": "Target Ecosystem", "value": "NodeJS / npm registry" },
+        { "label": "AI Engine", "value": "Gemini / OpenRouter" },
+        { "label": "Database Drivers", "value": "MongoDB, Firestore, Supabase" },
+        { "label": "Execution", "value": "Conversational schema design pipeline" }
+      ],
+      "overview": "An AI-powered CLI package on npm that lets you describe your app idea in plain English and iteratively design production-ready database schemas through a conversational interface. Visualize schemas as Mermaid diagrams, critique and suggest changes to the AI, and lock in your design before being prompted to choose your database engine (MongoDB, Firestore, or Supabase). Finally generates model definitions, seeding scripts, and initializes the database — all from a single conversation.",
+      "links": [
+        { "label": "Live Site", "url": "https://dbsmash.netlify.app/", "icon": "SiNetlify" },
+        { "label": "npm", "url": "https://www.npmjs.com/package/dbsmash", "icon": "SiNpm" },
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/dbsmash", "icon": "SiGithub" }
+      ],
+      "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1782310923/dbsmash_lzxpi4.mp4" }
+    },
+    {
+      "num": "05",
       "slug": "hook-lens",
       "name": "HookLens",
       "desc": "Webhook capture & mimic engine",
@@ -100,7 +124,7 @@
       "thumbnail": { "type": "image", "url": "" }
     },
     {
-      "num": "05",
+      "num": "06",
       "slug": "smart-voter",
       "name": "Smart Voter System",
       "desc": "IoT-based group project — biometric voting system (Web Lead)",
