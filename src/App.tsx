@@ -320,7 +320,7 @@ export default function App() {
           </button>
           <div className="w-[1.5px] h-3.5 bg-white/15 self-center" />
           <a 
-            href="https://drive.google.com/file/d/1XHZ1gMmXKW5QnPuLAebeU5PNSOI3Syu5/view?usp=drivesdk"
+            href="https://drive.google.com/file/d/1Zx_h64fkmaD0amDMQFB3XydompZiHdLo/view"
             target="_blank"
             rel="noopener noreferrer"
             data-cursor="true"
