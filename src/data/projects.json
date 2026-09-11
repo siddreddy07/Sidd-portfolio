@@ -1,8 +1,32 @@
 {
-  "_comment": "Top 3 projects display on homepage (ProjectsSection). All 6 show on /projects page. Projects also show in archive with filtering and detail views.",
+  "_comment": "Top 3 projects display on homepage (ProjectsSection). All 7 show on /projects page. Projects also show in archive with filtering and detail views.",
   "projects": [
     {
       "num": "01",
+      "slug": "bsdk",
+      "name": "BSDK",
+      "desc": "A Chat SDK for AI-native websites. Drop in a branded chat widget (@bsdk/ui), run the AI flow server-side (@bsdk/server), and manage bots & knowledge from a dashboard. Live now.",
+      "descriptor": "AI-native chat SDK — drop-in widget, server-side AI via createBSDK(), dashboard-managed bots, RAG knowledge & streaming responses",
+      "tags": ["@bsdk/ui", "@bsdk/server", "@bsdk/cli", "Gemini", "Groq", "OpenAI", "Cohere", "Pinecone", "Vercel AI SDK"],
+      "tagIcons": ["FiGlobe", "FiServer", "FiTerminal", "SiGooglegemini", "FiZap", "SiOpenai", "FiCpu", "FiDatabase", "SiVercel"],
+      "typePill": "AI SDK",
+      "type": "Fullstack",
+      "year": "2026",
+      "specs": [
+        { "label": "Packages", "value": "@bsdk/ui · @bsdk/server · @bsdk/cli" },
+        { "label": "AI Providers", "value": "Gemini, Groq, OpenAI, Anthropic via Vercel AI SDK" },
+        { "label": "RAG Knowledge", "value": "Cohere embeddings + Pinecone retrieval" },
+        { "label": "Delivery", "value": "Streaming HTTP chat responses + tool calling" }
+      ],
+      "overview": "BSDK (Bot Sense Data Knowledge) lets developers add an AI chat layer to an existing website without rebuilding their product. The @bsdk/ui package renders a fully-brandable chat widget, while @bsdk/server powers the server-side AI flow through createBSDK(...), and npx @bsdk/cli init scaffolds setup in seconds. Connect providers such as Gemini, Groq, OpenAI, or Anthropic through the Vercel AI SDK — supporting unified tool calling across every provider — while keeping API keys server-side. Each implementation runs a Dashboard-managed Bot identified by a botId; website-specific knowledge is optional — businesses can upload documents that are processed with Cohere embeddings and Pinecone retrieval. Answers are delivered through streaming HTTP responses, and the widget exposes full branding controls: title, welcome message, position, trigger design, colors, images, and chat-bubble styling. Already built and live.",
+      "links": [
+        { "label": "Live Site", "url": "https://bsdk.siddharthreddy627.workers.dev/", "icon": "SiVercel" },
+        { "label": "GitHub", "url": "https://github.com/siddreddy07/bsdk", "icon": "SiGithub" }
+      ],
+      "thumbnail": { "type": "iframe", "url": "https://bsdk.siddharthreddy627.workers.dev/" }
+    },
+    {
+      "num": "02",
       "slug": "mew-claw",
       "name": "Mew-Claw",
       "desc": "Want to control your entire PC from your phone? Send a message on Telegram, this AI agent runs commands, edits files, searches the web & does it all for you.",
@@ -25,7 +49,7 @@
       "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1781678537/WhatsApp_Video_2026-06-15_at_6.42.07_PM_dkwruy.mp4" }
     },
     {
-      "num": "02",
+      "num": "03",
       "slug": "auto-browse",
       "name": "Auto Browse",
       "desc": "AI-powered browser automation platform that executes real browser tasks from natural language using autonomous agents, visual workflows & cloud browser sessions.",
@@ -49,7 +73,7 @@
       "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1786080445/Auto_browse_myxiwa.mp4" }
     },
     {
-      "num": "03",
+      "num": "04",
       "slug": "shraddha-media",
       "name": "Shraddha Media",
       "desc": "Ever wanted a news site that just works? Full CMS with secure logins, role-based access & auto SEO ready for real traffic.",
@@ -73,7 +97,7 @@
       "thumbnail": { "type": "image", "url": "" }
     },
     {
-      "num": "04",
+      "num": "05",
       "slug": "db-smash",
       "name": "dbSmash",
       "desc": "Tired of setting up databases by hand? Just tell this CLI what your app does, it'll design the schema, visualize it & spin everything up for you. Available on npm.",
@@ -99,7 +123,7 @@
       "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1782310923/dbsmash_lzxpi4.mp4" }
     },
     {
-      "num": "05",
+      "num": "06",
       "slug": "hook-lens",
       "name": "HookLens",
       "desc": "Webhook capture & mimic engine",
@@ -124,7 +148,7 @@
       "thumbnail": { "type": "image", "url": "" }
     },
     {
-      "num": "06",
+      "num": "07",
       "slug": "smart-voter",
       "name": "Smart Voter System",
       "desc": "IoT-based group project — biometric voting system (Web Lead)",

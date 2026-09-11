@@ -9,7 +9,7 @@ import {
 } from "react-icons/si";
 import {
   FiCloud, FiCpu, FiDatabase, FiCreditCard, FiShield, FiExternalLink,
-  FiGitBranch, FiMousePointer, FiGlobe, FiZap, FiKey, FiUsers,
+  FiGitBranch, FiMousePointer, FiGlobe, FiZap, FiKey, FiUsers, FiTerminal,
 } from "react-icons/fi";
 
 const VercelIcon: IconType = ({ size = 24, color = "currentColor", ...props }) => (
@@ -62,6 +62,7 @@ const iconMap: Record<string, IconType> = {
   FiZap,
   FiKey,
   FiUsers,
+  FiTerminal,
   SiNetlify,
 };
 

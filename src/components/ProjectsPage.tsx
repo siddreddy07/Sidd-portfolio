@@ -6,10 +6,21 @@ import vercelSvg from "../../assets/vercel-icon-svgrepo-com.svg";
 
 /* Edit src/data/projects.json to add/remove projects.
    The JSON tags are display names. tagIcons reference iconMap strings.
-   thumbnail.type can be "image" or "video" — fill the url to show media. */
+   thumbnail.type can be "image", "video", or "iframe" — fill the url to show media. */
 
 function renderThumbnail(project: typeof projectsData.projects[number], onClickVideo?: () => void) {
   const t = project.thumbnail;
+  if (t?.type === "iframe" && t.url) {
+    return (
+      <iframe
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        src={t.url}
+        title={project.name}
+        loading="lazy"
+        sandbox="allow-scripts allow-same-origin"
+      />
+    );
+  }
   if (!t?.url) {
     const liveSiteLink = project.links.find(l => l.label === "Live Site");
     if (liveSiteLink) {
@@ -398,7 +409,7 @@ export default function ProjectsPage({ currentSlug, onNavigate, onTransitionTrig
             transition={{ duration: 0.5, delay: 0.4 }}
             className="flex flex-col md:text-right font-mono text-[12px] text-[#6b6560] uppercase tracking-[0.12em] space-y-0.5 shrink-0"
           >
-            <span>06 projects</span>
+            <span>07 projects</span>
             <span className="normal-case">2024 — 2026<span className="text-accent-lime relative -top-1">*</span></span>
           </motion.div>
         </div>
