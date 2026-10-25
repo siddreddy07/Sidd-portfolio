@@ -2,27 +2,27 @@
   "_comment": "Experience timeline entries. Displayed in ExperienceSection.",
   "entries": [
     {
-      "years": "2025",
+      "years": "Jan – May 2025",
       "role": "MERN Stack Dev Intern",
       "company": "TEN",
       "companyUrl": "https://github.com/siddreddy07",
       "type": "INTERNSHIP",
       "bullets": [
-        "Designed and shipped 6+ HRMS API endpoints for employee onboarding, role assignment, and access control",
-        "Built shopping cart, wishlist, and product filter in React.js — extracted shared filter state into a single context to eliminate prop-drilling across 3 component levels",
-        "Built reusable request-validation middleware with standardized error handling, reducing duplicated validation logic and improving API consistency across multiple modules"
+        "Built 6+ API endpoints for an HRMS: employee onboarding, roles and access control.",
+        "Built a shopping cart, wishlist and product filters in React. Moved the filter state into one context so it no longer gets passed down through 3 levels of components.",
+        "Wrote shared request-validation middleware with consistent error responses, so each module stopped repeating the same checks."
       ]
     },
     {
-      "years": "2024",
+      "years": "Aug – Oct 2024",
       "role": "Backend Dev Intern",
       "company": "reaidy.io",
       "companyUrl": "https://github.com/siddreddy07",
       "type": "INTERNSHIP",
       "bullets": [
-        "Engineered a leaderboard API using MongoDB aggregations, eliminating application-level sorting and improving the efficiency of ranking operations",
-        "Reduced database round trips by 50% in interview scheduling workflows by redesigning query patterns with aggregation joins and optimized data retrieval",
-        "Enhanced authentication security by migrating token handling to httpOnly cookies, adding CSRF validation, and implementing Redis-backed rate limiting for abuse prevention"
+        "Built a leaderboard API with MongoDB aggregations, so ranking happens in the database instead of in app code.",
+        "Cut database round trips by 50% in interview scheduling by rewriting the queries with aggregation joins.",
+        "Moved auth tokens to httpOnly cookies, added CSRF checks, and put Redis-backed rate limiting on the API."
       ]
     },
     {

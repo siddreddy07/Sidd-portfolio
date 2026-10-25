@@ -1,3 +1,10 @@
 {
+  "redirects": [
+    {
+      "source": "/resume",
+      "destination": "https://drive.google.com/file/d/1xYhDHANWX0kXd4HAZ0KDmCIlOyyVdyKC/view?usp=drivesdk",
+      "permanent": false
+    }
+  ],
   "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
 }

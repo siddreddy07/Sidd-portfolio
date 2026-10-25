@@ -1,20 +1,53 @@
 @import "tailwindcss";
 
-@theme {
-  --color-bg-studio: #080808;
-  --color-surface-studio: #0f0f0f;
-  --color-border-studio: #1a1a1a;
-  --color-text-primary: #f0ece4;
-  --color-text-secondary: #6b6560;
-  --color-accent-lime: #C8FF00;
-  --color-accent-muted: #9eb800;
+/* Semantic tokens. Dark is the default; [data-theme="light"] is ready for the toggle. */
+:root {
+  --bg: #080808;
+  --surface: #0f0f0f;
+  --border: #1d1d1b;
+  --text: #f0ece4;
+  /* lightened from #6b6560 so body-size secondary text passes 4.5:1 on the dark background */
+  --text-2: #8c867e;
+  --accent: #f0ece4; /* fills: buttons, badges */
+  --accent-text: #f0ece4; /* links, highlights */
+  --on-accent: #080808;
+  --graph: #3fb950; /* GitHub contribution graph, the only green */
+}
+:root[data-theme="light"] {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --border: #e3ded2;
+  --text: #15140f;
+  --text-2: #5d584d;
+  --accent: #15140f;
+  --accent-text: #15140f;
+  --on-accent: #ffffff;
+  --graph: #1f8a3a;
+}
 
+@theme inline {
+  --color-bg-studio: var(--bg);
+  --color-surface-studio: var(--surface);
+  --color-border-studio: var(--border);
+  --color-text-primary: var(--text);
+  --color-text-secondary: var(--text-2);
+  --color-accent-lime: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-on-accent: var(--on-accent);
+}
+
+@theme {
   --font-display: "Instrument Serif", serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-satoshi: "Satoshi", "Plus Jakarta Sans", system-ui, sans-serif;
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
   body {
     background-color: var(--color-bg-studio);
     color: var(--color-text-primary);
@@ -22,48 +55,58 @@
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
   }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
 }
 
-/* Custom scrollbar: 3px wide, right edge, track #0f0f0f, thumb #C8FF00, no border-radius */
+/* Toolkit ticker */
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee 45s linear infinite;
+}
+.marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Thin scrollbar, accent thumb */
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f0f0f;
+  background: var(--surface);
 }
 ::-webkit-scrollbar-thumb {
-  background: #C8FF00;
-  border-radius: 0px;
+  background: var(--accent-text);
+  border-radius: 0;
 }
 
-/* Default cursor is hidden globally in favor of our high-end responsive kinetic tracer */
-*, html, body, a, button, select, input, textarea, [data-cursor] {
-  cursor: none !important;
+/* In-page jumps land below the sticky header */
+section[id] {
+  scroll-margin-top: 5rem;
 }
-
-/* Custom transitions and scroll behaviors */
-html {
-  scroll-behavior: smooth;
-}
-
-/* Text reveal mask wrapper */
-.reveal-wrapper {
-  overflow: hidden;
-  display: block;
-}
-
-/* Hide scrollbar for layout sandbox */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Custom noise graphic overlay to give that organic editorial texture */
-.noise-overlay {
-  pointer-events: none;
-}
-
