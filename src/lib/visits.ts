@@ -23,7 +23,7 @@ async function call(action: "hit" | "get"): Promise<number | null> {
 }
 
 /**
- * Total profile visits. Counts once per browser session, and only on the production domain so
+ * Unique profile visits. Counts once per browser (remembered in localStorage), and only on the production domain so
  * local development and preview deploys don't inflate it. Re-reads every 20s while the tab is visible.
  */
 export function useVisits() {
@@ -35,7 +35,7 @@ export function useVisits() {
     async function first() {
       let counted = false;
       try {
-        counted = sessionStorage.getItem(COUNTED) === "1";
+        counted = localStorage.getItem(COUNTED) === "1";
       } catch {
         /* storage unavailable: treat as not counted */
       }
@@ -43,7 +43,7 @@ export function useVisits() {
       const value = await call(shouldHit ? "hit" : "get");
       if (shouldHit && value !== null) {
         try {
-          sessionStorage.setItem(COUNTED, "1");
+          localStorage.setItem(COUNTED, "1");
         } catch {
           /* ignore */
         }
