@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "motion/react";
 import { useLocation, useNavigate } from "react-router";
 import { scrollToSection } from "../../lib/scroll";
 import { SITE } from "../../config/site";
@@ -87,8 +88,8 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
   let lastGroup = "";
   return (
     <div className="fixed inset-0 z-[90] flex items-start justify-center px-4 pt-[15vh]" onKeyDown={onKey}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} aria-hidden />
-      <div role="dialog" aria-modal="true" aria-label="Command palette" className="relative w-full max-w-xl border border-border-studio bg-surface-studio shadow-2xl">
+      <div className="absolute inset-0 bg-black/35" onClick={onClose} aria-hidden />
+      <div role="dialog" aria-modal="true" aria-label="Command palette" className="glass-panel relative w-full max-w-xl overflow-hidden rounded-2xl">
         <input
           ref={input}
           value={query}
@@ -96,16 +97,16 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
           placeholder="Search pages, projects, links…"
           aria-label="Search commands"
           aria-controls="palette-list"
-          className="w-full border-b border-border-studio bg-transparent px-4 py-3.5 font-mono text-sm outline-none placeholder:text-text-secondary"
+          className="w-full border-b border-border-studio/60 bg-transparent px-4 py-3.5 font-mono text-sm outline-none placeholder:text-text-secondary"
         />
-        <ul id="palette-list" role="listbox" className="max-h-[50vh] overflow-y-auto py-2">
+        <ul id="palette-list" role="listbox" className="max-h-[50vh] overflow-y-auto px-2 py-2">
           {results.length === 0 && <li className="px-4 py-6 text-center font-mono text-xs text-text-secondary">No matches</li>}
           {results.map((c, i) => {
             const header = c.group !== lastGroup;
             lastGroup = c.group;
             return (
               <li key={c.id} role="presentation">
-                {header && <p className="px-4 pb-1 pt-3 font-mono text-[10px] uppercase tracking-widest text-text-secondary">{c.group}</p>}
+                {header && <p className="px-3 pb-1 pt-3 font-mono text-[10px] uppercase tracking-widest text-text-secondary">{c.group}</p>}
                 <button
                   type="button"
                   role="option"
@@ -115,8 +116,12 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
                   ref={(el) => {
                     if (el && i === active) el.scrollIntoView({ block: "nearest" });
                   }}
-                  className={cn("flex w-full items-center justify-between gap-4 px-4 py-2 text-left text-sm", i === active && "bg-accent-lime text-on-accent")}
+                  className={cn("relative isolate flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200", i === active && "text-on-album")}
                 >
+                  {i === active && (
+                    // One pill that springs between rows instead of jumping.
+                    <motion.span layoutId="palette-active" className="album-glass absolute inset-0 -z-10 rounded-lg" transition={{ type: "spring", stiffness: 500, damping: 38, mass: 0.6 }} />
+                  )}
                   <span>{c.label}</span>
                   {c.hint && <span className={cn("truncate font-mono text-xs", i === active ? "opacity-80" : "text-text-secondary")}>{c.hint}</span>}
                 </button>
@@ -124,7 +129,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
             );
           })}
         </ul>
-        <p className="border-t border-border-studio px-4 py-2 font-mono text-[10px] text-text-secondary">↑↓ navigate · Enter select · Esc close</p>
+        <p className="border-t border-border-studio/60 px-4 py-2 font-mono text-[10px] text-text-secondary">↑↓ navigate · Enter select · Esc close</p>
       </div>
     </div>
   );

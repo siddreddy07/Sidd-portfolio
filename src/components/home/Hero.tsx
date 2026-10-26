@@ -6,9 +6,11 @@ import { SiGithub, SiX } from "react-icons/si";
 import { NPM_PACKAGE_COUNT, SITE } from "../../config/site";
 import { experience, projects } from "../../data";
 import { useActivity } from "../../lib/github";
+import { useAlbumAccent, useAlbumColors, useNowPlaying } from "../../lib/spotify";
 import Container from "../ui/Container";
 import SectionLink from "../ui/SectionLink";
 import Tooltip from "../ui/Tooltip";
+import NowPlaying, { NowPlayingButton } from "./NowPlaying";
 
 const internships = experience.filter((e) => e.type === "INTERNSHIP").length;
 
@@ -120,10 +122,28 @@ function Ticker({ items }: { items: { bold: string; rest: string }[] }) {
   );
 }
 
+// Marker-style highlight that sweeps in shortly after load. Colour follows the album art (see useAlbumAccent),
+// with a contrasting text colour; the theme accent until then.
+function Highlight({ href, children }: { href: string; children: React.ReactNode }) {
+  const [lit, setLit] = useState(false);
+  useEffect(() => {
+    const id = setTimeout(() => setLit(true), 1100);
+    return () => clearTimeout(id);
+  }, []);
+  return (
+    <a href={href} target="_blank" rel="noreferrer" data-lit={lit || undefined} className="highlight font-medium">
+      {children}
+    </a>
+  );
+}
+
 export default function Hero() {
   const time = useIstTime();
   const reduce = useReducedMotion();
   const activity = useActivity();
+  const track = useNowPlaying();
+  // The graph only takes the album colour for real Spotify data; it stays green on the demo song.
+  useAlbumAccent(useAlbumColors(track && !track.demo ? track.image : null));
   const total = activity.status === "ready" ? activity.data?.total : undefined;
 
   const facts = [
@@ -141,14 +161,25 @@ export default function Hero() {
           <motion.div variants={item} className="flex w-full items-center gap-4">
             <Avatar />
             <div className="min-w-0">
-              <p className="text-2xl font-semibold leading-tight tracking-tight">{SITE.name}</p>
+              <div className="flex items-center gap-1">
+                <p className="text-xl font-semibold leading-tight tracking-tight sm:text-2xl">{SITE.name}</p>
+                <NowPlayingButton track={track} className="lg:hidden" />
+              </div>
               <p className="mt-1.5 hidden font-mono text-[11px] uppercase tracking-widest text-text-secondary sm:block">Full stack developer · Backend · AI</p>
               <p className="mt-1.5 flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-widest text-text-secondary">
                 <FiMapPin aria-hidden /> {SITE.location}
                 {time && <> · {time} IST</>}
               </p>
             </div>
-            <Socials className="ml-auto hidden items-center gap-1 sm:flex" />
+            <div className="ml-auto flex shrink-0 flex-col items-end gap-2">
+              <div className="flex items-center gap-1">
+                <Socials className="hidden items-center gap-1 sm:flex" />
+              </div>
+
+              <div className="hidden lg:block">
+                <NowPlaying track={track} />
+              </div>
+            </div>
           </motion.div>
 
           <motion.h1 variants={item} className="mt-6 max-w-3xl font-display text-[1.9rem] leading-[1.1] text-text-secondary sm:text-5xl md:mt-10 md:text-6xl">
@@ -168,7 +199,7 @@ export default function Hero() {
 
           <motion.p variants={item} className="mt-4 max-w-2xl text-sm leading-relaxed text-text-secondary sm:text-base">
             I'm Siddharth, a <span className="text-text-primary">full-stack developer who likes backend work most</span>. <span className="hidden sm:inline">
-              {" "}I've done two internships, built BSDK (a chat SDK you can install from npm), and I'm looking for my first full-time role. Reach me at{" "}
+              {" "}I've done two internships, built <Highlight href="https://bsdk.siddharthreddy627.workers.dev/">BSDK</Highlight> (a chat SDK you can install from npm), and I'm looking for my first full-time role. Reach me at{" "}
               <a href={`mailto:${SITE.email}`} className="whitespace-nowrap text-text-primary underline underline-offset-4 transition-opacity hover:opacity-70">
                 {SITE.email}
               </a>
