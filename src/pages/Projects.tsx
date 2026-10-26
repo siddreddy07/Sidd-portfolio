@@ -1,7 +1,10 @@
+import { projectsMeta } from "../lib/seo";
+import { useSeo } from "../lib/useSeo";
 import ProjectGrid from "../components/projects/ProjectGrid";
 import Container from "../components/ui/Container";
 
 export default function Projects() {
+  useSeo(projectsMeta());
   return (
     <section className="py-16 md:py-24">
       <Container>

@@ -1,3 +1,5 @@
+import { homeMeta } from "../lib/seo";
+import { useSeo } from "../lib/useSeo";
 import Hero from "../components/home/Hero";
 import Marquee from "../components/home/Marquee";
 import Toolkit from "../components/home/Toolkit";
@@ -8,6 +10,7 @@ import Stack from "../components/home/Stack";
 import Contact from "../components/home/Contact";
 
 export default function Home() {
+  useSeo(homeMeta());
   return (
     <>
       <Hero />

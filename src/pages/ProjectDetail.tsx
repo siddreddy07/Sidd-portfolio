@@ -5,6 +5,8 @@ import { getProject, projects } from "../data";
 import { getIcon } from "../data/iconMap";
 import { posterFor, videoFor } from "../lib/media";
 import { actionLinks } from "../lib/projectLinks";
+import { notFoundMeta, projectMeta } from "../lib/seo";
+import { useSeo } from "../lib/useSeo";
 import Container from "../components/ui/Container";
 import Reveal from "../components/ui/Reveal";
 import ProgressiveBlur from "../components/ui/ProgressiveBlur";
@@ -28,6 +30,7 @@ export default function ProjectDetail() {
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState<"preview" | "live">("preview");
   const body = useRef<HTMLDivElement>(null);
+  useSeo(project ? projectMeta(project) : notFoundMeta(`/projects/${slug}`));
 
   if (!project) return <NotFound />;
 

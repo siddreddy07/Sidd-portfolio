@@ -162,7 +162,7 @@ export default function Hero() {
             <Avatar />
             <div className="min-w-0">
               <div className="flex items-center gap-1">
-                <p className="text-xl font-semibold leading-tight tracking-tight sm:text-2xl">{SITE.name}</p>
+                <h1 className="text-xl font-semibold leading-tight tracking-tight sm:text-2xl">{SITE.name}</h1>
                 <NowPlayingButton track={track} className="lg:hidden" />
               </div>
               <p className="mt-1.5 hidden font-mono text-[11px] uppercase tracking-widest text-text-secondary sm:block">Full stack developer · Backend · AI</p>
@@ -182,7 +182,7 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          <motion.h1 variants={item} className="mt-6 max-w-3xl font-display text-[1.9rem] leading-[1.1] text-text-secondary sm:text-5xl md:mt-10 md:text-6xl">
+          <motion.h2 variants={item} className="mt-6 max-w-3xl font-display text-[1.9rem] leading-[1.1] text-text-secondary sm:text-5xl md:mt-10 md:text-6xl">
             I build{" "}
             <em className="relative whitespace-nowrap font-semibold italic text-text-primary">
               backend systems
@@ -195,7 +195,7 @@ export default function Hero() {
               />
             </em>{" "}
             and the AI products that run on them.
-          </motion.h1>
+          </motion.h2>
 
           <motion.p variants={item} className="mt-4 max-w-2xl text-sm leading-relaxed text-text-secondary sm:text-base">
             I'm Siddharth, a <span className="text-text-primary">full-stack developer who likes backend work most</span>. <span className="hidden sm:inline">

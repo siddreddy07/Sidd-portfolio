@@ -1,6 +1,10 @@
-import { Link } from "react-router";
+import { notFoundMeta } from "../lib/seo";
+import { useSeo } from "../lib/useSeo";
+import { Link, useLocation } from "react-router";
 
 export default function NotFound() {
+  const { pathname } = useLocation();
+  useSeo(notFoundMeta(pathname));
   return (
     <section className="mx-auto max-w-5xl px-5 py-24 md:px-8">
       <p className="font-mono text-xs uppercase tracking-widest text-text-secondary">404</p>
