@@ -28,8 +28,11 @@ export default defineConfig(({mode}) => {
       react(),
       tailwindcss(),
       spotifyApi(loadEnv(mode, process.cwd(), 'SPOTIFY_')),
-      // Optional Search Console / Bing Webmaster verification codes, set as Vercel env vars.
-      seo({google: env.GOOGLE_SITE_VERIFICATION, bing: env.BING_SITE_VERIFICATION}),
+      // Search Console / Bing Webmaster verification codes (public by design; env vars override).
+      seo({
+        google: env.GOOGLE_SITE_VERIFICATION || 'J809-DU18CFywIc6syPN-dOQKqi8gPm8TVMIrbgYT2U',
+        bing: env.BING_SITE_VERIFICATION,
+      }),
     ],
     resolve: {
       alias: {
