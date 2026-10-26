@@ -157,7 +157,7 @@ ${FAQ.map((f) => `### ${f.q}\n\n${f.a}`).join("\n\n")}
 `;
 }
 
-// "/" -> index.html, "/projects" -> projects.html, "/projects/bsdk" -> projects/bsdk.html (served via cleanUrls).
+// "/" -> index.html, "/projects" -> projects.html, "/projects/bsdk" -> projects/bsdk.html (served via vercel.json rewrites).
 const fileFor = (route: string) => (route === "/" ? "index.html" : `${route.slice(1)}.html`);
 
 export default function seo(verify: Verification): Plugin {
