@@ -8,6 +8,19 @@ const BASE = `https://abacus.jasoncameron.dev`;
 const COUNTED = "visit-counted";
 const REFRESH_MS = 20_000;
 
+const COUNTRY_COUNTED = "visit-country-counted";
+
+/** Counts this browser's country once (api/visitors.ts reads it from Vercel's geo header). */
+async function recordCountryVisit() {
+  try {
+    if (localStorage.getItem(COUNTRY_COUNTED) === "1") return;
+    const res = await fetch("/api/visitors", { method: "POST" });
+    if (res.ok) localStorage.setItem(COUNTRY_COUNTED, "1");
+  } catch {
+    /* offline or storage unavailable: try again next visit */
+  }
+}
+
 const isProduction = () => typeof location !== "undefined" && location.hostname === new URL(SITE.url).hostname;
 
 async function call(action: "hit" | "get"): Promise<number | null> {
@@ -39,6 +52,7 @@ export function useVisits() {
       } catch {
         /* storage unavailable: treat as not counted */
       }
+      if (isProduction()) recordCountryVisit(); // separate once-per-browser flag, so earlier visitors are counted too
       const shouldHit = isProduction() && !counted;
       const value = await call(shouldHit ? "hit" : "get");
       if (shouldHit && value !== null) {
