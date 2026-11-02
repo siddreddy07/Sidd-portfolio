@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router";
 import App from "./App.tsx";
 import { ThemeProvider } from "./lib/theme";
 import "./index.css";
+import { startAnimatedFavicon } from "./lib/favicon";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,3 +15,5 @@ createRoot(document.getElementById("root")!).render(
     </ThemeProvider>
   </StrictMode>,
 );
+
+startAnimatedFavicon();

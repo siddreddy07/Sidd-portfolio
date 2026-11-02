@@ -4,6 +4,7 @@ import { AnimatePresence } from "motion/react";
 import Header from "./Header";
 import Footer from "./Footer";
 import PageTransition from "./PageTransition";
+import FaviconSync from "./FaviconSync";
 import CommandPalette from "./CommandPalette";
 
 export default function Layout() {
@@ -36,6 +37,7 @@ export default function Layout() {
       >
         Skip to content
       </a>
+      <FaviconSync />
       <Header onOpenPalette={() => setPalette(true)} />
       <main id="main" className="min-h-[70dvh]">
         {/* Old page fades out, then the new one rises in (and sets the scroll position). */}
