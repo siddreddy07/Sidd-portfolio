@@ -2,6 +2,7 @@ import type { FormEvent } from "react";
 import { SiGmail } from "react-icons/si";
 import { SITE } from "../../config/site";
 import Section from "../ui/Section";
+import { AnimatedShinyText } from "../ui/AnimatedShinyText";
 
 const link = "underline underline-offset-4 hover:text-accent-text";
 const field = "w-full border border-border-studio bg-transparent px-3 py-2.5 text-sm outline-none transition-colors placeholder:text-text-secondary focus:border-accent-lime";
@@ -33,7 +34,7 @@ export default function Contact() {
             <li><a className={link} href={SITE.github} target="_blank" rel="noreferrer">GitHub ↗</a></li>
             <li><a className={link} href={SITE.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a></li>
             <li><a className={link} href={SITE.x} target="_blank" rel="noreferrer">X ↗</a></li>
-            <li><a className={link} href={SITE.resume} target="_blank" rel="noreferrer">Resume ↗</a></li>
+            <li><a className={link} href={SITE.resume} target="_blank" rel="noreferrer"><AnimatedShinyText shimmerWidth={60}>Resume ↗</AnimatedShinyText></a></li>
           </ul>
         </div>
 

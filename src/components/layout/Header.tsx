@@ -6,6 +6,7 @@ import { getProject } from "../../data";
 import { FiSearch } from "react-icons/fi";
 import SectionLink from "../ui/SectionLink";
 import ThemeToggle from "../ui/ThemeToggle";
+import { AnimatedShinyText } from "../ui/AnimatedShinyText";
 import ProjectHeader from "./ProjectHeader";
 import { MdClose, MdMenu } from "react-icons/md";
 
@@ -85,8 +86,15 @@ export default function Header({ onOpenPalette }: { onOpenPalette: () => void })
               </SectionLink>
             );
           })}
-          <a href={SITE.resume} target="_blank" rel="noreferrer" className={cn(linkClass, "text-text-primary")}>
-            Resume ↗
+          <a
+            href={SITE.resume}
+            target="_blank"
+            rel="noreferrer"
+            className="group rounded-full border border-border-studio px-3.5 py-1.5 font-mono text-xs transition-all hover:-translate-y-0.5 hover:border-text-secondary"
+          >
+            <AnimatedShinyText className="inline-flex items-center gap-1">
+              Resume <span aria-hidden className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+            </AnimatedShinyText>
           </a>
           <button
             type="button"
@@ -127,8 +135,8 @@ export default function Header({ onOpenPalette }: { onOpenPalette: () => void })
               </li>
             ))}
             <li className="border-b border-border-studio">
-              <a href={SITE.resume} target="_blank" rel="noreferrer" className="block py-4 font-display text-2xl text-text-primary">
-                Resume ↗
+              <a href={SITE.resume} target="_blank" rel="noreferrer" className="block py-4 font-display text-2xl">
+                <AnimatedShinyText shimmerWidth={160}>Resume ↗</AnimatedShinyText>
               </a>
             </li>
           </ul>

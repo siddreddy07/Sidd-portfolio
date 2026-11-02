@@ -9,6 +9,8 @@ import { notFoundMeta, projectMeta } from "../lib/seo";
 import { useSeo } from "../lib/useSeo";
 import Container from "../components/ui/Container";
 import Reveal from "../components/ui/Reveal";
+import { TextAnimate } from "../components/ui/TextAnimate";
+import { PopItem, PopList } from "../components/ui/PopList";
 import ProgressiveBlur from "../components/ui/ProgressiveBlur";
 import ProjectActionBar from "../components/projects/ProjectActionBar";
 import NotFound from "./NotFound";
@@ -48,7 +50,7 @@ export default function ProjectDetail() {
       {/* Hero */}
       <header className="pb-8 pt-10 md:pt-14">
         <Container>
-          <Reveal>
+          <div>
             <p className="flex flex-wrap items-center gap-x-3 font-mono text-xs uppercase tracking-widest text-text-secondary">
               <Link to="/projects" className="hover:text-text-primary">Projects</Link>
               <span aria-hidden>/</span>
@@ -58,9 +60,30 @@ export default function ProjectDetail() {
               <span aria-hidden>·</span>
               {project.year}
             </p>
-            <h1 className="mt-4 font-display text-5xl leading-[1.05] md:text-7xl">{project.name}</h1>
-            <p className="mt-4 max-w-2xl leading-relaxed text-text-secondary">{project.descriptor}</p>
-          </Reveal>
+            <TextAnimate
+              key={project.slug}
+              as="h1"
+              by="character"
+              animation="blurInUp"
+              duration={0.6}
+              once
+              className="mt-4 font-display text-5xl leading-[1.05] md:text-7xl"
+            >
+              {project.name}
+            </TextAnimate>
+            <TextAnimate
+              key={`${project.slug}-d`}
+              as="p"
+              by="word"
+              animation="blurIn"
+              duration={0.6}
+              delay={0.3}
+              once
+              className="mt-4 max-w-2xl leading-relaxed text-text-secondary"
+            >
+              {project.descriptor}
+            </TextAnimate>
+          </div>
         </Container>
       </header>
 
@@ -127,8 +150,10 @@ export default function ProjectDetail() {
       {/* Content */}
       <Container className="mt-16 grid gap-14 md:mt-24 md:grid-cols-[1fr_20rem]">
         <div className="min-w-0">
-          <Reveal>
-            <h2 className="font-mono text-xs uppercase tracking-widest text-text-secondary">Overview</h2>
+          <div>
+            <TextAnimate as="h2" by="text" animation="slideRight" className="font-mono text-xs uppercase tracking-widest text-text-secondary">
+              Overview
+            </TextAnimate>
             <div className="relative mt-6">
               <motion.div
                 ref={body}
@@ -137,7 +162,9 @@ export default function ProjectDetail() {
                 transition={{ duration: reduce ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="overflow-hidden"
               >
-                <p className="text-lg leading-[1.75]">{project.overview}</p>
+                <TextAnimate key={project.slug} as="p" by="word" animation="blurIn" duration={1} delay={0.1} once className="text-lg leading-[1.75]">
+                  {project.overview}
+                </TextAnimate>
               </motion.div>
               {long && !open && <ProgressiveBlur position="bottom" height="110px" blurAmount={10} />}
             </div>
@@ -151,36 +178,44 @@ export default function ProjectDetail() {
                 {open ? "Show less ↑" : "Read the full overview ↓"}
               </button>
             )}
-          </Reveal>
+          </div>
 
-          <Reveal className="mt-14">
-            <h2 className="font-mono text-xs uppercase tracking-widest text-text-secondary">Built with</h2>
-            <ul className="mt-5 flex flex-wrap gap-2">
+          <div className="mt-14">
+            <TextAnimate as="h2" by="text" animation="slideRight" className="font-mono text-xs uppercase tracking-widest text-text-secondary">
+              Built with
+            </TextAnimate>
+            <PopList key={project.slug} className="mt-5 flex flex-wrap gap-2">
               {project.tags.map((t, i) => {
                 const Icon = getIcon(project.tagIcons[i] ?? "");
                 return (
-                  <li key={t} className="flex items-center gap-2 border border-border-studio bg-surface-studio px-3 py-1.5 text-sm transition-all hover:-translate-y-0.5 hover:border-accent-text">
+                  <PopItem key={t} className="flex items-center gap-2 border border-border-studio bg-surface-studio px-3 py-1.5 text-sm transition-[translate,border-color] hover:-translate-y-0.5 hover:border-accent-text">
                     {Icon && <Icon size={15} aria-hidden className="text-text-secondary" />}
                     {t}
-                  </li>
+                  </PopItem>
                 );
               })}
-            </ul>
-          </Reveal>
+            </PopList>
+          </div>
         </div>
 
         <aside className="md:sticky md:top-24 md:self-start">
-          <Reveal>
-            <h2 className="font-mono text-xs uppercase tracking-widest text-text-secondary">At a glance</h2>
+          <div>
+            <TextAnimate as="h2" by="text" animation="slideRight" className="font-mono text-xs uppercase tracking-widest text-text-secondary">
+              At a glance
+            </TextAnimate>
             <dl className="mt-5 border-t border-border-studio">
-              {project.specs.map((s) => (
-                <div key={s.label} className="border-b border-border-studio py-4">
-                  <dt className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">{s.label}</dt>
-                  <dd className="mt-1.5 text-sm leading-snug">{s.value}</dd>
+              {project.specs.map((s, si) => (
+                <div key={project.slug + s.label} className="border-b border-border-studio py-4">
+                  <TextAnimate as="dt" by="text" animation="fadeIn" delay={si * 0.05} className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">
+                    {s.label}
+                  </TextAnimate>
+                  <TextAnimate as="dd" by="word" animation="blurIn" duration={0.5} delay={0.1 + si * 0.05} className="mt-1.5 text-sm leading-snug">
+                    {s.value}
+                  </TextAnimate>
                 </div>
               ))}
             </dl>
-          </Reveal>
+          </div>
         </aside>
       </Container>
 
@@ -197,7 +232,16 @@ export default function ProjectDetail() {
               className={`group min-w-0 rounded-lg border border-border-studio bg-surface-studio px-3 py-2.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-text-secondary lg:p-5 ${align}`}
             >
               <p className="font-mono text-[10px] uppercase tracking-wider text-text-secondary lg:text-[11px] lg:tracking-widest">{label}</p>
-              <p className="mt-1 truncate font-display text-base leading-tight sm:text-lg lg:mt-2 lg:text-3xl">{p.name}</p>
+              <TextAnimate
+                key={p.slug}
+                as="p"
+                by="text"
+                animation="blurInUp"
+                className="mt-1 overflow-hidden font-display text-base leading-tight sm:text-lg lg:mt-2 lg:text-3xl"
+                segmentClassName="max-w-full truncate align-bottom"
+              >
+                {p.name}
+              </TextAnimate>
               <p className="mt-1 hidden truncate font-mono text-[11px] text-text-secondary lg:block">{p.type}</p>
             </Link>
           ))}

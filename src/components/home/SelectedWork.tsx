@@ -2,10 +2,21 @@ import { Link } from "react-router";
 import { featuredProjects } from "../../data";
 import ProjectCard from "../projects/ProjectCard";
 import Section from "../ui/Section";
+import { TextAnimate } from "../ui/TextAnimate";
 
 export default function SelectedWork() {
   return (
-    <Section id="work" index="02" label="Work" title="Selected work">
+    <Section
+      id="work"
+      index="02"
+      label="Work"
+      reveal={false}
+      title={
+        <TextAnimate as="span" by="word" animation="blurInUp" duration={0.4}>
+          Selected work
+        </TextAnimate>
+      }
+    >
       <div className="grid gap-5 md:grid-cols-2 md:gap-6">
         {featuredProjects.map((p) => (
           <ProjectCard key={p.slug} project={p} />

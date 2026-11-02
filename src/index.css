@@ -85,6 +85,50 @@
   }
 }
 
+/* Theme circle reveal (see lib/theme.tsx). Scoped to the toggle so other view transitions are untouched. */
+html[data-theme-vt="active"]::view-transition-old(root),
+html[data-theme-vt="active"]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html[data-theme-vt="active"]::view-transition-new(root) {
+  clip-path: var(--theme-vt-clip-from);
+}
+html[data-theme-vt="active"]::view-transition-group(root) {
+  animation-duration: var(--theme-vt-duration);
+}
+
+/* Animated shiny text (ui/AnimatedShinyText.tsx, from Magic UI). The base colour is a dimmed text tone and a
+   highlight band in the full text colour sweeps across, so it reads correctly in both themes. */
+.shiny-text {
+  color: color-mix(in srgb, var(--text) 62%, transparent);
+  background-image: linear-gradient(to right, transparent, var(--text) 50%, transparent);
+  background-size: var(--shiny-width) 100%;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shiny-text 8s infinite;
+}
+@keyframes shiny-text {
+  0%,
+  90%,
+  100% {
+    background-position: calc(-100% - var(--shiny-width)) 0;
+  }
+  30%,
+  60% {
+    background-position: calc(100% + var(--shiny-width)) 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .shiny-text {
+    animation: none;
+    background-image: none;
+    color: var(--text);
+  }
+}
+
 /* Toolkit ticker */
 @keyframes marquee {
   to {

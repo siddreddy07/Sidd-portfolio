@@ -4,6 +4,8 @@ import { useReducedMotion } from "motion/react";
 import type { Project } from "../../types";
 import { posterFor, videoFor } from "../../lib/media";
 import { cn } from "../../lib/utils";
+import { TextAnimate } from "../ui/TextAnimate";
+import { PopItem, PopList } from "../ui/PopList";
 
 // Flat backdrop tints (no gradients). Mixed into the surface colour so they sit right in both themes.
 const TINTS = ["#6f9bd1", "#d1a06f", "#6fc1c1", "#b08fd1", "#d18f8f", "#8f9fd1", "#cfc46f"];
@@ -57,22 +59,49 @@ export default function ProjectCard({ project: p }: { project: Project }) {
         <div className="px-5 pt-5">
           <div className="flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
-              <h3 className="truncate text-xl font-semibold tracking-tight">{p.name}</h3>
-              <span className="shrink-0 rounded-full bg-bg-studio px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-secondary">{statusOf(p)}</span>
+              <TextAnimate
+                as="h3"
+                by="text"
+                animation="blurInUp"
+                className="min-w-0 overflow-hidden text-xl font-semibold tracking-tight"
+                segmentClassName="max-w-full truncate align-bottom"
+              >
+                {p.name}
+              </TextAnimate>
+              <TextAnimate
+                as="span"
+                by="text"
+                animation="scaleUp"
+                delay={0.1}
+                className="shrink-0 rounded-full bg-bg-studio px-2.5 py-1 font-mono text-[10px] uppercase tracking-widest text-text-secondary"
+              >
+                {statusOf(p)}
+              </TextAnimate>
             </div>
-            <span className="shrink-0 font-mono text-xs text-text-secondary">{p.year}</span>
+            <TextAnimate as="span" by="text" animation="fadeIn" delay={0.1} className="shrink-0 font-mono text-xs text-text-secondary">
+              {p.year}
+            </TextAnimate>
           </div>
-          <p className="mt-3 line-clamp-2 text-[15px] leading-relaxed text-text-secondary sm:line-clamp-3">{p.desc}</p>
+          <TextAnimate
+            as="p"
+            by="word"
+            animation="blurIn"
+            duration={0.6}
+            delay={0.15}
+            className="mt-3 line-clamp-2 text-[15px] leading-relaxed text-text-secondary sm:line-clamp-3"
+          >
+            {p.desc}
+          </TextAnimate>
         </div>
       </Link>
 
-      <ul className="flex flex-wrap gap-1.5 px-5 pt-4">
+      <PopList className="flex flex-wrap gap-1.5 px-5 pt-4">
         {p.tags.slice(0, 5).map((t, i) => (
-          <li key={t} className={cn(i >= 3 && "hidden sm:block")}>
+          <PopItem key={t} className={cn(i >= 3 && "hidden sm:block")}>
             <span className={chip}>{t}</span>
-          </li>
+          </PopItem>
         ))}
-      </ul>
+      </PopList>
 
       <ul className="mt-auto flex flex-wrap gap-x-5 gap-y-2 px-5 pb-5 pt-5">
         <li>

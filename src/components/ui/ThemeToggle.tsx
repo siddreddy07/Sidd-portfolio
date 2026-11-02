@@ -13,7 +13,10 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   return (
     <button
       type="button"
-      onClick={toggle}
+      onClick={(e) => {
+        const r = e.currentTarget.getBoundingClientRect();
+        toggle({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
+      }}
       aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
       className={cn(
         "size-9 rounded-full border border-border-studio p-1.5 text-text-primary transition-colors hover:border-text-secondary active:scale-95",

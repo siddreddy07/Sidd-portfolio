@@ -38,7 +38,7 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
       { id: "github", group: "Links", label: "GitHub", run: ext(SITE.github) },
       { id: "linkedin", group: "Links", label: "LinkedIn", run: ext(SITE.linkedin) },
       { id: "x", group: "Links", label: "X", run: ext(SITE.x) },
-      { id: "theme", group: "Preferences", label: theme === "dark" ? "Switch to light theme" : "Switch to dark theme", run: toggle },
+      { id: "theme", group: "Preferences", label: theme === "dark" ? "Switch to light theme" : "Switch to dark theme", run: () => toggle() },
     ];
   }, [navigate, pathname, theme, toggle]);
 

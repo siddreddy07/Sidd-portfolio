@@ -14,7 +14,8 @@ export default function Section({
   id?: string;
   index: string;
   label: string;
-  title?: string;
+  /** A string, or an animated node such as <TextAnimate as="span">. */
+  title?: ReactNode;
   aside?: ReactNode;
   /** Set false when the section animates its own parts. */
   reveal?: boolean;
