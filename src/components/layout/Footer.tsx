@@ -32,7 +32,7 @@ export default function Footer() {
             >
               <FiGlobe className="size-3.5 transition-transform duration-500 group-hover:rotate-[160deg]" aria-hidden />
               <span>
-                <span className="text-text-primary">{visits.toLocaleString("en-IN")}</span> profile {visits === 1 ? "visit" : "visits"}
+                <span className="text-text-primary">{visits.toLocaleString("en-IN")}</span> {visits === 1 ? "visitor" : "visitors"}
               </span>
               <span className="text-text-secondary/70 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden>
                 →

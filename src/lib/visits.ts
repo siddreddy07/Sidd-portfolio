@@ -1,75 +1,42 @@
 import { useEffect, useState } from "react";
-import { SITE } from "../config/site";
 
-// Keyless counter service (https://abacus.jasoncameron.dev). One key holds the total profile visits.
-const NAMESPACE = import.meta.env.VITE_VISITS_NS ?? "siddharth-portfolio-delta-vercel-app";
-const KEY = import.meta.env.VITE_VISITS_KEY ?? "visits";
-const BASE = `https://abacus.jasoncameron.dev`;
-const COUNTED = "visit-counted";
-const REFRESH_MS = 20_000;
-
-const COUNTRY_COUNTED = "visit-country-counted";
-
-/** Counts this browser's country once (api/visitors.ts reads it from Vercel's geo header). */
-async function recordCountryVisit() {
-  try {
-    if (localStorage.getItem(COUNTRY_COUNTED) === "1") return;
-    const res = await fetch("/api/visitors", { method: "POST" });
-    if (res.ok) localStorage.setItem(COUNTRY_COUNTED, "1");
-  } catch {
-    /* offline or storage unavailable: try again next visit */
-  }
+// All visitor numbers come from api/visitors.ts (Upstash Redis). The server decides who is new, so nothing is
+// remembered in the browser.
+export interface VisitorStats {
+  configured: boolean;
+  total: number;
+  countries: Record<string, number>;
 }
 
-const isProduction = () => typeof location !== "undefined" && location.hostname === new URL(SITE.url).hostname;
+const REFRESH_MS = 20_000;
 
-async function call(action: "hit" | "get"): Promise<number | null> {
+let registered: Promise<VisitorStats | null> | null = null;
+
+async function request(method: "GET" | "POST"): Promise<VisitorStats | null> {
   try {
-    const res = await fetch(`${BASE}/${action}/${NAMESPACE}/${KEY}`);
-    if (res.status === 404) return 0; // counter not created yet: nobody has visited the live site
-    if (!res.ok) return null;
-    const json = (await res.json()) as { value?: number };
-    return typeof json.value === "number" ? json.value : null;
+    const res = await fetch("/api/visitors", { method });
+    return res.ok ? ((await res.json()) as VisitorStats | null) : null;
   } catch {
     return null;
   }
 }
 
-/**
- * Unique profile visits. Counts once per browser (remembered in localStorage), and only on the production domain so
- * local development and preview deploys don't inflate it. Re-reads every 20s while the tab is visible.
- */
+/** Registers this visit once per page load (the server ignores repeat visitors) and returns the numbers. */
+export const registerVisit = () => (registered ??= request("POST"));
+
+export const fetchVisitorStats = () => request("GET");
+
+/** Total unique visitors for the footer. Re-reads every 20s while the tab is visible. */
 export function useVisits() {
   const [count, setCount] = useState<number | null>(null);
 
   useEffect(() => {
     let live = true;
+    const apply = (s: VisitorStats | null) => live && s?.configured && setCount(s.total);
 
-    async function first() {
-      let counted = false;
-      try {
-        counted = localStorage.getItem(COUNTED) === "1";
-      } catch {
-        /* storage unavailable: treat as not counted */
-      }
-      if (isProduction()) recordCountryVisit(); // separate once-per-browser flag, so earlier visitors are counted too
-      const shouldHit = isProduction() && !counted;
-      const value = await call(shouldHit ? "hit" : "get");
-      if (shouldHit && value !== null) {
-        try {
-          localStorage.setItem(COUNTED, "1");
-        } catch {
-          /* ignore */
-        }
-      }
-      if (live && value !== null) setCount(value);
-    }
-
-    first();
-    const id = setInterval(async () => {
-      if (document.visibilityState !== "visible") return;
-      const value = await call("get");
-      if (live && value !== null) setCount(value);
+    registerVisit().then(apply);
+    const id = setInterval(() => {
+      if (document.visibilityState === "visible") fetchVisitorStats().then(apply);
     }, REFRESH_MS);
 
     return () => {

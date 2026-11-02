@@ -1,8 +1,15 @@
-// Vercel function: profile visits per country, for the globe in the footer dialog.
-// Counts live in one Redis hash (country code -> visits) on Upstash, added through Vercel's Storage tab.
-// Needs UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN (or the KV_REST_API_* names Vercel sets).
+// Vercel function: every visitor number on the site (footer total + the globe's per-country counts) lives in
+// Upstash Redis, added through Vercel's Storage tab.
+// Needs KV_REST_API_URL + KV_REST_API_TOKEN (set by Vercel) or UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN.
+//
+// Keys:
+//   visitors:total      unique visitors
+//   visitors:countries  hash, country code -> unique visitors
+//   visitors:seen       set of hashed visitor IPs, so each visitor is counted once (the raw IP is never stored)
 
-const HASH = "visitors:countries";
+const TOTAL = "visitors:total";
+const COUNTRIES = "visitors:countries";
+const SEEN = "visitors:seen";
 
 type RedisReply = { result?: unknown; error?: string };
 
@@ -35,30 +42,47 @@ function toCounts(reply: unknown): Record<string, number> {
   return counts;
 }
 
+async function snapshot() {
+  const replies = await redis([["GET", TOTAL], ["HGETALL", COUNTRIES]]);
+  if (!replies) return { configured: false, total: 0, countries: {} };
+  return { configured: true, total: Number(replies[0]?.result ?? 0) || 0, countries: toCounts(replies[1]?.result) };
+}
+
+async function visitorId(request: Request) {
+  const ip = request.headers.get("x-real-ip") ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  if (!ip) return null;
+  const salt = process.env.VISITOR_SALT ?? "siddharth-portfolio";
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`${salt}:${ip}`));
+  return Array.from(new Uint8Array(digest).slice(0, 16), (b) => b.toString(16).padStart(2, "0")).join("");
+}
+
 export async function GET() {
   try {
-    const replies = await redis([["HGETALL", HASH]]);
-    if (!replies) return Response.json({ configured: false, countries: {} });
-    return Response.json(
-      { configured: true, countries: toCounts(replies[0]?.result) },
-      { headers: { "Cache-Control": "public, s-maxage=60, stale-while-revalidate=300" } },
-    );
+    return Response.json(await snapshot(), {
+      headers: { "Cache-Control": "public, s-maxage=15, stale-while-revalidate=60" },
+    });
   } catch {
     return Response.json(null, { status: 502 });
   }
 }
 
-// Records one visit for the caller's country. The country comes from Vercel's geo header, never from the client,
-// and only production deploys write, so previews and local dev don't skew the numbers.
+// Called once per page load. Counts the caller if this is the first time their (hashed) IP is seen, then returns
+// the latest numbers. Country comes from Vercel's geo header, never from the client. Only production writes, so
+// previews and local dev don't skew anything.
 export async function POST(request: Request) {
-  const country = request.headers.get("x-vercel-ip-country")?.toUpperCase();
-  if (process.env.VERCEL_ENV !== "production" || !country || !/^[A-Z]{2}$/.test(country) || country === "XX") {
-    return new Response(null, { status: 204 });
-  }
   try {
-    const replies = await redis([["HINCRBY", HASH, country, 1]]);
-    return new Response(null, { status: replies ? 204 : 503, headers: { "Cache-Control": "no-store" } });
+    const id = process.env.VERCEL_ENV === "production" ? await visitorId(request) : null;
+    if (id) {
+      const added = await redis([["SADD", SEEN, id]]);
+      if (added?.[0]?.result === 1) {
+        const country = request.headers.get("x-vercel-ip-country")?.toUpperCase();
+        const commands: (string | number)[][] = [["INCR", TOTAL]];
+        if (country && /^[A-Z]{2}$/.test(country) && country !== "XX") commands.push(["HINCRBY", COUNTRIES, country, 1]);
+        await redis(commands);
+      }
+    }
+    return Response.json(await snapshot(), { headers: { "Cache-Control": "no-store" } });
   } catch {
-    return new Response(null, { status: 502 });
+    return Response.json(null, { status: 502 });
   }
 }

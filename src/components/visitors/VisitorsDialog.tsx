@@ -61,8 +61,8 @@ export default function VisitorsDialog({ open, onClose }: { open: boolean; onClo
     };
   }, [open, onClose]);
 
-  const countries = data ?? [];
-  const total = countries.reduce((sum, c) => sum + c.count, 0);
+  const countries = data?.countries ?? [];
+  const total = data?.total ?? 0;
 
   return (
     <AnimatePresence>
@@ -99,7 +99,7 @@ export default function VisitorsDialog({ open, onClose }: { open: boolean; onClo
                 <p className="mt-2 font-mono text-[11px] text-text-secondary">
                   {desktop && data ? (
                     <>
-                      <span className="text-text-primary">{total.toLocaleString("en-IN")}</span> {total === 1 ? "visit" : "visits"} from{" "}
+                      <span className="text-text-primary">{total.toLocaleString("en-IN")}</span> {total === 1 ? "visitor" : "visitors"} from{" "}
                       <span className="text-text-primary">{countries.length}</span> {countries.length === 1 ? "country" : "countries"}
                     </>
                   ) : (
@@ -127,7 +127,7 @@ export default function VisitorsDialog({ open, onClose }: { open: boolean; onClo
                 <VisitorGlobe countries={countries} active={active} onActiveChange={setActive} showCounts={desktop} />
               </motion.div>
 
-              {desktop && <CountryList data={data} total={total} active={active} onActive={setActive} />}
+              {desktop && <CountryList data={data === undefined ? undefined : data === null ? null : countries} total={total} active={active} onActive={setActive} />}
             </div>
           </motion.div>
         </div>
@@ -224,7 +224,7 @@ function CountryList({
         </ul>
       )}
 
-      <p className="mt-3 font-mono text-[10px] text-text-secondary/80">Counted once per browser, by country.</p>
+      <p className="mt-3 font-mono text-[10px] text-text-secondary/80">Unique visitors, counted once each.</p>
     </div>
   );
 }

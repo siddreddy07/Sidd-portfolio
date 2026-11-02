@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CENTROIDS from "../data/countryCentroids.json";
+import { fetchVisitorStats } from "./visits";
 
 export interface CountryVisits {
   code: string; // ISO 3166-1 alpha-2, upper case
@@ -27,33 +28,25 @@ export const countryName = (code: string) => {
 
 export const flagUrl = (code: string) => `https://flagcdn.com/${code.toLowerCase()}.svg`;
 
-let cache: Promise<CountryVisits[] | null> | null = null;
-
-function load(): Promise<CountryVisits[] | null> {
-  cache ??= fetch("/api/visitors")
-    .then((r) => (r.ok ? r.json() : null))
-    .then((json: { configured: boolean; countries: Record<string, number> } | null) => {
-      if (!json) return null;
-      // Real recorded visits only; an unconnected store simply shows the empty state.
-      return Object.entries(json.countries ?? {})
-        .map(([code, count]) => ({ code, count, name: countryName(code), location: centroids[code] ?? null }))
-        .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
-    })
-    .catch(() => null)
-    .finally(() => {
-      // Let a later open refetch (the server caches for a minute anyway).
-      setTimeout(() => (cache = null), 60_000);
-    });
-  return cache;
+export interface VisitorBreakdown {
+  total: number; // unique visitors, same number as the footer
+  countries: CountryVisits[]; // most visitors first
 }
 
-/** Per-country visits, fetched when `enabled` first becomes true. `undefined` while loading, `null` on error. */
+/** Visitor numbers from Redis, fetched each time `enabled` becomes true. `undefined` while loading, `null` on error. */
 export function useCountryVisits(enabled: boolean) {
-  const [data, setData] = useState<CountryVisits[] | null | undefined>(undefined);
+  const [data, setData] = useState<VisitorBreakdown | null | undefined>(undefined);
   useEffect(() => {
     if (!enabled) return;
     let live = true;
-    load().then((d) => live && setData(d));
+    fetchVisitorStats().then((stats) => {
+      if (!live) return;
+      if (!stats) return setData(null);
+      const countries = Object.entries(stats.countries ?? {})
+        .map(([code, count]) => ({ code, count, name: countryName(code), location: centroids[code] ?? null }))
+        .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+      setData({ total: stats.total, countries });
+    });
     return () => {
       live = false;
     };
