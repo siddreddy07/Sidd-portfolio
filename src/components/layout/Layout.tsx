@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router";
+import { useLocation, useOutlet } from "react-router";
+import { AnimatePresence } from "motion/react";
 import Header from "./Header";
 import Footer from "./Footer";
-import ScrollManager from "./ScrollManager";
+import PageTransition from "./PageTransition";
 import CommandPalette from "./CommandPalette";
 
 export default function Layout() {
   const [palette, setPalette] = useState(false);
+  const { pathname } = useLocation();
+  const outlet = useOutlet();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -33,10 +36,12 @@ export default function Layout() {
       >
         Skip to content
       </a>
-      <ScrollManager />
       <Header onOpenPalette={() => setPalette(true)} />
       <main id="main" className="min-h-[70dvh]">
-        <Outlet />
+        {/* Old page fades out, then the new one rises in (and sets the scroll position). */}
+        <AnimatePresence mode="wait">
+          <PageTransition key={pathname}>{outlet}</PageTransition>
+        </AnimatePresence>
       </main>
       <Footer />
       <CommandPalette open={palette} onClose={() => setPalette(false)} />

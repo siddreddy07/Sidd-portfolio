@@ -8,6 +8,7 @@ export default function Section({
   label,
   title,
   aside,
+  reveal = true,
   children,
 }: {
   id?: string;
@@ -15,12 +16,15 @@ export default function Section({
   label: string;
   title?: string;
   aside?: ReactNode;
+  /** Set false when the section animates its own parts. */
+  reveal?: boolean;
   children: ReactNode;
 }) {
+  const Wrap = reveal ? Reveal : "div";
   return (
     <section id={id} className="border-t border-border-studio py-10 md:py-20">
       <Container>
-        <Reveal>
+        <Wrap>
           <p className="flex items-center justify-center gap-3 font-mono text-xs uppercase tracking-widest text-text-secondary">
             <span className="text-accent-text">{index}</span>
             <span aria-hidden className="h-px w-8 bg-border-studio" />
@@ -33,7 +37,7 @@ export default function Section({
             </div>
           )}
           <div className="mt-6 md:mt-10">{children}</div>
-        </Reveal>
+        </Wrap>
       </Container>
     </section>
   );
