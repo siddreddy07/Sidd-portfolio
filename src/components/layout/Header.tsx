@@ -52,7 +52,7 @@ export default function Header({ onOpenPalette }: { onOpenPalette: () => void })
   return (
     // The sticky wrapper carries no backdrop-filter, so the menu panel (a sibling of the bar, positioned below it)
     // overlays the page instead of pushing it down, and can blur what's behind it.
-    <header ref={ref} data-site-header className="sticky top-3 z-50 mx-auto max-w-3xl px-5 md:px-8">
+    <header ref={ref} className="sticky top-3 z-50 mx-auto max-w-3xl px-5 md:px-8">
       <div className={cn(glass, "flex h-14 items-center justify-between px-4 md:px-6")}>
         <Link to="/" className="whitespace-nowrap font-display text-xl leading-none text-text-primary">
           {SITE.shortName}

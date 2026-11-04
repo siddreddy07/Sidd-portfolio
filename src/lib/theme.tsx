@@ -40,20 +40,6 @@ function circleClipPaths({ x, y }: RevealOrigin): [string, string] {
   return [`circle(0% at ${at})`, `circle(${radius} at ${at})`];
 }
 
-/**
- * The same circle expressed in the navbar's own box. The navbar is captured as its own view-transition layer
- * (see index.css) so mobile browsers keep it pinned instead of jumping with the page snapshot; clipping it with
- * the matching circle keeps the reveal edge continuous across it.
- */
-function headerClipPaths({ x, y }: RevealOrigin, box: DOMRect): [string, string] {
-  const w = window.innerWidth;
-  const h = window.innerHeight;
-  const r = Math.hypot(Math.max(x, w - x), Math.max(y, h - y));
-  const at = `${((x - box.left) / box.width) * 100}% ${((y - box.top) / box.height) * 100}%`;
-  const radius = `${(r / (Math.hypot(box.width, box.height) / Math.SQRT2)) * 100}%`;
-  return [`circle(0% at ${at})`, `circle(${radius} at ${at})`];
-}
-
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [theme, setTheme] = useState<Theme>(readTheme);
   const themeRef = useRef(theme);
@@ -79,18 +65,21 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       flushSync(() => setTheme(next));
     };
 
+    // Phones and tablets swap instantly. Their browsers lay the view-transition snapshot out against an area that
+    // includes the animating address bar (Safari doesn't implement that area at all), so the sticky navbar visibly
+    // shifted up and back during the reveal. No snapshot, nothing can move.
     if (
       typeof document.startViewTransition !== "function" ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      window.matchMedia("(prefers-reduced-motion: reduce), (hover: none) and (pointer: coarse)").matches
     ) {
+      // Same transition freeze as the reveal, so every colour flips in one repaint instead of fading unevenly.
+      root.dataset.themeVt = "active";
       apply();
+      requestAnimationFrame(() => requestAnimationFrame(() => delete root.dataset.themeVt));
       return;
     }
 
-    const at = origin ?? { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-    const clipPath = circleClipPaths(at);
-    const header = document.querySelector<HTMLElement>("[data-site-header]");
-    const headerClip = header ? headerClipPaths(at, header.getBoundingClientRect()) : null;
+    const clipPath = circleClipPaths(origin ?? { x: window.innerWidth / 2, y: window.innerHeight / 2 });
     busy.current = true;
     // Freeze CSS transitions so the new snapshot isn't repainting dozens of colour fades under the reveal
     // (the main cause of jank on phones and tablets). See index.css.
@@ -98,14 +87,14 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--theme-vt-duration", `${REVEAL_MS}ms`);
     // Pinned in CSS too, so Firefox doesn't paint the new theme unclipped before the animation starts.
     root.style.setProperty("--theme-vt-clip-from", clipPath[0]);
-    if (headerClip) root.style.setProperty("--theme-vt-header-clip-from", headerClip[0]);
 
     const transition = document.startViewTransition(apply);
     transition.ready
       .then(() => {
-        const timing = { duration: REVEAL_MS, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards" } as const;
-        root.animate({ clipPath }, { ...timing, pseudoElement: "::view-transition-new(root)" });
-        if (headerClip) root.animate({ clipPath: headerClip }, { ...timing, pseudoElement: "::view-transition-new(site-header)" });
+        root.animate(
+          { clipPath },
+          { duration: REVEAL_MS, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards", pseudoElement: "::view-transition-new(root)" },
+        );
       })
       .catch(() => {});
     transition.finished
@@ -115,7 +104,6 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         requestAnimationFrame(() => delete root.dataset.themeVt);
         root.style.removeProperty("--theme-vt-duration");
         root.style.removeProperty("--theme-vt-clip-from");
-        root.style.removeProperty("--theme-vt-header-clip-from");
       })
       .catch(() => {});
   }, []);
