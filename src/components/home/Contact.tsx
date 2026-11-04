@@ -1,63 +1,92 @@
-import type { FormEvent } from "react";
-import { SiGmail } from "react-icons/si";
+import { useEffect, useState } from "react";
+import { FiArrowUpRight, FiCheck, FiCopy } from "react-icons/fi";
 import { SITE } from "../../config/site";
 import Section from "../ui/Section";
 import { AnimatedShinyText } from "../ui/AnimatedShinyText";
 
-const link = "underline underline-offset-4 hover:text-accent-text";
-const field = "w-full border border-border-studio bg-transparent px-3 py-2.5 text-sm outline-none transition-colors placeholder:text-text-secondary focus:border-accent-lime";
+const links = [
+  { label: "LinkedIn", href: SITE.linkedin },
+  { label: "GitHub", href: SITE.github },
+  { label: "X", href: SITE.x },
+  { label: "Resume", href: SITE.resume },
+];
 
-export default function Contact() {
-  // Opens the visitor's mail app with a draft; nothing is sent from the site.
-  function draft(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const name = String(f.get("name") ?? "").trim();
-    const from = String(f.get("email") ?? "").trim();
-    const message = String(f.get("message") ?? "").trim();
-    const subject = `Hello from ${name || "your portfolio"}`;
-    const body = `${message}\n\n${name}${from ? `\n${from}` : ""}`;
-    window.location.href = `mailto:${SITE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  }
+function CopyEmail() {
+  const [copied, setCopied] = useState(false);
+  useEffect(() => {
+    if (!copied) return;
+    const id = setTimeout(() => setCopied(false), 1800);
+    return () => clearTimeout(id);
+  }, [copied]);
 
   return (
-    <Section id="contact" index="06" label="Contact">
-      <div className="mx-auto flex max-w-xl flex-col items-start gap-8 text-left md:gap-10 lg:grid lg:max-w-5xl lg:grid-cols-2 lg:gap-16">
-        <div>
-          <h3 className="font-display text-3xl leading-tight md:text-5xl">Looking for a backend or full-stack engineer?</h3>
-          <p className="mt-4 text-text-secondary">I'm open to full-time roles. Email is the fastest way to reach me.</p>
-          <a href={`mailto:${SITE.email}`} className="group mt-6 inline-flex items-center gap-3 break-all font-mono text-sm hover:text-accent-text">
-            <SiGmail size={20} aria-hidden className="shrink-0 transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110" />
-            <span className="underline underline-offset-4">{SITE.email}</span>
-          </a>
-          <ul className="mt-5 flex flex-wrap gap-x-5 gap-y-2 font-mono text-sm md:mt-8 md:gap-x-6">
-            <li><a className={link} href={SITE.github} target="_blank" rel="noreferrer">GitHub ↗</a></li>
-            <li><a className={link} href={SITE.linkedin} target="_blank" rel="noreferrer">LinkedIn ↗</a></li>
-            <li><a className={link} href={SITE.x} target="_blank" rel="noreferrer">X ↗</a></li>
-            <li><a className={link} href={SITE.resume} target="_blank" rel="noreferrer"><AnimatedShinyText shimmerWidth={60}>Resume ↗</AnimatedShinyText></a></li>
-          </ul>
-        </div>
+    <button
+      type="button"
+      onClick={() => navigator.clipboard?.writeText(SITE.email).then(() => setCopied(true), () => {})}
+      aria-label="Copy email address"
+      className="inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-text-secondary transition-colors hover:text-text-primary"
+    >
+      {copied ? <FiCheck aria-hidden /> : <FiCopy aria-hidden />}
+      <span aria-live="polite">{copied ? "Copied" : "Copy"}</span>
+    </button>
+  );
+}
 
-        <form onSubmit={draft} className="w-full space-y-3 text-left md:space-y-4">
-          <p className="font-mono text-[11px] uppercase tracking-widest text-text-secondary">Send a note · opens your email app</p>
-          <label className="block">
-            <span className="sr-only">Your name</span>
-            <input name="name" required autoComplete="name" placeholder="Your name" className={field} />
-          </label>
-          <label className="block">
-            <span className="sr-only">Your email</span>
-            <input name="email" type="email" required autoComplete="email" placeholder="Your email" className={field} />
-          </label>
-          <label className="block">
-            <span className="sr-only">Message</span>
-            <textarea name="message" required rows={4} placeholder="What would you like to talk about?" className={field} />
-          </label>
-          <button type="submit" className="w-full rounded-full bg-accent-lime px-5 py-3 text-sm font-medium text-on-accent transition-transform hover:-translate-y-0.5 active:scale-95">
-            Prepare email draft ↗
-          </button>
-          <p className="hidden text-xs text-text-secondary md:block">Nothing is sent from this page. Your email app opens with the draft.</p>
-        </form>
+// Animated mascot sitting on the section's bottom edge, at the right of the content column. The image has ~8.5%
+// empty space under the feet, so it is shifted down by that much. Still frame for reduced motion.
+function Mascot() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 select-none">
+      <div className="mx-auto flex max-w-3xl justify-end px-5 md:px-8">
+        <picture className="block w-14 translate-y-[8.5%] sm:w-20 md:w-24">
+          <source srcSet="/mascot-still.webp" media="(prefers-reduced-motion: reduce)" />
+          <img src="/mascot.webp" alt="" width={224} height={318} loading="lazy" decoding="async" className="h-auto w-full" />
+        </picture>
       </div>
+    </div>
+  );
+}
+
+export default function Contact() {
+  return (
+    <Section
+      id="contact"
+      index="06"
+      label="Contact"
+      decor={<Mascot />}
+      title="Let's work together."
+      aside={
+        <div className="max-w-xl space-y-2">
+          <p className="text-text-secondary">
+            Open to projects and collaborations, and to full-time backend or full-stack roles. Email is the fastest way to reach me.
+          </p>
+          <p className="font-mono text-xs uppercase tracking-widest text-text-secondary">Based in India · IST, UTC+5:30</p>
+        </div>
+      }
+    >
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+        <a
+          href={`mailto:${SITE.email}`}
+          className="group inline-flex min-w-0 items-center gap-2 break-all font-display text-2xl leading-tight sm:text-3xl md:text-4xl"
+        >
+          <span className="underline decoration-border-studio decoration-1 underline-offset-[6px] transition-colors group-hover:decoration-text-primary">
+            {SITE.email}
+          </span>
+          <FiArrowUpRight aria-hidden className="size-5 shrink-0 text-text-secondary transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:size-6" />
+        </a>
+        <CopyEmail />
+      </div>
+
+      <ul className="mb-8 mt-8 flex flex-wrap gap-x-6 gap-y-3 border-t border-border-studio pt-6 font-mono text-xs uppercase tracking-widest md:mb-0 md:mt-10">
+        {links.map(({ label, href }) => (
+          <li key={label}>
+            <a href={href} target="_blank" rel="noreferrer" className="group inline-flex items-center gap-1 text-text-secondary transition-colors hover:text-text-primary">
+              {label === "Resume" ? <AnimatedShinyText shimmerWidth={60}>Resume</AnimatedShinyText> : label}
+              <span aria-hidden className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }
