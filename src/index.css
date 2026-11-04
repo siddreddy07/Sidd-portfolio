@@ -97,6 +97,13 @@ html[data-theme-vt="active"]::view-transition-new(root) {
 html[data-theme-vt="active"]::view-transition-group(root) {
   animation-duration: var(--theme-vt-duration);
 }
+/* While the reveal runs, colours switch instantly underneath it instead of every element fading on its own. */
+html[data-theme-vt="active"],
+html[data-theme-vt="active"] *,
+html[data-theme-vt="active"] *::before,
+html[data-theme-vt="active"] *::after {
+  transition: none !important;
+}
 
 /* Animated shiny text (ui/AnimatedShinyText.tsx, from Magic UI). The base colour is a dimmed text tone and a
    highlight band in the full text colour sweeps across, so it reads correctly in both themes. */

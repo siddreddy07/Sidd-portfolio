@@ -75,6 +75,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     const clipPath = circleClipPaths(origin ?? { x: window.innerWidth / 2, y: window.innerHeight / 2 });
     busy.current = true;
+    // Freeze CSS transitions so the new snapshot isn't repainting dozens of colour fades under the reveal
+    // (the main cause of jank on phones and tablets). See index.css.
     root.dataset.themeVt = "active";
     root.style.setProperty("--theme-vt-duration", `${REVEAL_MS}ms`);
     // Pinned in CSS too, so Firefox doesn't paint the new theme unclipped before the animation starts.
@@ -85,14 +87,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       .then(() => {
         root.animate(
           { clipPath },
-          { duration: REVEAL_MS, easing: "ease-in-out", fill: "forwards", pseudoElement: "::view-transition-new(root)" },
+          { duration: REVEAL_MS, easing: "cubic-bezier(0.65, 0, 0.35, 1)", fill: "forwards", pseudoElement: "::view-transition-new(root)" },
         );
       })
       .catch(() => {});
     transition.finished
       .finally(() => {
         busy.current = false;
-        delete root.dataset.themeVt;
+        // Release the transition freeze a frame later, once the live page has painted in the new theme.
+        requestAnimationFrame(() => delete root.dataset.themeVt);
         root.style.removeProperty("--theme-vt-duration");
         root.style.removeProperty("--theme-vt-clip-from");
       })

@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { motion } from "motion/react";
 import { useTheme } from "../../lib/theme";
 import { cn } from "../../lib/utils";
@@ -9,6 +10,8 @@ import { cn } from "../../lib/utils";
 export default function ThemeToggle({ className = "" }: { className?: string }) {
   const { theme, toggle } = useTheme();
   const isDark = theme === "dark";
+  // Unique per instance: the header renders a desktop and a mobile toggle, and a duplicate id breaks the clip.
+  const clipId = `theme-toggle-clip-${useId().replace(/:/g, "")}`;
 
   return (
     <button
@@ -24,14 +27,14 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
       )}
     >
       <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" fill="currentColor" strokeLinecap="round" viewBox="0 0 32 32">
-        <clipPath id="theme-toggle-clip">
+        <clipPath id={clipId}>
           <motion.path
             animate={{ y: isDark ? 10 : 0, x: isDark ? -12 : 0 }}
             transition={{ ease: "easeInOut", duration: 0.35 }}
             d="M0-5h30a1 1 0 0 0 9 13v24H0Z"
           />
         </clipPath>
-        <g clipPath="url(#theme-toggle-clip)">
+        <g clipPath={`url(#${clipId})`}>
           <motion.circle animate={{ r: isDark ? 10 : 8 }} transition={{ ease: "easeInOut", duration: 0.35 }} cx="16" cy="16" />
           <motion.g
             animate={{ rotate: isDark ? -100 : 0, scale: isDark ? 0.5 : 1, opacity: isDark ? 0 : 1 }}
