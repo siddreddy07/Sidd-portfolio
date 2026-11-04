@@ -3,8 +3,6 @@ import { Link, useParams } from "react-router";
 import { motion, useReducedMotion } from "motion/react";
 import { getProject, projects } from "../data";
 import { getIcon } from "../data/iconMap";
-import { posterFor, videoFor } from "../lib/media";
-import { actionLinks } from "../lib/projectLinks";
 import { notFoundMeta, projectMeta } from "../lib/seo";
 import { useSeo } from "../lib/useSeo";
 import Container from "../components/ui/Container";
@@ -13,33 +11,21 @@ import { TextAnimate } from "../components/ui/TextAnimate";
 import { PopItem, PopList } from "../components/ui/PopList";
 import ProgressiveBlur from "../components/ui/ProgressiveBlur";
 import ProjectActionBar from "../components/projects/ProjectActionBar";
+import ProjectMedia from "../components/projects/ProjectMedia";
 import NotFound from "./NotFound";
 
 const COLLAPSED = 168; // px of overview shown before "Read more"
-
-function hostOf(url?: string) {
-  try {
-    return url ? new URL(url).host : "";
-  } catch {
-    return "";
-  }
-}
 
 export default function ProjectDetail() {
   const { slug = "" } = useParams();
   const project = getProject(slug);
   const reduce = useReducedMotion();
   const [open, setOpen] = useState(false);
-  const [mode, setMode] = useState<"preview" | "live">("preview");
   const body = useRef<HTMLDivElement>(null);
   useSeo(project ? projectMeta(project) : notFoundMeta(`/projects/${slug}`));
 
   if (!project) return <NotFound />;
 
-  const links = actionLinks(project);
-  const live = links.find((l) => l.kind === "live");
-  const poster = posterFor(project);
-  const video = reduce ? null : videoFor(project);
   const long = project.overview.length > 380;
   const index = projects.findIndex((p) => p.slug === project.slug);
   const next = projects[(index + 1) % projects.length];
@@ -87,68 +73,15 @@ export default function ProjectDetail() {
         </Container>
       </header>
 
-      {/* Media in a browser frame */}
+      {/* Video or screenshot only (ProjectMedia renders nothing if neither loads) */}
       <Container>
         <Reveal>
-          <figure className="overflow-hidden border border-border-studio bg-surface-studio ">
-            <div className="flex items-center gap-3 border-b border-border-studio px-4 py-2.5">
-              <span aria-hidden className="flex gap-1.5">
-                <span className="size-2.5 rounded-full bg-border-studio" />
-                <span className="size-2.5 rounded-full bg-border-studio" />
-                <span className="size-2.5 rounded-full bg-border-studio" />
-              </span>
-              <span className="min-w-0 flex-1 truncate border border-border-studio bg-bg-studio px-3 py-1 text-center font-mono text-[11px] text-text-secondary">
-                {hostOf(live?.url) || project.name}
-              </span>
-              {live && (
-                <div role="group" aria-label="Preview type" className="flex shrink-0 overflow-hidden rounded-full border border-border-studio font-mono text-[11px]">
-                  {(["preview", "live"] as const).map((m) => (
-                    <button
-                      key={m}
-                      type="button"
-                      aria-pressed={mode === m}
-                      onClick={() => setMode(m)}
-                      className={`px-3 py-1 rounded-md transition-colors ${mode === m ? "bg-accent-lime text-on-accent" : "text-text-secondary hover:text-text-primary"}`}
-                    >
-                      {m === "preview" ? (video ? "Video" : "Preview") : "Live site"}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="relative aspect-[16/9] bg-bg-studio">
-              {live && mode === "live" ? (
-                <iframe
-                  src={live.url}
-                  title={`${project.name} live site`}
-                  loading="lazy"
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
-                  className="absolute inset-0 h-full w-full bg-white"
-                />
-              ) : video ? (
-                <video src={video} poster={poster ?? undefined} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full object-cover object-top" />
-              ) : poster ? (
-                <img src={poster} alt={`${project.name} screenshot`} className="absolute inset-0 h-full w-full object-cover object-top" />
-              ) : (
-                <div className="absolute inset-0 flex items-end p-8">
-                  <span className="font-display text-7xl leading-none md:text-9xl">{project.name}</span>
-                </div>
-              )}
-            </div>
-            {live && mode === "live" && (
-              <p className="border-t border-border-studio px-4 py-2 font-mono text-[11px] text-text-secondary">
-                Blank? Some sites don't allow embedding.{" "}
-                <a className="underline underline-offset-4 hover:text-text-primary" href={live.url} target="_blank" rel="noreferrer">
-                  Open it in a new tab ↗
-                </a>
-              </p>
-            )}
-          </figure>
+          <ProjectMedia project={project} />
         </Reveal>
       </Container>
 
       {/* Content */}
-      <Container className="mt-16 grid gap-14 md:mt-24 md:grid-cols-[1fr_20rem]">
+      <Container className="mt-12 grid gap-14 md:mt-16 md:grid-cols-[1fr_20rem]">
         <div className="min-w-0">
           <div>
             <TextAnimate as="h2" by="text" animation="slideRight" className="font-mono text-xs uppercase tracking-widest text-text-secondary">
