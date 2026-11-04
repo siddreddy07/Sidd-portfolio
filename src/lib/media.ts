@@ -23,3 +23,11 @@ export function videoFor(p: Project): string | null {
   }
   return null;
 }
+
+// Flat backdrop tints (no gradients). Mixed into the surface colour so they sit right in both themes.
+const TINTS = ["#6f9bd1", "#d1a06f", "#6fc1c1", "#b08fd1", "#d18f8f", "#8f9fd1", "#cfc46f"];
+
+/** Backdrop tint behind a project's screenshot, stable per project. */
+export function tintFor(p: Project): string {
+  return TINTS[(parseInt(p.num, 10) - 1) % TINTS.length] ?? TINTS[0];
+}

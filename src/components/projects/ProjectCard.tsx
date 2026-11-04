@@ -2,19 +2,16 @@ import { useState } from "react";
 import { Link } from "react-router";
 import { useReducedMotion } from "motion/react";
 import type { Project } from "../../types";
-import { posterFor, videoFor } from "../../lib/media";
+import { posterFor, tintFor, videoFor } from "../../lib/media";
 import { cn } from "../../lib/utils";
 import { TextAnimate } from "../ui/TextAnimate";
 import { PopItem, PopList } from "../ui/PopList";
-
-// Flat backdrop tints (no gradients). Mixed into the surface colour so they sit right in both themes.
-const TINTS = ["#6f9bd1", "#d1a06f", "#6fc1c1", "#b08fd1", "#d18f8f", "#8f9fd1", "#cfc46f"];
 
 const chip = "rounded-md border border-border-studio px-2 py-0.5 font-mono text-xs text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary";
 const linkClass = "group/link inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-text-secondary transition-colors hover:text-text-primary";
 const arrow = "transition-transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5";
 
-function statusOf(p: Project): string {
+export function statusOf(p: Project): string {
   if (p.slug === "bsdk") return "Featured";
   if (p.links.some((l) => /live/i.test(l.label))) return "Live";
   return "Open source";
@@ -26,7 +23,7 @@ export default function ProjectCard({ project: p }: { project: Project }) {
   const poster = posterFor(p);
   const video = reduce ? null : videoFor(p);
   const external = p.links.filter((l) => /live|github|npm/i.test(l.label));
-  const tint = TINTS[(parseInt(p.num, 10) - 1) % TINTS.length] ?? TINTS[0];
+  const tint = tintFor(p);
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-2xl border border-border-studio bg-surface-studio transition-all duration-300 hover:-translate-y-1 hover:border-text-secondary hover:shadow-[0_24px_48px_-28px_rgba(0,0,0,0.5)]">
