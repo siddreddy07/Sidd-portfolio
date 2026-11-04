@@ -8,7 +8,7 @@ export default function Resume() {
   }, []);
 
   return (
-    <p className="mx-auto max-w-5xl px-5 py-24 font-mono text-sm text-text-secondary md:px-8">
+    <p className="mx-auto max-w-3xl px-5 py-24 font-mono text-sm text-text-secondary md:px-8">
       Redirecting to the resume…{" "}
       <a className="text-text-primary underline" href={SITE.resume}>
         open it directly

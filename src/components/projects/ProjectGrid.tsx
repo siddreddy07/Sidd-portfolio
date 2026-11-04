@@ -30,7 +30,7 @@ export default function ProjectGrid() {
 
   return (
     <>
-      <div role="group" aria-label="Filter projects by type" className="flex flex-wrap justify-center gap-2">
+      <div role="group" aria-label="Filter projects by type" className="flex flex-wrap gap-2">
         {tab("All", null)}
         {projectTypes.map((t) => tab(t, t))}
       </div>

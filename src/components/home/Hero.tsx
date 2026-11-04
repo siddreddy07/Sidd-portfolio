@@ -155,9 +155,9 @@ export default function Hero() {
   ];
 
   return (
-    <section className="pb-8 pt-8 md:pb-14 md:pt-12">
+    <section className="pb-16 pt-10 md:pb-24 md:pt-14">
       <Container>
-        <motion.div className="mx-auto flex max-w-3xl flex-col items-start text-left" initial={reduce ? false : "hidden"} animate="show" transition={{ staggerChildren: 0.08 }}>
+        <motion.div className="flex flex-col items-start text-left" initial={reduce ? false : "hidden"} animate="show" transition={{ staggerChildren: 0.08 }}>
           <motion.div variants={item} className="flex w-full items-center gap-4">
             <Avatar />
             <div className="min-w-0">
@@ -212,7 +212,7 @@ export default function Hero() {
               id="work"
               className="group inline-flex items-center gap-2 rounded-xl bg-accent-lime px-5 py-3 text-sm font-medium text-on-accent transition-transform duration-200 hover:-translate-y-0.5 active:scale-95"
             >
-              <p className="hidden md:block">View selected work</p> 
+              <p className="hidden md:block">See what I've made</p> 
               <p className="block md:hidden">Work</p> 
               <span aria-hidden className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </SectionLink>

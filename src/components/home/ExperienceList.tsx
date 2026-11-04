@@ -9,7 +9,7 @@ export default function ExperienceList() {
 
   return (
     <Section id="experience" index="04" label="Experience">
-      <ol className="mx-auto max-w-3xl">
+      <ol>
         {jobs.map((e) => (
           <li key={e.role + e.company} className="grid gap-3 border-t border-border-studio py-8 first:border-t-0 first:pt-0 md:grid-cols-[11rem_1fr] md:gap-10">
             <div className="flex items-center gap-3 md:block">

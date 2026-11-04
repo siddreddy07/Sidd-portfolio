@@ -9,7 +9,7 @@ export default function Projects() {
   return (
     <section className="py-16 md:py-24">
       <Container>
-        <TextAnimate as="h1" by="character" animation="blurInUp" duration={0.5} once className="text-center font-display text-5xl md:text-6xl">
+        <TextAnimate as="h1" by="character" animation="blurInUp" duration={0.5} once className="font-display text-5xl md:text-6xl">
           Projects
         </TextAnimate>
         <TextAnimate
@@ -19,11 +19,11 @@ export default function Projects() {
           duration={0.6}
           delay={0.25}
           once
-          className="mx-auto mt-4 max-w-xl text-center text-text-secondary"
+          className="mt-4 max-w-xl text-text-secondary"
         >
           Newest first. Each card links to the live site, the repo, or the package where one exists.
         </TextAnimate>
-        <div className="mt-10">
+        <div className="mt-8 md:mt-12">
           <ProjectGrid />
         </div>
       </Container>

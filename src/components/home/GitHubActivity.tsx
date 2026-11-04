@@ -56,10 +56,10 @@ export default function GitHubActivity() {
       )}
       {activity.status === "ready" && activity.data && (
         <>
-          <h3 className="text-center font-display text-2xl sm:text-3xl md:text-4xl">
+          <h3 className="font-display text-2xl sm:text-3xl md:text-4xl">
             <CountUp to={activity.data.total} /> contributions <span className="text-text-secondary">in the last year</span>
           </h3>
-          <dl className="mt-5 flex flex-wrap justify-center gap-x-10 gap-y-4 text-center md:mt-8 md:gap-x-16 md:gap-y-6">
+          <dl className="mt-6 flex flex-wrap gap-x-10 gap-y-4 md:mt-8 md:gap-x-16 md:gap-y-6">
             {[
               ["Active days", activity.data.activeDays, ""],
               // An empty streak says nothing useful, so it is left out.
@@ -84,7 +84,7 @@ export default function GitHubActivity() {
             animate={lit ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0.35, y: 28, scale: 0.97 }}
             transition={{ duration: 0.7, ease: EASE }}
           >
-          <div ref={scroller} className="mx-auto mt-5 w-fit max-w-full overflow-x-auto pb-2 md:mt-8" tabIndex={0} aria-label="Contribution graph, scrollable">
+          <div ref={scroller} className="mt-6 w-fit max-w-full overflow-x-auto pb-2 md:mt-8" tabIndex={0} aria-label="Contribution graph, scrollable">
             <div className="flex w-max gap-[3px]" role="img" aria-label={`${activity.data.total} contributions in the last year`}>
               {weeksOf(activity.data.days).map((week, w) => (
                 <div key={w} className="flex flex-col gap-[3px]">
@@ -113,7 +113,7 @@ export default function GitHubActivity() {
             </div>
           </div>
 
-          <div className="mt-3 flex min-h-5 flex-wrap items-center justify-center gap-x-8 gap-y-2 text-center font-mono text-xs text-text-secondary">
+          <div className="mt-3 flex min-h-5 flex-wrap items-center gap-x-8 gap-y-2 font-mono text-xs text-text-secondary">
             <span aria-live="polite">{hover ? `${hover.count} contribution${hover.count === 1 ? "" : "s"} on ${fmt(hover.date)}` : "Hover a square for the day"}</span>
             <span className="flex items-center gap-1.5" aria-hidden>
               Less
@@ -127,7 +127,7 @@ export default function GitHubActivity() {
         </>
       )}
 
-      <div className="mt-5 border-t border-border-studio pt-4 text-center font-mono text-xs md:mt-8 md:pt-6">
+      <div className="mt-8 border-t border-border-studio pt-6 font-mono text-xs">
         <a className="text-text-secondary underline underline-offset-4 hover:text-accent-text" href={SITE.github} target="_blank" rel="noreferrer">
           View GitHub ↗
         </a>

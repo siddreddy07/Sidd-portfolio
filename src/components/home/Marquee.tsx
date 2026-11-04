@@ -20,7 +20,7 @@ function Row({ hidden = false }: { hidden?: boolean }) {
 export default function Marquee() {
   return (
     <section aria-label="Toolkit" className="border-t border-border-studio py-5 md:py-8">
-      <div className="mx-auto flex max-w-5xl items-center gap-4 px-5 md:px-8">
+      <div className="mx-auto flex max-w-3xl items-center gap-4 px-5 md:px-8">
         <p className="hidden shrink-0 font-mono text-xs uppercase tracking-widest text-text-secondary lg:block">Toolkit</p>
         <div className="relative min-w-0 flex-1 overflow-hidden">
           <div className="marquee flex w-max">

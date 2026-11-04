@@ -18,7 +18,7 @@ export default function Stack() {
         </TextAnimate>
       }
     >
-      <dl className="mx-auto max-w-3xl">
+      <dl>
         {stack.map((g) => (
           <div key={g.group} className="group/row grid gap-x-8 gap-y-2 border-t border-border-studio py-4 last:border-b md:py-6 md:grid-cols-[11rem_1fr]">
             <TextAnimate
