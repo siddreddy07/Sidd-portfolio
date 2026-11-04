@@ -1,4 +1,4 @@
-import { FiHome } from "react-icons/fi";
+import { FiHome, FiSearch } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router";
 import type { Project } from "../../types";
 import { actionLinks } from "../../lib/projectLinks";
@@ -14,8 +14,8 @@ export default function ProjectHeader({ project, onOpenPalette }: { project: Pro
   const goBack = () => (location.key !== "default" ? navigate(-1) : navigate("/projects"));
 
   return (
-    <header className="sticky top-3 z-50 mx-3 rounded-2xl border border-text-primary/10 bg-bg-studio/25 shadow-[0_8px_32px_rgba(0,0,0,0.25),inset_0_1px_0_rgba(255,255,255,0.14)] backdrop-blur-2xl backdrop-saturate-200 md:mx-auto md:max-w-5xl">
-      <div className="flex h-14 items-center gap-3 px-4 md:px-6">
+    <header className="sticky top-3 z-50 mx-auto max-w-3xl px-5 md:px-8">
+      <div className="flex h-14 items-center gap-3 rounded-2xl border border-border-studio bg-bg-studio/85 px-4 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md md:px-6">
         <button
           type="button"
           onClick={goBack}
@@ -54,10 +54,11 @@ export default function ProjectHeader({ project, onOpenPalette }: { project: Pro
             <button
               type="button"
               onClick={onOpenPalette}
-              aria-label="Open command palette"
-              className="ml-1 border border-border-studio px-2.5 py-1.5 font-mono text-[11px] text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary"
+              aria-label="Search"
+              title="Search"
+              className="ml-1 grid size-9 place-items-center rounded-full border border-border-studio text-text-primary transition-colors hover:border-text-secondary"
             >
-              Search
+              <FiSearch size={16} aria-hidden />
             </button>
           </div>
           <ThemeToggle />
