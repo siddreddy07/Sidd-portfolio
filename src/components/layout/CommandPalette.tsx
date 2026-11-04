@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useLocation, useNavigate } from "react-router";
 import { scrollToSection } from "../../lib/scroll";
 import { SITE } from "../../config/site";
@@ -15,7 +15,13 @@ interface Cmd {
   run: () => void;
 }
 
-export default function CommandPalette({ open, onClose }: { open: boolean; onClose: () => void }) {
+export default function CommandPalette({
+  open,
+  onClose,
+}: {
+  open: boolean;
+  onClose: () => void;
+}) {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { theme, toggle } = useTheme();
@@ -27,24 +33,76 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
     const go = (to: string) => () => navigate(to);
     const ext = (url: string) => () => window.open(url, "_blank", "noopener");
     return [
-      { id: "work", group: "Go to", label: "Selected work", run: () => scrollToSection("work", navigate, pathname) },
-      { id: "activity", group: "Go to", label: "GitHub activity", run: () => scrollToSection("activity", navigate, pathname) },
-      { id: "experience", group: "Go to", label: "Experience", run: () => scrollToSection("experience", navigate, pathname) },
-      { id: "contact", group: "Go to", label: "Contact", run: () => scrollToSection("contact", navigate, pathname) },
-      { id: "all", group: "Projects", label: "All projects", run: go("/projects") },
-      ...projects.map((p) => ({ id: p.slug, group: "Projects", label: p.name, hint: `${p.type} · ${p.year}`, run: go(`/projects/${p.slug}`) })),
-      { id: "email", group: "Links", label: "Send an email", hint: SITE.email, run: () => (window.location.href = `mailto:${SITE.email}`) },
+      {
+        id: "work",
+        group: "Go to",
+        label: "Things I've made",
+        run: () => scrollToSection("work", navigate, pathname),
+      },
+      {
+        id: "activity",
+        group: "Go to",
+        label: "GitHub activity",
+        run: () => scrollToSection("activity", navigate, pathname),
+      },
+      {
+        id: "experience",
+        group: "Go to",
+        label: "Experience",
+        run: () => scrollToSection("experience", navigate, pathname),
+      },
+      {
+        id: "contact",
+        group: "Go to",
+        label: "Contact",
+        run: () => scrollToSection("contact", navigate, pathname),
+      },
+      {
+        id: "all",
+        group: "Projects",
+        label: "All projects",
+        run: go("/projects"),
+      },
+      ...projects.map((p) => ({
+        id: p.slug,
+        group: "Projects",
+        label: p.name,
+        hint: `${p.type} · ${p.year}`,
+        run: go(`/projects/${p.slug}`),
+      })),
+      {
+        id: "email",
+        group: "Links",
+        label: "Send an email",
+        hint: SITE.email,
+        run: () => (window.location.href = `mailto:${SITE.email}`),
+      },
       { id: "resume", group: "Links", label: "Resume", run: ext(SITE.resume) },
       { id: "github", group: "Links", label: "GitHub", run: ext(SITE.github) },
-      { id: "linkedin", group: "Links", label: "LinkedIn", run: ext(SITE.linkedin) },
+      {
+        id: "linkedin",
+        group: "Links",
+        label: "LinkedIn",
+        run: ext(SITE.linkedin),
+      },
       { id: "x", group: "Links", label: "X", run: ext(SITE.x) },
-      { id: "theme", group: "Preferences", label: theme === "dark" ? "Switch to light theme" : "Switch to dark theme", run: () => toggle() },
+      {
+        id: "theme",
+        group: "Preferences",
+        label:
+          theme === "dark" ? "Switch to light theme" : "Switch to dark theme",
+        run: () => toggle(),
+      },
     ];
   }, [navigate, pathname, theme, toggle]);
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
-    return q ? commands.filter((c) => `${c.label} ${c.group} ${c.hint ?? ""}`.toLowerCase().includes(q)) : commands;
+    return q
+      ? commands.filter((c) =>
+          `${c.label} ${c.group} ${c.hint ?? ""}`.toLowerCase().includes(q),
+        )
+      : commands;
   }, [commands, query]);
 
   useEffect(() => {
@@ -61,8 +119,6 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
   }, [open]);
 
   useEffect(() => setActive(0), [query]);
-
-  if (!open) return null;
 
   const run = (c?: Cmd) => {
     if (!c) return;
@@ -87,50 +143,122 @@ export default function CommandPalette({ open, onClose }: { open: boolean; onClo
 
   let lastGroup = "";
   return (
-    <div className="fixed inset-0 z-[90] flex items-start justify-center px-4 pt-[15vh]" onKeyDown={onKey}>
-      <div className="absolute inset-0 bg-black/35" onClick={onClose} aria-hidden />
-      <div role="dialog" aria-modal="true" aria-label="Command palette" className="glass-panel relative w-full max-w-xl overflow-hidden rounded-2xl">
-        <input
-          ref={input}
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search pages, projects, links…"
-          aria-label="Search commands"
-          aria-controls="palette-list"
-          className="w-full border-b border-border-studio/60 bg-transparent px-4 py-3.5 font-mono text-sm outline-none placeholder:text-text-secondary"
-        />
-        <ul id="palette-list" role="listbox" className="max-h-[50vh] overflow-y-auto px-2 py-2">
-          {results.length === 0 && <li className="px-4 py-6 text-center font-mono text-xs text-text-secondary">No matches</li>}
-          {results.map((c, i) => {
-            const header = c.group !== lastGroup;
-            lastGroup = c.group;
-            return (
-              <li key={c.id} role="presentation">
-                {header && <p className="px-3 pb-1 pt-3 font-mono text-[10px] uppercase tracking-widest text-text-secondary">{c.group}</p>}
-                <button
-                  type="button"
-                  role="option"
-                  aria-selected={i === active}
-                  onMouseEnter={() => setActive(i)}
-                  onClick={() => run(c)}
-                  ref={(el) => {
-                    if (el && i === active) el.scrollIntoView({ block: "nearest" });
-                  }}
-                  className={cn("relative isolate flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200", i === active && "text-on-album")}
-                >
-                  {i === active && (
-                    // One pill that springs between rows instead of jumping.
-                    <motion.span layoutId="palette-active" className="album-glass absolute inset-0 -z-10 rounded-lg" transition={{ type: "spring", stiffness: 500, damping: 38, mass: 0.6 }} />
-                  )}
-                  <span>{c.label}</span>
-                  {c.hint && <span className={cn("truncate font-mono text-xs", i === active ? "opacity-80" : "text-text-secondary")}>{c.hint}</span>}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-        <p className="border-t border-border-studio/60 px-4 py-2 font-mono text-[10px] text-text-secondary">↑↓ navigate · Enter select · Esc close</p>
-      </div>
-    </div>
+    <AnimatePresence>
+      {open && (
+        <div
+          className="fixed inset-0 z-[90] flex items-start justify-center px-4 pt-[15vh]"
+          onKeyDown={onKey}
+        >
+          <motion.div
+            className="absolute inset-0 bg-black/35"
+            onClick={onClose}
+            aria-hidden
+            initial={{ opacity: 0 }}
+            animate={{
+              opacity: 1,
+              transition: { duration: 0.25, ease: "easeOut" },
+            }}
+            exit={{ opacity: 0, transition: { duration: 0.2, ease: "easeIn" } }}
+          />
+          {/* Opens with a soft rise-and-settle, closes quicker with a small drop. Opacity + transform only. */}
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-label="Command palette"
+            className="glass-panel relative w-full max-w-xl origin-top overflow-hidden rounded-2xl will-change-transform"
+            initial={{ opacity: 0, y: -10, scale: 0.97 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+              scale: 1,
+              transition: { duration: 0.32, ease: [0.22, 1, 0.36, 1] },
+            }}
+            exit={{
+              opacity: 0,
+              y: -6,
+              scale: 0.98,
+              transition: { duration: 0.18, ease: [0.4, 0, 1, 1] },
+            }}
+          >
+            <input
+              ref={input}
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search pages, projects, links…"
+              aria-label="Search commands"
+              aria-controls="palette-list"
+              className="w-full border-b border-border-studio/60 bg-transparent px-4 py-3.5 font-mono text-sm outline-none placeholder:text-text-secondary"
+            />
+            <ul
+              id="palette-list"
+              role="listbox"
+              className="max-h-[50vh] overflow-y-auto px-2 py-2"
+            >
+              {results.length === 0 && (
+                <li className="px-4 py-6 text-center font-mono text-xs text-text-secondary">
+                  No matches
+                </li>
+              )}
+              {results.map((c, i) => {
+                const header = c.group !== lastGroup;
+                lastGroup = c.group;
+                return (
+                  <li key={c.id} role="presentation">
+                    {header && (
+                      <p className="px-3 pb-1 pt-3 font-mono text-[10px] uppercase tracking-widest text-text-secondary">
+                        {c.group}
+                      </p>
+                    )}
+                    <button
+                      type="button"
+                      role="option"
+                      aria-selected={i === active}
+                      onMouseEnter={() => setActive(i)}
+                      onClick={() => run(c)}
+                      ref={(el) => {
+                        if (el && i === active)
+                          el.scrollIntoView({ block: "nearest" });
+                      }}
+                      className={cn(
+                        "relative isolate flex w-full items-center justify-between gap-4 rounded-lg px-3 py-2 text-left text-sm transition-colors duration-200",
+                        i === active && "text-on-album",
+                      )}
+                    >
+                      {i === active && (
+                        // One pill that springs between rows instead of jumping.
+                        <motion.span
+                          layoutId="palette-active"
+                          className="album-glass absolute inset-0 -z-10 rounded-lg"
+                          transition={{
+                            type: "spring",
+                            stiffness: 500,
+                            damping: 38,
+                            mass: 0.6,
+                          }}
+                        />
+                      )}
+                      <span>{c.label}</span>
+                      {c.hint && (
+                        <span
+                          className={cn(
+                            "truncate font-mono text-xs",
+                            i === active ? "opacity-80" : "text-text-secondary",
+                          )}
+                        >
+                          {c.hint}
+                        </span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="border-t border-border-studio/60 px-4 py-2 font-mono text-[10px] text-text-secondary">
+              ↑↓ navigate · Enter select · Esc close
+            </p>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }

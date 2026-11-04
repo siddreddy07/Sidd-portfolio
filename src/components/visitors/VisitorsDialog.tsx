@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useDragControls, type PanInfo } from "motion/react";
 import { FiX } from "react-icons/fi";
 import VisitorGlobe from "./VisitorGlobe";
 import { flagUrl, useCountryVisits, type CountryVisits } from "../../lib/visitors";
 import { cn } from "../../lib/utils";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
+// Sheet curve used by iOS-style drawers: quick start, long soft landing, no overshoot.
+const SHEET = [0.32, 0.72, 0, 1] as const;
 
 function useIsDesktop() {
   const query = "(min-width: 768px)";
@@ -25,6 +27,17 @@ export default function VisitorsDialog({ open, onClose }: { open: boolean; onClo
   const [active, setActive] = useState<string | null>(null);
   const panel = useRef<HTMLDivElement>(null);
   const closeBtn = useRef<HTMLButtonElement>(null);
+  const drag = useDragControls();
+  // The WebGL globe starts only once the panel has finished opening, so its setup never competes with the slide.
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    if (!open) setSettled(false);
+  }, [open]);
+
+  // Dragged down far or fast enough: close; otherwise it springs back.
+  const onDragEnd = (_: unknown, info: PanInfo) => {
+    if (info.offset.y > 120 || info.velocity.y > 600) onClose();
+  };
 
   // Scroll lock, Escape, a simple focus trap, and focus back to the trigger on close.
   useEffect(() => {
@@ -69,11 +82,11 @@ export default function VisitorsDialog({ open, onClose }: { open: boolean; onClo
       {open && (
         <div className="fixed inset-0 z-[95] flex items-end justify-center md:items-center md:p-6">
           <motion.div
-            className="absolute inset-0 bg-black/45 backdrop-blur-[3px]"
+            className="absolute inset-0 bg-black/50 md:bg-black/45 md:backdrop-blur-[3px]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
+            transition={{ duration: desktop ? 0.3 : 0.45, ease: desktop ? "easeOut" : SHEET }}
             onClick={onClose}
             aria-hidden
           />
@@ -83,15 +96,41 @@ export default function VisitorsDialog({ open, onClose }: { open: boolean; onClo
             role="dialog"
             aria-modal="true"
             aria-labelledby="visitors-title"
-            className="glass-panel relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl md:max-w-4xl md:rounded-3xl"
-            initial={{ opacity: 0, y: desktop ? 24 : 80, scale: desktop ? 0.97 : 1 }}
-            animate={{ opacity: 1, y: 0, scale: 1, transition: { type: "spring", stiffness: 320, damping: 32, mass: 0.9 } }}
-            exit={{ opacity: 0, y: desktop ? 12 : 60, scale: desktop ? 0.98 : 1, transition: { duration: 0.2, ease: EASE } }}
+            className="glass-panel relative flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-t-3xl will-change-transform md:max-w-4xl md:rounded-3xl"
+            {...(desktop
+              ? {
+                  initial: { opacity: 0, y: 16, scale: 0.97 },
+                  animate: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: EASE } },
+                  exit: { opacity: 0, y: 8, scale: 0.98, transition: { duration: 0.2, ease: [0.4, 0, 1, 1] } },
+                }
+              : {
+                  // Mobile / tablet sheet: slides the whole way up from below the screen, and back down.
+                  initial: { y: "100%" },
+                  animate: { y: 0, transition: { duration: 0.5, ease: SHEET } },
+                  exit: { y: "100%", transition: { duration: 0.35, ease: SHEET } },
+                  drag: "y" as const,
+                  dragListener: false,
+                  dragControls: drag,
+                  dragConstraints: { top: 0, bottom: 0 },
+                  dragElastic: { top: 0, bottom: 0.9 },
+                  dragTransition: { bounceStiffness: 500, bounceDamping: 40 },
+                  onDragEnd,
+                })}
+            onAnimationComplete={() => open && setSettled(true)}
           >
-            {/* Grab handle on the mobile sheet */}
-            <div className="mx-auto mt-2.5 h-1 w-10 shrink-0 rounded-full bg-text-secondary/30 md:hidden" aria-hidden />
+            {/* Grab area on the mobile sheet: drag the handle or header down to dismiss (the globe keeps its own drag). */}
+            <div
+              className="flex shrink-0 cursor-grab touch-none justify-center pb-1 pt-2.5 active:cursor-grabbing md:hidden"
+              onPointerDown={(e) => drag.start(e)}
+              aria-hidden
+            >
+              <div className="h-1 w-10 rounded-full bg-text-secondary/30" />
+            </div>
 
-            <header className="flex items-start justify-between gap-4 px-5 pt-4 md:px-7 md:pt-6">
+            <header
+              className="flex select-none items-start justify-between gap-4 px-5 pt-3 md:select-auto md:px-7 md:pt-6"
+              onPointerDown={(e) => !desktop && !(e.target as HTMLElement).closest("button") && drag.start(e)}
+            >
               <div>
                 <h2 id="visitors-title" className="font-display text-3xl leading-none md:text-4xl">
                   Visitors
@@ -119,13 +158,16 @@ export default function VisitorsDialog({ open, onClose }: { open: boolean; onClo
             </header>
 
             <div className="grid min-h-0 flex-1 gap-2 px-5 pb-6 pt-2 md:grid-cols-[1.1fr_1fr] md:gap-6 md:px-7 md:pb-7">
-              <motion.div
-                className="mx-auto w-full max-w-[min(100%,58dvh)] md:max-w-[440px]"
-                initial={{ opacity: 0, scale: 0.92 }}
-                animate={{ opacity: 1, scale: 1, transition: { duration: 0.7, ease: EASE, delay: 0.05 } }}
-              >
-                <VisitorGlobe countries={countries} active={active} onActiveChange={setActive} showCounts={desktop} />
-              </motion.div>
+              <div className="mx-auto aspect-square w-full max-w-[min(100%,58dvh)] md:max-w-[440px]">
+                {settled && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.94 }}
+                    animate={{ opacity: 1, scale: 1, transition: { duration: 0.6, ease: EASE } }}
+                  >
+                    <VisitorGlobe countries={countries} active={active} onActiveChange={setActive} showCounts={desktop} />
+                  </motion.div>
+                )}
+              </div>
 
               {desktop && <CountryList data={data === undefined ? undefined : data === null ? null : countries} total={total} active={active} onActive={setActive} />}
             </div>
