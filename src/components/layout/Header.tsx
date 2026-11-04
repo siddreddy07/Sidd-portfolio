@@ -13,7 +13,7 @@ import { MdClose, MdMenu } from "react-icons/md";
 
 // Mostly solid bar with a light blur: reads as a surface, not a glass effect, and keeps the page from showing
 // through while the theme reveal snapshots it on mobile.
-const glass = "rounded-2xl border border-border-studio bg-bg-studio/85 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md";
+const glass = "rounded-2xl border border-border-studio bg-bg-studio/95 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md";
 // Fast settle with no overshoot; used for the menu panel and icon swap.
 const EASE = [0.22, 1, 0.36, 1] as const;
 // The menu unrolls downward from under the bar and rolls back up. Clip-path keeps text undistorted (unlike scaleY)
@@ -52,7 +52,7 @@ export default function Header({ onOpenPalette }: { onOpenPalette: () => void })
   return (
     // The sticky wrapper carries no backdrop-filter, so the menu panel (a sibling of the bar, positioned below it)
     // overlays the page instead of pushing it down, and can blur what's behind it.
-    <header ref={ref} className="sticky top-3 z-50 mx-auto max-w-3xl px-5 md:px-8">
+    <header ref={ref} data-site-header className="sticky top-3 z-50 mx-auto max-w-3xl px-5 md:px-8">
       <div className={cn(glass, "flex h-14 items-center justify-between px-4 md:px-6")}>
         <Link to="/" className="whitespace-nowrap font-display text-xl leading-none text-text-primary">
           {SITE.shortName}

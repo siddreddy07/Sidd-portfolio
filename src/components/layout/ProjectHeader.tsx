@@ -14,8 +14,8 @@ export default function ProjectHeader({ project, onOpenPalette }: { project: Pro
   const goBack = () => (location.key !== "default" ? navigate(-1) : navigate("/projects"));
 
   return (
-    <header className="sticky top-3 z-50 mx-auto max-w-3xl px-5 md:px-8">
-      <div className="flex h-14 items-center gap-3 rounded-2xl border border-border-studio bg-bg-studio/85 px-4 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md md:px-6">
+    <header data-site-header className="sticky top-3 z-50 mx-auto max-w-3xl px-5 md:px-8">
+      <div className="flex h-14 items-center gap-3 rounded-2xl border border-border-studio bg-bg-studio/95 px-4 shadow-[0_4px_16px_rgba(0,0,0,0.12)] backdrop-blur-md md:px-6">
         <button
           type="button"
           onClick={goBack}

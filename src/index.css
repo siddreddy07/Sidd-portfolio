@@ -97,6 +97,26 @@ html[data-theme-vt="active"]::view-transition-new(root) {
 html[data-theme-vt="active"]::view-transition-group(root) {
   animation-duration: var(--theme-vt-duration);
 }
+/* The sticky navbar gets its own layer, pinned where it is on screen. Inside the flat page snapshot, mobile
+   browsers offset sticky elements while the reveal runs, so the bar jumped up and back. Same circle, own box. */
+html[data-theme-vt="active"] [data-site-header] {
+  view-transition-name: site-header;
+}
+/* As its own layer the bar can't blur what's behind it, so it goes fully solid for the reveal (it is 95% already). */
+html[data-theme-vt="active"] [data-site-header] > div:first-child {
+  background-color: var(--bg);
+}
+html[data-theme-vt="active"]::view-transition-group(site-header) {
+  animation: none;
+}
+html[data-theme-vt="active"]::view-transition-old(site-header),
+html[data-theme-vt="active"]::view-transition-new(site-header) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+html[data-theme-vt="active"]::view-transition-new(site-header) {
+  clip-path: var(--theme-vt-header-clip-from);
+}
 /* While the reveal runs, colours switch instantly underneath it instead of every element fading on its own. */
 html[data-theme-vt="active"],
 html[data-theme-vt="active"] *,
