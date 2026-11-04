@@ -11,6 +11,7 @@ export default function Section({
   action,
   decor,
   reveal = true,
+  dotted = false,
   children,
 }: {
   id?: string;
@@ -25,11 +26,17 @@ export default function Section({
   decor?: ReactNode;
   /** Set false when the section animates its own parts. */
   reveal?: boolean;
+  /** Replace the top border with a dashed line in the album colours, with a little more space above it. */
+  dotted?: boolean;
   children: ReactNode;
 }) {
   const Wrap = reveal ? Reveal : "div";
   return (
-    <section id={id} className="relative border-t border-border-studio py-16 md:py-24">
+    <section
+      id={id}
+      className={`relative py-16 md:py-24 ${dotted ? "mt-6 md:mt-12" : "border-t border-border-studio"}`}
+    >
+      {dotted && <span aria-hidden className="album-dots pointer-events-none absolute inset-x-0 top-0 h-0.5" />}
       <Container>
         <Wrap>
           <p className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-text-secondary">

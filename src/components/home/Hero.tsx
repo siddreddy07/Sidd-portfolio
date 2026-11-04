@@ -123,7 +123,7 @@ function Ticker({ items }: { items: { bold: string; rest: string }[] }) {
 }
 
 // Marker-style highlight that sweeps in shortly after load. Colour follows the album art (see useAlbumAccent),
-// with a contrasting text colour; the theme accent until then.
+// toned into the page colour so the theme text colour reads on it; a neutral grey until then.
 function Highlight({ href, children }: { href: string; children: React.ReactNode }) {
   const [lit, setLit] = useState(false);
   useEffect(() => {
@@ -144,6 +144,11 @@ export default function Hero() {
   const track = useNowPlaying();
   // The graph only takes the album colour for real Spotify data; it stays green on the demo song.
   useAlbumAccent(useAlbumColors(track && !track.demo ? track.image : null));
+  // Flag on <html> while a real song is playing right now (not the demo, not "last played"); the contact divider shimmers.
+  const playing = !!track?.playing && !track.demo;
+  useEffect(() => {
+    document.documentElement.toggleAttribute("data-spotify-playing", playing);
+  }, [playing]);
   const total = activity.status === "ready" ? activity.data?.total : undefined;
 
   const facts = [

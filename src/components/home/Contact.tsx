@@ -53,6 +53,7 @@ export default function Contact() {
       id="contact"
       index="06"
       label="Contact"
+      dotted
       decor={<Mascot />}
       title="Let's work together."
       aside={
