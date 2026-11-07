@@ -57,11 +57,10 @@ function Socials({ className }: { className?: string }) {
   );
 }
 
-// Starts on the current photo; the small button swaps to the black-and-white portrait.
+// Starts on DP.jpeg; the small button swaps to the profile-bw portrait.
 function Avatar() {
   const [now, setNow] = useState(true);
-  const [nowFailed, setNowFailed] = useState(false);
-  const showNow = now && !nowFailed;
+  const showNow = now;
 
   return (
     <div className="relative shrink-0">
@@ -75,13 +74,12 @@ function Avatar() {
             className={`absolute inset-0 size-full object-cover transition-opacity duration-300 ${showNow ? "opacity-0" : "opacity-100"}`}
           />
           <img
-            src={`${SITE.github}.png?size=160`}
+            src="/DP.jpeg"
             alt=""
             aria-hidden
             width={80}
             height={80}
             className={`absolute inset-0 size-full object-cover transition-opacity duration-300 ${showNow ? "opacity-100" : "opacity-0"}`}
-            onError={() => setNowFailed(true)}
           />
         </div>
       </div>
