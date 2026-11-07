@@ -64,8 +64,8 @@ function Avatar() {
 
   return (
     <div className="relative shrink-0">
-      <div className="size-14 overflow-hidden rounded-xl border border-border-studio bg-surface-studio p-1 transition-transform duration-300 hover:scale-105 sm:size-20">
-        <div className="relative size-full overflow-hidden rounded-lg">
+      <div className="size-14 overflow-hidden rounded-xl border border-border-studio bg-surface-studio transition-transform duration-300 hover:scale-105 sm:size-20">
+        <div className="relative size-full overflow-hidden">
           <img
             src="/profile-bw.jpg"
             alt={SITE.name}
