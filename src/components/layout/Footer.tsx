@@ -2,6 +2,7 @@ import { lazy, Suspense, useCallback, useState } from "react";
 import { FiGlobe } from "react-icons/fi";
 import { SITE } from "../../config/site";
 import { useVisits } from "../../lib/visits";
+import FitText from "../ui/FitText";
 
 // The globe (WebGL + flags) only loads once someone shows interest in it.
 const loadDialog = () => import("../visitors/VisitorsDialog");
@@ -40,6 +41,14 @@ export default function Footer() {
             </button>
           </p>
         )}
+      </div>
+      {/* The first name, edge to edge: an oversized wordmark in the latest Spotify album's gradient that fades out at the bottom, scaled to the screen width. */}
+      <div
+        aria-hidden="true"
+        className="mt-2 select-none overflow-hidden px-2 md:px-4"
+        style={{ maskImage: "linear-gradient(to bottom, #000 45%, transparent 96%)", WebkitMaskImage: "linear-gradient(to bottom, #000 45%, transparent 96%)" }}
+      >
+        <FitText className="font-satoshi font-bold tracking-tighter footer-gradient">{SITE.shortName.split(" ")[0]}</FitText>
       </div>
       {mounted && (
         <Suspense fallback={null}>

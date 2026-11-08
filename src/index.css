@@ -344,3 +344,84 @@ section[id] {
     background-position: 150% 0, 0 0;
   }
 }
+
+/* Diwali: nav lights and the mini rangoli. Subtle by design; still when motion is reduced. */
+.diwali-bulb {
+  box-shadow: 0 0 6px 1px currentColor;
+  animation: diwali-twinkle 2.4s ease-in-out infinite;
+}
+@keyframes diwali-twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.diwali-hang {
+  transform-origin: 50% 0;
+  animation: diwali-sway 3.2s ease-in-out infinite;
+}
+@keyframes diwali-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+.diwali-spin {
+  animation: diwali-turn 24s linear infinite;
+}
+.diwali-petal {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: diwali-breathe 2.4s ease-in-out infinite;
+}
+.diwali-spin-rev {
+  animation: diwali-turn 30s linear infinite reverse;
+}
+.diwali-dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: diwali-twinkle 2.2s ease-in-out infinite;
+}
+.diwali-dash {
+  stroke-dasharray: 2.5 2;
+  animation: diwali-march 2.4s linear infinite;
+}
+@keyframes diwali-march {
+  to { stroke-dashoffset: -9; }
+}
+@keyframes diwali-turn {
+  to { transform: rotate(360deg); }
+}
+@keyframes diwali-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(0.72); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .diwali-bulb, .diwali-hang, .diwali-spin, .diwali-spin-rev, .diwali-petal, .diwali-dot, .diwali-dash { animation: none; }
+}
+
+/* Footer name: a top-to-bottom gradient from the latest Spotify album's colours (stone tones when unknown): bright at
+   the top, deepening to dark at the base. Only the lower part moves: soft blobs of colour float about down there. */
+.footer-gradient {
+  --top: color-mix(in srgb, var(--album-hl, #a7a196) 70%, #fff);
+  --mid: var(--album-hl, #8c867e);
+  --low: var(--album-hl2, #6b665e);
+  --base: color-mix(in srgb, var(--album-hl2, #6b665e) 35%, #000);
+  background-image:
+    radial-gradient(closest-side, color-mix(in srgb, var(--low) 55%, #fff) 0%, transparent 100%),
+    radial-gradient(closest-side, color-mix(in srgb, var(--mid) 60%, #fff) 0%, transparent 100%),
+    radial-gradient(closest-side, var(--low) 0%, transparent 100%),
+    linear-gradient(to bottom, var(--top) 0%, var(--mid) 38%, var(--low) 72%, var(--base) 100%);
+  background-size: 38% 62%, 30% 52%, 44% 70%, 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 12% 100%, 82% 70%, 50% 90%, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.9;
+  animation: footer-float 7s ease-in-out infinite alternate;
+}
+@keyframes footer-float {
+  0% { background-position: 12% 100%, 82% 70%, 50% 90%, 0 0; }
+  50% { background-position: 40% 62%, 60% 100%, 72% 100%, 0 0; }
+  100% { background-position: 70% 90%, 24% 66%, 28% 78%, 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-gradient { animation-duration: 21s; }
+}

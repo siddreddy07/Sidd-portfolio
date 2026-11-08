@@ -9,6 +9,7 @@ import SectionLink from "../ui/SectionLink";
 import ThemeToggle from "../ui/ThemeToggle";
 import { AnimatedShinyText } from "../ui/AnimatedShinyText";
 import ProjectHeader from "./ProjectHeader";
+import { NavLights } from "./Diwali";
 import { MdClose, MdMenu } from "react-icons/md";
 
 // Mostly solid bar with a light blur: reads as a surface, not a glass effect, and keeps the page from showing
@@ -109,6 +110,7 @@ export default function Header({ onOpenPalette }: { onOpenPalette: () => void })
           </button>
         </div>
       </div>
+      <NavLights />
 
       <AnimatePresence>
         {open && (
