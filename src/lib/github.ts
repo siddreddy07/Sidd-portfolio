@@ -46,38 +46,74 @@ function summarise(days: Day[]): Activity {
   return { days, total, activeDays, currentStreak, longestRun, bestDay };
 }
 
-async function cached<T>(key: string, load: () => Promise<T>): Promise<T> {
+const KEY = "gh-activity";
+
+function read(store: Storage): Activity | null {
   try {
-    const hit = sessionStorage.getItem(key);
-    if (hit) return JSON.parse(hit) as T;
+    const hit = store.getItem(KEY);
+    const data = hit ? (JSON.parse(hit) as Activity) : null;
+    return data && data.days?.length ? data : null;
   } catch {
-    /* ignore */
+    return null;
   }
-  const value = await load();
-  try {
-    sessionStorage.setItem(key, JSON.stringify(value));
-  } catch {
-    /* ignore */
+}
+
+function write(data: Activity) {
+  for (const store of [sessionStorage, localStorage]) {
+    try {
+      store.setItem(KEY, JSON.stringify(data));
+    } catch {
+      /* ignore */
+    }
   }
-  return value;
+}
+
+// The contributions API is a free third-party service and occasionally times out or errors, so each try gets a
+// deadline and a failure is retried with a short back-off before giving up.
+async function fetchOnce(): Promise<Activity> {
+  const res = await fetch(CONTRIBUTIONS_URL, { signal: AbortSignal.timeout(10000) });
+  if (!res.ok) throw new Error(String(res.status));
+  const json = (await res.json()) as { contributions?: Day[] };
+  if (!json.contributions?.length) throw new Error("empty");
+  return summarise(json.contributions);
+}
+
+async function load(): Promise<Activity> {
+  let last: unknown;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    if (attempt) await new Promise((r) => setTimeout(r, 800 * attempt));
+    try {
+      return await fetchOnce();
+    } catch (e) {
+      last = e;
+    }
+  }
+  throw last;
 }
 
 export function useActivity() {
-  const [state, setState] = useState<{ status: "loading" | "error" | "ready"; data?: Activity }>({ status: "loading" });
+  const [state, setState] = useState<{ status: "loading" | "error" | "ready"; data?: Activity }>(() => {
+    const fresh = read(sessionStorage);
+    return fresh ? { status: "ready", data: fresh } : { status: "loading" };
+  });
 
   useEffect(() => {
+    if (state.status === "ready") return;
     let live = true;
-    cached("gh-activity", async () => {
-      const res = await fetch(CONTRIBUTIONS_URL);
-      if (!res.ok) throw new Error(String(res.status));
-      const json = (await res.json()) as { contributions: Day[] };
-      return summarise(json.contributions);
-    })
-      .then((data) => live && setState({ status: "ready", data }))
-      .catch(() => live && setState({ status: "error" }));
+    load()
+      .then((data) => {
+        write(data);
+        if (live) setState({ status: "ready", data });
+      })
+      .catch(() => {
+        // Show the last graph we managed to load, if any, rather than an error.
+        const stale = read(localStorage);
+        if (live) setState(stale ? { status: "ready", data: stale } : { status: "error" });
+      });
     return () => {
       live = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return state;
