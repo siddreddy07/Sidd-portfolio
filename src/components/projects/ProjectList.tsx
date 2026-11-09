@@ -21,7 +21,7 @@ const FOLLOW = { stiffness: 260, damping: 32, mass: 0.6 };
  * lifts it, dims the rest, and a floating card follows the cursor with that project's video or screenshot. The card
  * is portalled to <body> so no section clips it. Only opacity and transform animate, so it stays on the compositor.
  */
-export default function ProjectList({ projects }: { projects: Project[] }) {
+export default function ProjectList({ projects, noVideo = false }: { projects: Project[]; noVideo?: boolean }) {
   // Row under the pointer (null when the pointer leaves the list), and the one the preview shows. The preview
   // keeps the last project instead of blanking between rows.
   const [hovered, setHovered] = useState<number | null>(null);
@@ -174,7 +174,7 @@ export default function ProjectList({ projects }: { projects: Project[] }) {
             >
               {projects.map((p, i) => {
                 const poster = posterFor(p);
-                const video = reduce ? null : videoFor(p);
+                const video = reduce || noVideo ? null : videoFor(p);
                 const visible = shown === i;
                 return (
                   <div

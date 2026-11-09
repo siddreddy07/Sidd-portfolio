@@ -88,11 +88,11 @@ export default function SelectedWork() {
           {view === "grid" ? (
             <div className="grid gap-5 md:grid-cols-2 md:gap-6">
               {featuredProjects.map((p) => (
-                <ProjectCard key={p.slug} project={p} />
+                <ProjectCard key={p.slug} project={p} noVideo />
               ))}
             </div>
           ) : (
-            <ProjectList projects={featuredProjects} />
+            <ProjectList projects={featuredProjects} noVideo />
           )}
         </motion.div>
       </AnimatePresence>

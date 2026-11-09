@@ -4,6 +4,7 @@ import { useReducedMotion } from "motion/react";
 import type { Project } from "../../types";
 import { posterFor, tintFor, videoFor } from "../../lib/media";
 import { cn } from "../../lib/utils";
+import { actionLinks } from "../../lib/projectLinks";
 import { TextAnimate } from "../ui/TextAnimate";
 import { PopItem, PopList } from "../ui/PopList";
 
@@ -17,12 +18,12 @@ export function statusOf(p: Project): string {
   return "Open source";
 }
 
-export default function ProjectCard({ project: p }: { project: Project }) {
+export default function ProjectCard({ project: p, noVideo = false }: { project: Project; noVideo?: boolean }) {
   const [hovering, setHovering] = useState(false);
   const reduce = useReducedMotion();
   const poster = posterFor(p);
-  const video = reduce ? null : videoFor(p);
-  const external = p.links.filter((l) => /live|github|npm/i.test(l.label));
+  const video = reduce || noVideo ? null : videoFor(p);
+  const external = actionLinks(p).filter((l) => l.kind !== "other");
   const tint = tintFor(p);
 
   return (
@@ -101,12 +102,6 @@ export default function ProjectCard({ project: p }: { project: Project }) {
       </PopList>
 
       <ul className="mt-auto flex flex-wrap gap-x-5 gap-y-2 px-5 pb-5 pt-5">
-        <li>
-          <Link to={`/projects/${p.slug}`} className={cn(linkClass, "text-text-primary")}>
-            {p.slug === "bsdk" ? "Case study" : "View project"}
-            <span aria-hidden className={arrow}>↗</span>
-          </Link>
-        </li>
         {external.map((l) => (
           <li key={l.url}>
             <a href={l.url} target="_blank" rel="noreferrer" className={linkClass}>
