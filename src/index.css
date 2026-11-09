@@ -345,57 +345,6 @@ section[id] {
   }
 }
 
-/* Diwali: nav lights and the mini rangoli. Subtle by design; still when motion is reduced. */
-.diwali-bulb {
-  box-shadow: 0 0 6px 1px currentColor;
-  animation: diwali-twinkle 2.4s ease-in-out infinite;
-}
-@keyframes diwali-twinkle {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.35; }
-}
-.diwali-hang {
-  transform-origin: 50% 0;
-  animation: diwali-sway 3.2s ease-in-out infinite;
-}
-@keyframes diwali-sway {
-  0%, 100% { transform: rotate(-3deg); }
-  50% { transform: rotate(3deg); }
-}
-.diwali-spin {
-  animation: diwali-turn 24s linear infinite;
-}
-.diwali-petal {
-  transform-box: fill-box;
-  transform-origin: 50% 100%;
-  animation: diwali-breathe 2.4s ease-in-out infinite;
-}
-.diwali-spin-rev {
-  animation: diwali-turn 30s linear infinite reverse;
-}
-.diwali-dot {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: diwali-twinkle 2.2s ease-in-out infinite;
-}
-.diwali-dash {
-  stroke-dasharray: 2.5 2;
-  animation: diwali-march 2.4s linear infinite;
-}
-@keyframes diwali-march {
-  to { stroke-dashoffset: -9; }
-}
-@keyframes diwali-turn {
-  to { transform: rotate(360deg); }
-}
-@keyframes diwali-breathe {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(0.72); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .diwali-bulb, .diwali-hang, .diwali-spin, .diwali-spin-rev, .diwali-petal, .diwali-dot, .diwali-dash { animation: none; }
-}
-
 /* Footer name: a top-to-bottom gradient from the latest Spotify album's colours (stone tones when unknown): bright at
    the top, deepening to dark at the base. Only the lower part moves: soft blobs of colour float about down there. */
 .footer-gradient {

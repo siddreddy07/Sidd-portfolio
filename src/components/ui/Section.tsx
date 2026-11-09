@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import Container from "./Container";
 import Reveal from "./Reveal";
-import { MiniRangoli, useDiwali } from "../layout/Diwali";
 
 export default function Section({
   id,
@@ -31,7 +30,6 @@ export default function Section({
   dotted?: boolean;
   children: ReactNode;
 }) {
-  const diwali = useDiwali();
   const Wrap = reveal ? Reveal : "div";
   return (
     <section
@@ -45,7 +43,6 @@ export default function Section({
             <span className="text-accent-text">{index}</span>
             <span aria-hidden className="h-px w-8 bg-border-studio" />
             {label}
-            {diwali && <MiniRangoli variant={(parseInt(index, 10) || 1) - 1} />}
           </p>
           {title && (
             <div className="mt-4 flex flex-col items-start gap-3 text-left">

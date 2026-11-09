@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from "react-router";
 import type { Project } from "../../types";
 import { actionLinks } from "../../lib/projectLinks";
 import ThemeToggle from "../ui/ThemeToggle";
-import { NavLights } from "./Diwali";
 
 /** Navbar used on /projects/:slug: Back · / · Project name on the left, Live + GitHub icons on the right. */
 export default function ProjectHeader({ project, onOpenPalette }: { project: Project; onOpenPalette: () => void }) {
@@ -73,7 +72,6 @@ export default function ProjectHeader({ project, onOpenPalette }: { project: Pro
           </Link>
         </div>
       </div>
-      <NavLights />
     </header>
   );
 }
