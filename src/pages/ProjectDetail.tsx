@@ -32,7 +32,7 @@ export default function ProjectDetail() {
   const prev = projects[(index - 1 + projects.length) % projects.length];
 
   return (
-    <article className="pb-20 md:pb-0">
+    <article className="pb-16 md:pb-0">
       {/* Hero */}
       <header className="pb-8 pt-10 md:pt-14">
         <Container>

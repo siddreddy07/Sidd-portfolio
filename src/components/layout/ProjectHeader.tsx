@@ -43,7 +43,7 @@ export default function ProjectHeader({ project, onOpenPalette }: { project: Pro
                 title={l.label}
                 className={
                   l.kind === "live"
-                    ? "flex items-center gap-2 rounded-md bg-accent-lime px-3 py-1.5 font-mono text-xs text-on-accent transition-transform hover:-translate-y-0.5"
+                    ? "live-glossy flex items-center gap-2 rounded-md px-3.5 py-1.5 font-mono text-xs hover:-translate-y-0.5"
                     : "grid size-9 place-items-center rounded-md border border-border-studio transition-colors hover:border-text-secondary"
                 }
               >

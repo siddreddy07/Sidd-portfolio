@@ -10,28 +10,31 @@ export default function ProjectActionBar({ project }: { project: Project }) {
   return (
     <nav
       aria-label={`${project.name} links`}
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border-studio bg-bg-studio/90 px-4 pt-3 backdrop-blur-md md:hidden"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 md:hidden"
       style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
-      <ul className="flex gap-2">
-        {links.map((l) => (
-          <li key={l.url} className={cn(l.kind === "live" || l.kind === "github" ? "flex-1" : "")}>
-            <a
-              href={l.url}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={l.label}
-              className={cn(
-                "flex h-12 items-center justify-center gap-2 rounded-md font-mono text-sm transition-transform active:scale-[0.98]",
-                l.kind === "live" ? "bg-accent-lime text-on-accent" : "border border-border-studio bg-surface-studio",
-                l.kind !== "live" && l.kind !== "github" && "w-12",
-              )}
-            >
-              <l.Icon size={16} aria-hidden />
-              {(l.kind === "live" || l.kind === "github") && (l.kind === "live" ? "Live site" : "GitHub")}
-            </a>
-          </li>
-        ))}
+      <ul className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-border-studio bg-bg-studio/80 p-1.5 shadow-[0_8px_24px_-8px_rgba(0,0,0,0.45)] backdrop-blur-xl backdrop-saturate-150">
+        {links.map((l) => {
+          const wide = l.kind === "live" || l.kind === "github";
+          return (
+            <li key={l.url}>
+              <a
+                href={l.url}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={l.label}
+                className={cn(
+                  "flex h-9 items-center justify-center gap-1.5 rounded-full font-mono text-xs transition-transform active:scale-[0.96]",
+                  wide ? "px-4" : "w-9",
+                  l.kind === "live" ? "live-glossy" : "text-text-primary hover:bg-text-primary/10",
+                )}
+              >
+                <l.Icon size={14} aria-hidden />
+                {wide && (l.kind === "live" ? "Live" : "GitHub")}
+              </a>
+            </li>
+          );
+        })}
       </ul>
     </nav>
   );

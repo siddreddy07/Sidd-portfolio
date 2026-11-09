@@ -63,11 +63,9 @@ export default function Header({ onOpenPalette }: { onOpenPalette: () => void })
             href={SITE.resume}
             target="_blank"
             rel="noreferrer"
-            className="group rounded-full border border-border-studio px-3.5 py-1.5 font-mono text-xs transition-all hover:-translate-y-0.5 hover:border-text-secondary"
+            className="live-glossy group inline-flex items-center gap-1 rounded-full px-4 py-1.5 font-mono text-xs hover:-translate-y-0.5"
           >
-            <AnimatedShinyText className="inline-flex items-center gap-1">
-              Resume <span aria-hidden className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
-            </AnimatedShinyText>
+            Resume <span aria-hidden className="transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5">↗</span>
           </a>
           <button
             type="button"

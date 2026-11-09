@@ -134,7 +134,7 @@ export default function ProjectList({ projects, noVideo = false }: { projects: P
                         aria-label={`${p.name}: ${l.label}`}
                         className={
                           l.kind === "live"
-                            ? "inline-flex items-center gap-1.5 rounded-lg bg-accent-lime px-3 py-1.5 font-mono text-xs text-on-accent transition-transform hover:-translate-y-0.5"
+                            ? "live-glossy inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 font-mono text-xs hover:-translate-y-0.5"
                             : "inline-flex items-center gap-1.5 rounded-lg border border-border-studio px-3 py-1.5 font-mono text-xs text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary"
                         }
                       >
