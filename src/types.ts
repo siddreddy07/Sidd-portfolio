@@ -30,6 +30,8 @@ export interface Project {
   links: ProjectLink[];
   thumbnail: ProjectThumbnail;
   npmPackage?: string;
+  /** ISO date (YYYY-MM-DD). Until the end of this day the card shows a "New" badge. */
+  newUntil?: string;
 }
 
 export interface ExperienceEntry {

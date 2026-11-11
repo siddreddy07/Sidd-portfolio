@@ -1,8 +1,32 @@
 {
-  "_comment": "Top 3 projects display on homepage (ProjectsSection). All 7 show on /projects page. Projects also show in archive with filtering and detail views.",
+  "_comment": "Top 3 projects display on homepage (ProjectsSection). All 8 show on /projects page. Projects also show in archive with filtering and detail views.",
   "projects": [
     {
       "num": "01",
+      "slug": "formly",
+      "newUntil": "2026-11-18",
+      "name": "Formly",
+      "desc": "A form builder for client work. Drag blocks into place, share a link, and see exactly where people drop off.",
+      "descriptor": "Drag-and-drop form builder with conditional logic, themed public links, file uploads & drop-off analytics",
+      "tags": ["Next.js", "shadcn/ui", "Express.js", "Neon", "Redis", "Cloudflare", "ImageKit"],
+      "tagIcons": ["SiNextdotjs", "SiShadcnui", "SiExpress", "SiPostgresql", "SiRedis", "SiCloudflare", "SiImagekit"],
+      "typePill": "FULLSTACK",
+      "type": "Fullstack",
+      "year": "2026",
+      "specs": [
+        { "label": "Builder", "value": "Drag-and-drop blocks, multi-page forms & conditional logic" },
+        { "label": "Theming", "value": "Page colour, accent, font, corners and width" },
+        { "label": "Sharing", "value": "Public link with optional closing date or 4-digit code" },
+        { "label": "Analytics", "value": "Views, completions & drop-off tracking" }
+      ],
+      "overview": "Formly is a form builder made for client work. Build forms with drag-and-drop blocks, multiple pages and conditional logic, then design the look: page colour, accent, font, corners and width. Share a public link, optionally with a closing date or a 4-digit code. Collect answers, including file uploads, in a searchable, filterable table you can export as CSV, and analyse views, completions and exactly where people drop off. Built with Next.js and shadcn/ui on the front, an Express.js API, Neon Postgres for data, Redis for caching, Cloudflare at the edge and ImageKit for file and image delivery.",
+      "links": [
+        { "label": "Live Site", "url": "https://formly.siddharthreddy627.workers.dev/", "icon": "SiCloudflare" }
+      ],
+      "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/Formly_dgrea6.mp4" }
+    },
+    {
+      "num": "02",
       "slug": "bsdk",
       "name": "BSDK",
       "desc": "A Chat SDK for AI-native websites. Drop in a branded chat widget (@bsdk/ui), run the AI flow server-side (@bsdk/server), and manage bots & knowledge from a dashboard. Live now.",
@@ -26,7 +50,7 @@
       "thumbnail": { "type": "iframe", "url": "https://bsdk.siddharthreddy627.workers.dev/" }
     },
     {
-      "num": "02",
+      "num": "03",
       "slug": "mew-claw",
       "name": "Mew-Claw",
       "desc": "Want to control your entire PC from your phone? Send a message on Telegram, this AI agent runs commands, edits files, searches the web & does it all for you.",
@@ -49,7 +73,7 @@
       "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1781678537/WhatsApp_Video_2026-06-15_at_6.42.07_PM_dkwruy.mp4" }
     },
     {
-      "num": "03",
+      "num": "04",
       "slug": "auto-browse",
       "name": "Auto Browse",
       "desc": "AI-powered browser automation platform that executes real browser tasks from natural language using autonomous agents, visual workflows & cloud browser sessions.",
@@ -73,7 +97,7 @@
       "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1786080445/Auto_browse_myxiwa.mp4" }
     },
     {
-      "num": "04",
+      "num": "05",
       "slug": "shraddha-media",
       "name": "Shraddha Media",
       "desc": "Ever wanted a news site that just works? Full CMS with secure logins, role-based access & auto SEO ready for real traffic.",
@@ -97,7 +121,7 @@
       "thumbnail": { "type": "image", "url": "" }
     },
     {
-      "num": "05",
+      "num": "06",
       "slug": "db-smash",
       "name": "dbSmash",
       "desc": "Tired of setting up databases by hand? Just tell this CLI what your app does, it'll design the schema, visualize it & spin everything up for you. Available on npm.",
@@ -123,7 +147,7 @@
       "thumbnail": { "type": "video", "url": "https://res.cloudinary.com/dtgf2auzt/video/upload/v1782310923/dbsmash_lzxpi4.mp4" }
     },
     {
-      "num": "06",
+      "num": "07",
       "slug": "hook-lens",
       "name": "HookLens",
       "desc": "Webhook capture & mimic engine",
@@ -148,7 +172,7 @@
       "thumbnail": { "type": "image", "url": "" }
     },
     {
-      "num": "07",
+      "num": "08",
       "slug": "smart-voter",
       "name": "Smart Voter System",
       "desc": "IoT-based group project — biometric voting system (Web Lead)",

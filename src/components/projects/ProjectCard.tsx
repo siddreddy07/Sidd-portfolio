@@ -18,6 +18,10 @@ export function statusOf(p: Project): string {
   return "Open source";
 }
 
+function isNew(p: Project): boolean {
+  return !!p.newUntil && Date.now() <= new Date(`${p.newUntil}T23:59:59`).getTime();
+}
+
 export default function ProjectCard({ project: p, noVideo = false }: { project: Project; noVideo?: boolean }) {
   const [hovering, setHovering] = useState(false);
   const reduce = useReducedMotion();
@@ -39,6 +43,7 @@ export default function ProjectCard({ project: p, noVideo = false }: { project: 
       >
         {/* Backdrop with the screenshot floating in it, cropped at the bottom edge */}
         <div className="relative aspect-[16/9] overflow-hidden sm:aspect-[16/10]" style={{ background: `color-mix(in srgb, ${tint} 30%, var(--surface))` }}>
+          {isNew(p) && <span className="new-ribbon font-mono text-[11px] font-bold uppercase tracking-[0.22em]"><span>New</span></span>}
           <div className="absolute inset-x-[9%] bottom-0 top-[11%] overflow-hidden rounded-t-xl border border-b-0 border-border-studio bg-bg-studio shadow-[0_18px_40px_-14px_rgba(0,0,0,0.55)] transition-transform duration-500 ease-out group-hover:-translate-y-1.5 group-hover:scale-[1.025]">
             {poster ? (
               <img src={poster} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-top" />
