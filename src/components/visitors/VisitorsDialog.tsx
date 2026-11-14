@@ -266,7 +266,7 @@ function CountryList({
         </ul>
       )}
 
-      <p className="mt-3 font-mono text-[10px] text-text-secondary/80">Unique visitors, counted once each.</p>
+      <p className="mt-3 font-mono text-[10px] text-text-secondary/80">Unique visitors.</p>
     </div>
   );
 }
