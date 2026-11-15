@@ -8,7 +8,7 @@ import { SITE } from "../src/config/site";
 import { experience, projects } from "../src/data";
 import { PROFILE } from "../src/data/profile";
 import { stack } from "../src/data/stack";
-import { absUrl, allRoutes, FAQ, homeMeta, OG_IMAGE, type PageMeta } from "../src/lib/seo";
+import { absUrl, allRoutes, FAQ, homeMeta, ogImage, type PageMeta } from "../src/lib/seo";
 import type { Project } from "../src/types";
 
 const HEAD = /<!--seo:head-->[\s\S]*?<!--\/seo:head-->/;
@@ -23,6 +23,8 @@ interface Verification {
 
 function headTags(meta: PageMeta, verify: Verification) {
   const url = absUrl(meta.path);
+  const image = ogImage(meta);
+  const imageAlt = `${meta.title} — preview`;
   const tags = [
     `<title>${esc(meta.title)}</title>`,
     `<meta name="description" content="${esc(meta.description)}" />`,
@@ -33,18 +35,25 @@ function headTags(meta: PageMeta, verify: Verification) {
     `<meta property="og:url" content="${url}" />`,
     `<meta property="og:title" content="${esc(meta.title)}" />`,
     `<meta property="og:description" content="${esc(meta.description)}" />`,
-    `<meta property="og:image" content="${OG_IMAGE}" />`,
+    `<meta property="og:image" content="${image}" />`,
+    `<meta property="og:image:secure_url" content="${image}" />`,
+    `<meta property="og:image:type" content="image/png" />`,
     `<meta property="og:image:width" content="1200" />`,
     `<meta property="og:image:height" content="630" />`,
-    `<meta property="og:image:alt" content="${esc(`${SITE.name} — ${SITE.role}`)}" />`,
+    `<meta property="og:image:alt" content="${esc(imageAlt)}" />`,
     `<meta property="og:site_name" content="${esc(SITE.name)}" />`,
     `<meta property="og:locale" content="en_IN" />`,
     `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:site" content="@${SITE.x.split("/").pop()}" />`,
     `<meta name="twitter:creator" content="@${SITE.x.split("/").pop()}" />`,
     `<meta name="twitter:title" content="${esc(meta.title)}" />`,
     `<meta name="twitter:description" content="${esc(meta.description)}" />`,
-    `<meta name="twitter:image" content="${OG_IMAGE}" />`,
+    `<meta name="twitter:image" content="${image}" />`,
+    `<meta name="twitter:image:alt" content="${esc(imageAlt)}" />`,
+    `<meta name="theme-color" content="#080808" />`,
   ];
+  if (meta.type === "profile") tags.push(`<meta property="profile:username" content="${SITE.x.split("/").pop()}" />`);
+  if (meta.type === "article") tags.push(`<meta property="article:author" content="${SITE.url}" />`);
   if (verify.google) tags.push(`<meta name="google-site-verification" content="${esc(verify.google)}" />`);
   if (verify.bing) tags.push(`<meta name="msvalidate.01" content="${esc(verify.bing)}" />`);
   if (meta.jsonLd) tags.push(`<script type="application/ld+json">${JSON.stringify(meta.jsonLd).replace(/</g, "\\u003c")}</script>`);
