@@ -4,7 +4,7 @@ import type { Project } from "../types";
 const LOCAL_SCREENSHOTS = new Set(["bsdk", "shraddha-media", "hook-lens"]);
 
 // Slugs whose screenshot filename differs from the slug.
-const SCREENSHOT_FILE: Record<string, string> = { "auto-browse": "autobrowse", formly: "Formly" };
+const SCREENSHOT_FILE: Record<string, string> = { "auto-browse": "autobrowse", formly: "Formly", bolbhai: "bolbhai" };
 
 const isCloudinaryVideo = (url: string) => url.includes("res.cloudinary.com") && url.includes("/video/upload/");
 

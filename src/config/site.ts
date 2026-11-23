@@ -11,7 +11,7 @@ export const SITE = {
   linkedin: "https://www.linkedin.com/in/n-siddharth-reddy/",
   x: "https://x.com/siddreddy007",
   resume:
-    "https://drive.google.com/file/d/12HjGitmyaHJgONGsjSvp9YL1Ih7AAe8L/view?usp=drivesdk",
+    "https://drive.google.com/file/d/12DOOfW46J_2qwZ08NvzzNVPNpP8_YEYI/view?usp=sharing",
 } as const;
 
 // Counted per product: BSDK (published as @bsdk/ui, @bsdk/server, @bsdk/cli, counted once) and dbsmash.

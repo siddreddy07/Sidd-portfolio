@@ -5,7 +5,7 @@ import {
   SiReact, SiNextdotjs, SiTailwindcss, SiShadcnui, SiHtml5,
   SiLangchain, SiGooglegemini, SiOpenai, SiHuggingface,
   SiSupabase, SiFirebase,
-  SiNpm, SiCloudflare, SiGit, SiGithub, SiTelegram, SiNetlify,
+  SiNpm, SiStripe, SiCloudflare, SiGit, SiGithub, SiTelegram, SiNetlify,
 } from "react-icons/si";
 import {
   FiCloud, FiCpu, FiDatabase, FiCreditCard, FiShield, FiExternalLink,
@@ -54,6 +54,7 @@ const iconMap: Record<string, IconType> = {
   SiSupabase,
   SiFirebase,
   SiNpm,
+  SiStripe,
   SiGit,
   SiGithub,
   SiTelegram,

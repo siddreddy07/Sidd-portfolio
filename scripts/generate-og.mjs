@@ -23,7 +23,7 @@ const browser = process.env.CHROME_PATH || BROWSERS.find(existsSync);
 if (!browser) throw new Error("No Chrome/Edge found. Set CHROME_PATH.");
 
 const { projects } = JSON.parse(readFileSync(path.join(root, "src/data/projects.json"), "utf8"));
-const SHOTS = { formly: "Formly.png", bsdk: "bsdk.png", "auto-browse": "autobrowse.png", "hook-lens": "hook-lens.png", "shraddha-media": "shraddha-media.png" };
+const SHOTS = { bolbhai: "bolbhai.png", formly: "Formly.png", bsdk: "bsdk.png", "auto-browse": "autobrowse.png", "hook-lens": "hook-lens.png", "shraddha-media": "shraddha-media.png" };
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 const fileUrl = (p) => pathToFileURL(p).href;
