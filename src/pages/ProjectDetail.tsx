@@ -95,9 +95,13 @@ export default function ProjectDetail() {
                 transition={{ duration: reduce ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
                 className="overflow-hidden"
               >
-                <TextAnimate key={project.slug} as="p" by="word" animation="blurIn" duration={1} delay={0.1} once className="text-lg leading-[1.75]">
-                  {project.overview}
-                </TextAnimate>
+                <div className="space-y-5">
+                  {project.overview.split(/\n\n/).map((para, pi) => (
+                    <TextAnimate key={project.slug + pi} as="p" by="word" animation="blurIn" duration={1} delay={0.1} once className="text-lg leading-[1.75]">
+                      {para}
+                    </TextAnimate>
+                  ))}
+                </div>
               </motion.div>
               {long && !open && <ProgressiveBlur position="bottom" height="110px" blurAmount={10} />}
             </div>
@@ -131,6 +135,7 @@ export default function ProjectDetail() {
           </div>
         </div>
 
+        {project.specs.length > 0 && (
         <aside className="md:sticky md:top-24 md:self-start">
           <div>
             <TextAnimate as="h2" by="text" animation="slideRight" className="font-mono text-xs uppercase tracking-widest text-text-secondary">
@@ -150,6 +155,7 @@ export default function ProjectDetail() {
             </dl>
           </div>
         </aside>
+        )}
       </Container>
 
       {/* Previous / next */}

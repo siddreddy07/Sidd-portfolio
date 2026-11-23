@@ -6,8 +6,8 @@
       "slug": "bolbhai",
       "newUntil": "2026-12-07",
       "name": "BolBhai",
-      "desc": "Don't type. Bol de, bhai. A voice-first billing, stock and khata app for small shopkeepers. Say the order, check the slip, press Done.",
-      "descriptor": "Voice-first billing, stock & khata app for Indian shopkeepers with Stripe payments, a 22,000-product catalog & typo-tolerant search",
+      "desc": "Voice-first billing, stock and khata app for small shopkeepers in India. Say what the customer bought and a slip appears.",
+      "descriptor": "Voice-first billing, stock & khata app for Indian shopkeepers",
       "tags": [
         "Next.js",
         "Express.js",
@@ -32,24 +32,13 @@
       "type": "Fullstack",
       "year": "2026",
       "specs": [
-        {
-          "label": "Voice Billing",
-          "value": "Deepgram Nova-3 speech-to-text, LangGraph order flow on Groq"
-        },
-        {
-          "label": "Catalog",
-          "value": "~22,000 products with typo-tolerant pg_trgm search"
-        },
-        {
-          "label": "Khata",
-          "value": "Unpaid bills by week & month, Stripe Pay now, auto-locks when paid"
-        },
-        {
-          "label": "Safety",
-          "value": "Nothing saved until Done, per-shop data, Upstash rate limits"
-        }
+        { "label": "Billing", "value": "Say the order out loud and the bill is made for you" },
+        { "label": "Stock", "value": "Stock goes down by itself after every sale" },
+        { "label": "Khata", "value": "Unpaid bills are saved, and customers can pay online" },
+        { "label": "Search", "value": "Finds the right item from 22,000 products, even if it is spelled wrong" },
+        { "label": "Sales", "value": "See what you sold today, this week and this month" }
       ],
-      "overview": "BolBhai is a voice-first billing, stock and khata app for small shopkeepers in India. Press the mic and say what the customer bought, like \"1 kg atta, 5 litre Surf Excel\". Deepgram turns the speech into text, a LangGraph order flow running gpt-oss-120b on Groq finds the matching products on your shelf, and a slip appears; if there is more than one brand, you tap the right one. Choose Paid or Not paid, Cash or UPI, and press Done: the bill is saved and the stock updates. Unpaid bills go to the khata, grouped by week and month, with a Pay now button that opens Stripe Checkout. A webhook marks the bill paid and locks it. Stock lives in Redis with a catalog of about 22,000 products searchable through Postgres pg_trgm, so spelling mistakes are forgiven. Sales views show today, this week and this month. Built with Next.js 16 and Tailwind v4 on Vercel, an Express 5 + Zod API in Docker, Neon Postgres with Prisma, Upstash Redis for stock and rate limits, and JWT auth in httpOnly cookies.",
+      "overview": "BolBhai is a billing app for small shops in India. Instead of typing, the shopkeeper presses the mic and says what the customer bought, like \"1 kg atta, 5 litre Surf Excel\". The app finds the items, makes the bill and updates the stock.\n\nIf a customer has not paid yet, the bill goes into the khata (the credit book). Unpaid bills are kept by week and month, and the customer can pay online later.",
       "links": [
         {
           "label": "Live Site",
